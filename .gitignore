@@ -1,0 +1,15 @@
+# Pythonキャッシュ
+__pycache__
+*.py[cod]
+
+# 仮想環境
+.venv/
+
+# SQLite DB
+db.sqlite3
+
+# VSCode設定
+.vscode/
+
+# 静的・メディアファイル
+media/
