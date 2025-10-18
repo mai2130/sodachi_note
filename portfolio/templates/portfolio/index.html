@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ポートフォリオ</title>
+    <link rel="stylesheet" href="{% static 'portfolio/styles.css' %}">
+</head>
+<body>
+    <main class="container">
+        <h1 class="page-title">そだちノート</h1>
+
+        <section class ="card">
+            <figure class="screenshot-box">
+                <!--画像をimgで挿入-->
+                <!--<img src="{% static 'portfolio/img/screenshot.png' %}" alt="スクショ"> -->
+                <figcaption>アプリの画面</figcaption>
+                </figure>
+                <!-- 概要 -->
+                <p class="summary">
+                    そだちノートは、園と家庭を繋げる<br>
+                    子どもの成長と生活を記録するアプリです。<br>
+                    園からの連絡事項を確認したり<br>
+                    掲示板を通じて在園児の保護者同士で<br>
+                    情報交換を行うことができます。
+                </p>
+                <!-- 資料リンク -->
+                <nav class="doc-links">
+                    <!--<a href="" target="_blank" rel="noopener">企画書</a>-->
+                    <!--<a href="" target="_blank" rel="noopener">画面設計図</a>-->
+                    <!--<a href="" target="_blank" rel="noopener">画面遷移図</a>-->
+                    <!--<a href="" target="_blank" rel="noopener">ER図</a>-->
+                </nav>
+                
+                <div class="cta">
+                    <a class="btn-primary" href="/accounts/login/">アプリへ移動</a>
+                </div>
+        </section>
+    </main>
+</body>
+</html>
+
+
