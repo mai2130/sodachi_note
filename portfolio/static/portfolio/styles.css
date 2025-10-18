@@ -1,0 +1,39 @@
+/* ベース設定 */
+:root {
+    --bg: #FAF7F2; /*背景*/
+    --text: #2B2B2B; /*文字*/
+    --primary: #86B6F6; /*ボタン色*/
+    color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body {margin:0; padding:0; }
+
+body{
+    font-family: system-ui, -apple-system, "Segoe UI",Roboto, "Noto Sans JP", sans-serif;
+    line-height: 1.6;
+}
+/*レイアウト*/
+.container { max-width: 760px; margin: 32px auto; padding:0 16px; }
+.page-title { text-align: center; margin:0 0 16px; font-size: 1.6rem; font-weight: 700; }
+.cta { text-align: center; }
+.summary { text-align: center;}
+.screenshot-box { text-align: center;}
+
+/*カード*/
+.card{
+    background: #fff;
+    padding: 16px;
+}
+
+/*画像がはみ出さない最低限*/
+.screenshot-box img { max-width:100%; height:auto; display: block; }
+
+/*ボタン*/
+.btn-primary {
+    display: inline-block;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    background: var(--primary);
+    color: #fff;
+}
