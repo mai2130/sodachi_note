@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}【施設用】新規アカウント登録{% endblock%}
+
+{% block content %}
+<main class="page-center">
+    <section class="form-card">
+        <h2>そだちノートへようこそ！</h2>
+        <h3>～【施設用】新規アカウント登録～</h3>
+        
+        <form method="POST" >
+            {% csrf_token %}
+            {{ form.non.field_errors }}
+            
+            <input type="submit" value="登録">
+        </form>
+    </section>
+</main>
+{% endblock %}
