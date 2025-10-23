@@ -1,0 +1,72 @@
+html,body { height: 100%; margin: 0; } /*余白が左に寄るのを防ぐ*/
+
+.page-center{
+    min-height: 100vh; /*画面いっぱいの高さを最低限確保する*/
+    display: grid;
+    place-items: center;
+    padding: 16px;
+}
+
+.card{
+    width: 100%;
+    max-width: 420px;
+    padding: 24px; /*内側の余白*/
+}
+
+.card h2{
+    margin:0 0 6px; /*外側の余白*/
+    font-size:22px;
+    text-align: center; /*中央寄せ*/
+}
+
+.card h3{ 
+    margin: 0 0 12px; 
+    font-size: 16px;
+    text-align: center;
+}
+
+.form-error{
+  margin:0 0 12px;
+  color:red;
+  font-size: 14px;
+  text-align: center;
+}
+
+form p{
+  display: grid;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"]{
+  width: 100%;
+  outline: none;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  margin-top: 0px;
+}
+
+.btn{
+  width: auto;
+  display: inline-block;
+  margin-inline: 110px;
+  padding: 12px 35px;
+  background:#cfe1ff; cursor:pointer;
+  font-size: 16px;
+}
+
+.form-links{
+  display:grid; 
+  gap: 8px;
+  margin-top: 16px; 
+}
+.form-links .link-item{
+  color: #2f7cf6;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-size: 14px;
+}
+
+
