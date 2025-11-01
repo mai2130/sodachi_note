@@ -126,6 +126,9 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL =  'home' #ログイン成功 → / へ
-LOGOUT_REDIRECT_URL = 'accounts:login' #ログアウト → ログイン画面へ
+LOGIN_REDIRECT_URL =  'home'
+LOGOUT_REDIRECT_URL = 'login' 
 LOGIN_URL =  'login'
+
+#パスワード再発行（開発中はコンソールにメール出力）
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
