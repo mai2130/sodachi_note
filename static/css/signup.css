@@ -1,0 +1,97 @@
+html,body { 
+  height: 100%;
+  margin: 0; } 
+
+.page-center{
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+}
+
+.card{
+    width: 100%;
+    max-width: 340px;
+    padding: 20px; /*内側の余白*/
+}
+
+.title{
+    margin:0 0 4px; /*外側の余白*/
+    font-size: 20px;
+    text-align: center; /*中央寄せ*/
+}
+
+.subtitle{ 
+    margin: 0 0 14px; 
+    font-size: 14px;
+    text-align: center;
+}
+
+.field{
+    display: grid;
+    gap: 6px;
+    margin:0 0 12px;
+}
+label{
+    font-size: 14px;
+    margin: 0 8px 0;
+
+}
+
+.helper{
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.helper.-warn{
+    color:red
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"]{
+  box-sizing: border-box;
+  margin: 0 8px 0;
+  padding: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
+.form-error{
+    margin: 0 0 12px;
+    color:red;
+    font-size: 12px;
+    text-align: center;
+}
+
+ul.errorlist{
+    margin: 4px 0 8px;
+    color:red;
+    font-size: 12px;
+    text-align: left;
+    list-style: none;
+    padding: 0;
+}
+
+.btn{
+  display: block;
+  margin: 14px auto 0;
+  padding: 10px 30px;
+  background:#cfe1ff; 
+  font-size: 16px;
+}
+
+.form-links{
+  display: grid; 
+  gap: 8px;
+  margin-top: 16px;
+  justify-items: center;
+}
+.form-links .link-item{
+  color: #2f7cf6;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-size: 14px;
+}
+
+
