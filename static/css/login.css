@@ -13,11 +13,11 @@ html,body {
 .card{
     width: 100%;
     max-width: 320px;
-    padding: 24px; /*内側の余白*/
+    padding: 24px; 
 }
 
 .card h2{
-    margin:0 0 2px; /*外側の余白*/
+    margin:0 0 2px; 
     font-size: 24px;
     text-align: center; /*中央寄せ*/
 }
@@ -31,8 +31,17 @@ html,body {
 .form-error{
   margin:0 0 12px;
   color:red;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
+}
+
+ul.errorlist{
+    margin: 4px 12px;
+    color:red;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    padding: 0;
 }
 
 form p{
@@ -42,7 +51,6 @@ form p{
 }
 
 input[type="email"],
-input[type="text"],
 input[type="password"]{
   width: 100%;
   box-sizing: border-box;
@@ -64,7 +72,8 @@ input[type="password"]{
 .form-links{
   display: grid; 
   gap: 8px;
-  margin-top: 16px; 
+  margin-top: 16px;
+  justify-items: center;
 }
 .form-links .link-item{
   color: #2f7cf6;
