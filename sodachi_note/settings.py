@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'portfolio',
     'accounts',
     'nurseries'
+    'schoollogs'
 ]
 
 MIDDLEWARE = [
