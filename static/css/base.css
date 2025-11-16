@@ -1,0 +1,83 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+.site-header{
+    background-color:lightpink;
+    padding: 2px 0px;
+}
+.site-header .site-nav {
+    display: flex;
+    align-items: center;  /* 縦位置を中央揃え */
+    justify-content: space-between; /* 左右端に配置 */
+    max-width: 700px;
+    margin: 0 auto; /* 画面中央に */
+    padding: 4px 8px;
+}
+.logo {
+    margin: 0; 
+    font-size: 30px;
+    line-height: 1.1; /* 行間を少し詰めて高さを抑える */
+}
+.logo a{
+    text-decoration: none;
+    color:black;
+}
+
+/* アイコンサイズ */
+.link-like i{
+    font-size: 30px;
+    line-height: 1;
+}
+
+.link-like {
+    background: none;
+    border: none;
+    padding: 0;
+    color:black;
+    font-size: 12px;
+    display: inline-flex;
+    flex-direction: column;   /* 縦方向に並べる */
+    align-items: center;
+    gap: 2px;
+    cursor: pointer;
+}
+
+.site-footer{
+    background-color:beige;
+    color:black;
+}
+
+.footer-nav {
+    display: flex; /*横並び*/
+    justify-content: space-around; /*等間隔に配置*/
+    align-items: center; /*縦位置中央*/
+    gap: 6px;
+    max-width: 700%;
+    margin: 0 auto;
+    padding: 6px 8px;
+}
+
+.footer-item{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    text-decoration: none;
+    color: black;
+    font-size: 12px;
+    min-width: 56px;
+    padding: 4px 6px;
+}
+
+.footer-item i{
+    font-size: 30px;
+    line-height: 1;
+}
+
+.footer-item .label{
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+
