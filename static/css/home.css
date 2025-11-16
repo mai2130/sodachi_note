@@ -1,0 +1,146 @@
+.bar { /* 見出しバー（「生活・成長記録」） */
+  padding: 8px 12px; /* 内側余白 */
+  border-bottom: 1px solid #eee; /* 下線で区切り */
+  text-align: center; /* セル内テキストを中央揃え */
+  font-size: 20px;
+}
+
+.calendar { /* カレンダー全体 */
+  border: 1px solid #eee; 
+  padding: 4px;
+  border-bottom: none;
+}
+
+.cal-head { /* カレンダー上部（前月/次月の行） */
+  display: flex; /* 横並び */
+  justify-content: space-between; /* 左右端に配置 */
+  align-items: center; /* 縦中央揃え */
+  padding: 8px 12px; /* 余白 */
+  border-bottom: 1px solid #eee; /* 下線 */
+}
+
+.cal-head a.btn{ /* 前月/次月テキスト */
+  text-decoration: none;
+  color:dodgerblue;
+}
+
+.ym { /* 年月テキスト */
+  font-size: 18px;
+}
+
+.grid { /* カレンダーの7列グリッド */
+  display: grid; 
+  grid-template-columns: repeat(7, 1fr); /* 7列均等割り */
+}
+
+.grid .dow:nth-child(7n){
+  color: blue;
+}
+
+.grid .dow:nth-child(7n+1){
+  color: red;
+}
+
+.dow { /* 曜日行の見た目 */
+  font-size: 12px; 
+  text-align: center; 
+  color: #999; 
+  padding: 6px 0; /* 縦方向の余白 */
+  border-bottom: 1px solid #eee; 
+}
+
+.cell { /* 日付セルの基本 */
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f3f3; /* 行の区切り */
+  border-right: 1px solid #f3f3f3; /* 列の区切り */
+  min-height: 50px; /* タップしやすい高さ */
+  text-decoration: none; 
+  color: black;
+  position: relative;
+  text-align: center;
+}
+
+.cell:visited { color: inherit; } /* 既読リンクの色が変わらないように */
+
+.cell.out { /* 当月外セルの見た目 */
+  color:#555;
+  background-color:#eee;
+}
+
+.cell.selected { /* 選択日の視覚強調 */
+  outline: 2px solid #ffb978; /* 外枠のハイライト */
+  outline-offset: -2px; /* 枠を内側に寄せる */
+  background: #fff6ee; 
+}
+
+.cell.sunday:not(.out):not(.selected){
+  color: red;
+}
+
+.cell.saturday:not(.out):not(.selected){
+  color: blue;
+}
+
+.panel { /* 下部の情報パネル */
+  padding: 0 10px;
+}
+
+.seg{
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.seg input[type="radio"]{
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.seg-btn{
+  flex: 1;
+  text-align: center;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  color: black;
+  user-select: none;
+  transition: background .15s, box-shadow .15s, border-color .15s;
+}
+
+.seg input[type="radio"]:checked + .seg-btn{
+  background: #fff6ee;
+  border-color: #ffb978;
+  box-shadow: inset 0 0 0 2px #ffb978;
+  font-weight: 600;
+}
+
+.att-note{
+  margin-top: 6px;
+  font-size: 12px;
+  color: red;
+}
+
+.cell .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  background: #555;   /* 未登録のときのベース色 */
+  opacity: .25;       /* 薄く */
+}
+
+/* 状態別の色（○/△/×イメージ） */
+.dot-present { background: #28a745; opacity: .9; }  /* 出席=緑 */
+.dot-late    { background: #ff9800; opacity: .9; }  /* 遅刻・早退=橙 */
+.dot-absent  { background: #e53935; opacity: .9; }  /* 欠席=赤 */
+
+/* 当月外は少し薄く（任意） */
+.cell.out .dot { opacity: .35; }
+
+/* 5) cal-headのリンク：hover色を少しだけ明るく */
+.cal-head a.btn:hover {
+  color: #1e90ff; /* dodgerblue系のまま軽く強調 */
+}
+
