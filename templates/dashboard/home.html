@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}ホーム{% endblock %}
+
+{% block head_extra %}  <!--子ページ専用のCSS（static/css/home.css）を読み込む-->
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="bar">生活・成長記録</div>
+
+    <section class="calendar"> <!-- カレンダー全体 -->
+        <div class="cal-head"> <!-- カレンダーヘッダー（前月/次月） -->
+            <a class="btn" href="?y={{ prev_y }}&m={{ prev_m }}{% if selected %}&d={{ selected|date:'Y-m-d' }}{% endif %}">＜ 前月</a>
+            <div class="ym">{{ year }}年{{ month }}月</div>
+            <a class="btn" href="?y={{ next_y }}&m={{ next_m }}{% if selected %}&d={{ selected|date:'Y-m-d' }}{% endif %}">次月 ＞</a>
+           
+        </div>
+
+        <div class="grid">
+          {% for dow in weekdays %} <!-- 曜日ヘッダーを生成 -->
+            <div class="dow">{{ dow }}</div> <!-- 曜日セル -->
+          {% endfor %}
+
+          {% for week in weeks %}
+            {% for cell in week %}
+              <a class="cell
+                        {% if not cell.in_month %}out{% endif %}
+                        {% if cell.selected %}selected{% endif %}
+                        {% if forloop.counter0 == 0 %}sunday{% elif forloop.counter0 == 6 %}saturday{% endif %}"
+                        href="?y={{ cell.date|date:'Y' }}&m={{ cell.date|date:'n' }}&d={{ cell.date|date:'Y-m-d' }}"
+                        title="{{ cell.date|date:'Y-m-d' }}"
+      >
+        {{ cell.date|date:"j" }}
+        <span class="dot
+          {% if cell.status == 'present' %} dot-present
+          {% elif cell.status == 'late_early' %} dot-late
+          {% elif cell.status == 'absent' %} dot-absent
+          {% endif %}"></span>
+      </a>
+    {% endfor %}
+  {% endfor %}
+</div>
+    </section>
+
+    <section class="panel">
+        <time class="panel-date">{{ daily_info.date|date:"n/j (D) "}}</time> <!-- 選択日（または今日） -->
+        
+        <form class="att-form" method="post" action="#">
+          {% csrf_token %}
+          <input type="hidden" name="date" value="{{ daily_info.date|date:'Y-m-d' }}">
+
+          <div class="seg">
+
+            <input type="radio" id="att_present" name="status" value="present"
+                   {% if daily_info.attendance == 'present' %}checked{% endif %}>
+            <label class="seg-btn" for="att_present">出席</label>
+
+            <input type="radio" id="att_late" name="status" value="late_early"
+                   {% if daily_info.attendance == 'late_early' %}checked{% endif %}>
+            <label class="seg-btn" for="att_late">遅刻・早退</label>
+
+            <input type="radio" id="att_absent" name="status" value="absent"
+                   {% if daily_info.attendance == 'absent' %}checked{% endif %}>
+            <label class="seg-btn" for="att_absent">欠席</label>
+          </div>
+          </form>
+
+        <div class="link-row">
+            <a class="btn primary">園での生活・成長記録へ</a><br>
+            <a class="btn">家庭での生活・成長記録へ</a>
+        </div>
+    </section>
+{% endblock %}
