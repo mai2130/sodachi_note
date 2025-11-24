@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import date
-#from children.models import Child
+from children.models import Child
 
 class SchoolGrowthLog(models.Model):
     CONDITION_CHOICES = [
@@ -40,23 +40,31 @@ class SchoolGrowthLog(models.Model):
         decimal_places=1,
         null=True, 
         blank=True,
+        default=36.5
         )
     poo = models.IntegerField(
         "排便",
         choices=POO_CHOICES,
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
+        default=0,
         )   
-    nap_time = models.TimeField(
+    nap_start = models.TimeField(
         "午睡時間",
         null=True,
         blank=True,
         )
+    nap_end = models.TimeField(
+        null=True,
+        blank=True,
+        )
+
     lunch = models.IntegerField(
         "昼食",
         choices=LUNCH_CHOICES, 
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
+        default=0,
         ) 
     state = models.TextField(
         "様子",
@@ -73,4 +81,4 @@ class SchoolGrowthLog(models.Model):
         ordering = ["-date","child"]
 
     def __str__(self):
-        return f"{self.child.name} {self.log_date}"
+        return f"{self.child.name} {self.date}"
