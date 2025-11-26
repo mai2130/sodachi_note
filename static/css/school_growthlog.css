@@ -1,0 +1,114 @@
+.growthlog-subtitle {
+    text-align: center;
+    font-size: 20px;
+    padding: 6px 0;
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+/* フォーム部分 */
+.growthlog-body {
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 8px 10px;
+}
+
+/* ラベル全体 */
+.growthlog-field {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+/* ラベル名 */
+.growthlog-label {
+    flex: 0 0 70px;  
+    font-weight: bold;
+    text-align: left;
+}
+
+/* 入力エリア */
+.growthlog-input-inline {
+    flex: 1;
+}
+
+/* 様子 */
+.growthlog-textarea .growthlog-input-inline textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 13px;
+}
+
+/* 一時保存・提出ボタン */
+.growthlog-actions {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.growthlog-actions button {
+    margin: 0 4px;
+}
+
+.growthlog-btn {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 15px;
+    border: 1px solid dodgerblue;
+    background:white;
+    color:dodgerblue
+}
+
+.growthlog-btn-primary {
+    background:skyblue;
+    color:black;
+    border-color:skyblue;
+}
+
+/* 昼食・排便選択ボタン */
+.button-choices {
+    display: inline-flex;
+}
+
+.choice-btn input[type="radio"]:checked + span {
+    background:#aaa;
+    color:black;
+}
+
+/* 個々のボタン */
+.choice-btn {
+    border: 1px solid #aaa;
+    padding: 2px 8px;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* 本物のラジオボタンは隠す */
+.choice-btn input[type="radio"] {
+    display: none;
+}
+
+/* ボタンのラベル部分 */
+.choice-btn span {
+    display: inline-block;
+}
+
+/* 右側の黄色い確認ボックス */
+.growthlog-confirm-box {
+    margin-top: 12px;
+    padding: 8px;
+    background: #fff5bf;
+    border: 1px solid #f0d25c;
+    font-size: 15px;
+    text-align: center;
+}
+
+.growthlog-confirm-actions {
+    text-align: center;
+    margin-top: 6px;
+}
+
+
+
+
+
