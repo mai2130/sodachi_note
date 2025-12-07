@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}おたより投稿{% endblock %}
+
+{% block head_extra %}  
+  <link rel="stylesheet" href="{% static 'css/notices.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="notice-frame">
+    <div class="page-title">園からのおたより投稿</div>
+
+    <form method="post" enctype="multipart/form-data" class="notice-conteiner">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <p class="error-message">{{ form.non_field_errors}}</p>
+        {% endif %}
+
+        <div class="form-block{% if form.date.errors %} has-error{% endif %}">
+            <label class="{% if form.date.errors %}label-error{% endif %}">投稿年月日</label>
+            {{ form.date }}
+            {% for error in form.date.errors %}
+                <p class="field-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-block{% if form.title.errors %} has-error{% endif %}">
+            <label class="{% if form.title.errors %}label-error{% endif %}">タイトル</label>
+            {{ form.title }}
+            {% for error in form.title.errors %}
+                <p class="field-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-block{% if form.category.errors %} has-error{% endif %}">
+            <label class="{% if form.category.errors %}label-error{% endif %}">カテゴリ</label>
+            {{ form.category }}
+            {% for error in form.category.errors %}
+                <p class="field-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-block{% if form.classrooms.errors %} has-error{% endif %}">
+            <label class="{% if form.classrooms.errors %}label-error{% endif %}">クラス名</label>
+            {{ form.classrooms }}
+            {% for error in form.classrooms.errors %}
+                <p class="field-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-block{% if form.body.errors %} has-error{% endif %}">
+            {{ form.body }}
+            {% for error in form.body.errors %}
+                <p class="field-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-block form-block-file">
+            <label for="id_file" class="file-btn">添付資料</label>
+            {{ form.file }}
+        </div>
+
+        <div class="button-area">
+            <button type="submit" class="submit-btn">投稿</button>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

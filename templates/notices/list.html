@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}おたより一覧{% endblock %}
+
+{% block head_extra %}  
+  <link rel="stylesheet" href="{% static 'css/notices.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="notice-frame">
+    <div class="page-title">園からのおたより</div>
+
+    {# 検索フォーム #}
+    <form method="get" class="notice-search-form">
+        <div class="notice-search-row">
+            <input type="date" name="date" placeholder="年月日">
+            <select name="category" placeholder="カテゴリ">
+                    <option value="">すべて</option>
+                    <option value="0">日常生活</option>
+                    <option value="1">行事</option>
+                    <option value="2">お願い</option>
+                    <option value="3">重要</option>
+                    <option value="4">その他</option>
+            </select>
+        </div>
+
+        <div class="notice-search-row">
+            <input type="text" name="keyword" placeholder="キーワード入力">
+
+            <select name="classroom">
+                <option value="">クラス名</option>
+            </select>
+        </div>
+        <div class="notice-search-row notice-search-row--button">
+            <button type="submit">検索</button>
+        </div>
+    </form>
+    
+    <div class="notice-list-header">
+        <span>配信年月日</span>
+        <span>タイトル</span>
+    </div>
+    
+    {% if notices %}
+       <ul class="notice-list"> <!-- おたよりリスト -->
+        {% for n in notices %}
+        <li class="notice-row">
+            <span class="notice-date">{{ n.date|date:"Y/n/j" }}</span>
+            <a href="{% url 'notices:detail' n.pk %}" class="notice-link">
+                {{ n.title }}
+            </a>
+        </li>
+    {% endfor %}
+       </ul>
+    {% endif %}
+
+    <div class="pager">
+        <span class="pager-btn {% if not page_obj.has_previous %}{% endif %}">
+          {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">&laquo; 前へ</a>
+        {% else %}
+            &laquo; 前へ
+        {% endif %}
+        </span>
+
+        <span class="pager-info">
+            {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}ページ
+        </span>
+
+        <span class="pager-btn {% if not page_obj.has_next %}{% endif %}">
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">次へ &raquo;</a>
+        {% else %}
+            次へ &raquo;
+        {% endif %}
+        </span>
+    </div>
+
+    {% if request.user.nursery %}
+    <div class="to-create-wrapper">
+        <a href="{% url 'notices:create' %}" class="to-create-btn">投稿画面へ</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

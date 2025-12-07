@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>園からのおたより編集</h2>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  {{ form.non_field_errors }}
+
+  <div>
+    {{ form.date.label_tag }}<br>
+    {{ form.date }}
+    {{ form.date.errors }}
+  </div>
+
+  <div>
+    {{ form.title.label_tag }}<br>
+    {{ form.title }}
+    {{ form.title.errors }}
+  </div>
+
+  <div>
+    {{ form.category.label_tag }}<br>
+    {{ form.category }}
+    {{ form.category.errors }}
+  </div>
+
+  <div>
+    {{ form.classrooms.label_tag }}<br>
+    {{ form.classrooms }}
+    {{ form.classrooms.errors }}
+  </div>
+
+  <div>
+    {{ form.body.label_tag }}<br>
+    {{ form.body }}
+    {{ form.body.errors }}
+  </div>
+
+  <div>
+    {{ form.file.label_tag }}<br>
+    {% if object.file %}
+      <p>現在の添付: <a href="{{ object.file.url }}" target="_blank">ファイルを確認</a></p>
+    {% endif %}
+    {{ form.file }}
+    {{ form.file.errors }}
+  </div>
+
+  <button type="submit">編集</button>
+</form>
+
+{% endblock %}
