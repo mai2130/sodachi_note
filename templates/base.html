@@ -16,7 +16,7 @@
     <header class="site-header">
         <nav class="site-nav">
             <h1 class="logo">
-                <a href="{% url 'home' %}">そだちノート</a>
+                <a href="{% url 'dashboard:home' %}">そだちノート</a>
             </h1>
             <div class="logout">
                 <form action ="{% url 'logout' %}" method="POST" class="logout-form">
@@ -37,12 +37,12 @@
     {% block footer %}
     <footer class="site-footer">
         <nav class="footer-nav">
-            <a href="{% url 'home' %}"#} class="footer-item">
+            <a href="{% url 'dashboard:home' %}" class="footer-item">
             <i class="bi bi-emoji-smile"></i>
             <span class="label">記録</span>
             </a>
 
-            <a href="{% url 'notices:index' %}"class="footer-item">
+            <a href="{% url 'notices:list' %}"class="footer-item">
             <i class="bi bi-envelope"></i>
             <span>おたより</span>            
             </a>
