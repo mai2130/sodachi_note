@@ -1,0 +1,247 @@
+/* =======　おたより共通設定　======= */
+.notice-frame{
+    max-width: 420px;
+    margin: 0 auto;  /* 左右中央寄せ */
+    padding: 10px;  
+    text-align: left;
+    color: #111;
+}
+
+.page-title {
+    font-size: 20px;           
+    margin: 0 0 12px;
+    text-align: center;  
+}
+
+.btn {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+/* =======　おたより一覧　======= */
+
+.notice-search-form{
+    margin-bottom: 16px;
+}
+
+.notice-search-row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.notice-search-row input[type="date"],
+.notice-search-row input[type="text"],
+.notice-search-row select{
+    font-size: 14px;
+    padding: 4px;
+    min-width: 120px;
+}
+
+.notice-search-row--button {
+    justify-content: center;
+}
+
+.notice-list-header {
+    display: flex;
+    justify-content: center;
+    gap: 70px;
+}
+
+.notice-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none; /* デフォルトの行頭の点を消す */
+    margin-top: 5px;
+    padding: 0;
+}
+
+.notice-row{
+    display: flex;
+    align-items: center;        
+    gap: 50px;
+    padding: 4px 0;    
+}
+
+.notice-date {
+    font-size: 14px;
+}
+
+.notice-link{
+    text-decoration: none; 
+    font-size: 14px;
+}
+
+.pager {
+    display: flex;
+    justify-content: center; /* 左・中央・右に配置 */
+    align-items: center; 
+    margin-top: 16px; 
+    font-size: 12px;
+}
+
+.pager-btn {
+    padding: 4px 10px; 
+    text-decoration: none;
+}
+
+.to-create-wrapper {
+    text-align:right;
+}
+
+.to-create-btn {
+    font-size: 12px;
+}
+
+/* ======= おたより投稿 ======= */
+ 
+.label-error{
+    color: red;
+}
+
+.form-block {
+    display: flex;
+    align-items: center;
+    margin:5px 10px;
+    font-size: 14px;
+}
+
+.form-block label {
+    width:80px;
+}
+
+.form-block input,
+.form-block select,
+.form-block textarea {
+    flex: 1;
+}
+
+/* file input は隠す */
+#id_file {
+    display: none;
+}
+
+/* 縦並び＋中央寄せ */
+.form-block.form-block-file {
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-block.form-block-file > label:first-child {
+    width: auto;
+}
+
+.file-btn {
+    margin-top: 5px;
+    border: 1px solid black;
+    padding: 6px 30px;
+
+}
+
+.text-input,
+.select-input,
+.select-class,
+.textarea-input {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid black;
+    font-size: 14px;
+}
+
+.textarea-input {
+   height: 120px; 
+}
+
+.button-area {
+    text-align: center;
+}
+
+.file-btn
+.submit-btn{
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
+}
+
+.submit-btn {
+    margin: 10px;
+    background: #b7cdf4;
+    padding: 6px 45px;
+
+}
+
+
+/* ======= 詳細用スタイル ======= */
+
+.notice-detail-header {
+}
+
+.notice-detail-top-row {
+    display: flex;
+    justify-content: center;
+    gap: 45px;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.chip {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+.notice-detail-title {
+    text-align: center;
+    font-size: 18px;
+    margin: 0 0 8px;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 4px;
+}
+
+.notice-body {
+    text-align: left;
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+/* 添付資料 */
+.notice-attachment {
+    margin-top: 10px;
+}
+
+.notice-detail-buttons {
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap:12px;
+}
+
+.notice-detail-btn {
+    display: inline-block;
+    text-align: center;
+    padding: 6px 24px;
+    font-size: 14px;
+    text-decoration: none;
+    background-color:gainsboro;
+    border: 1px solid black;
+}
+
+.notice-detail-btn-secondary {
+    display: left;
+    font-size: 12px;
+
+}
+
+
