@@ -20,10 +20,10 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include(('accounts.urls',"accounts"), namespace="accounts")),
+    path('accounts/', include(('accounts.urls',"accounts"))),
     path('accounts/', include('django.contrib.auth.urls')),#ログイン/ログアウト/パスワード再設定
     path("schoollogs/",include("schoollogs.urls")),
-    path("notices/",include("notices.urls", namespace="notices")),
-    path('home/', include("dashboard.urls")),
+    path("notices/",include("notices.urls", "notices")),
+    path('home/', include(("dashboard.urls" , "dashboard"))),
     path('', include("portfolio.urls")), #トップページ
 ]
