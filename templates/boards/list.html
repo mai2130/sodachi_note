@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Q&A掲示板{% endblock %}
+
+{% block head_extra %}  
+  <link rel="stylesheet" href="{% static 'css/boards.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="board-frame">
+    <div class="page-title">Q＆A掲示板</div>
+
+    <!-- 検索行 -->
+    <form method="get" class="board-search-form">
+        <input type="text" name="keyword" class="keyword-input"
+               placeholder="キーワード入力">
+
+        <select name="category" class="category-select">
+            <option value="">カテゴリ</option>
+            <option value="0">日常生活</option>
+            <option value="1">行事</option>
+            <option value="2">その他</option>
+        </select>
+
+        <button type="submit" class="search-btn">🔍</button>
+    </form>
+
+    <!-- 一覧表ヘッダー -->
+    <div class="board-list-header">
+        <span class="col-title">タイトル</span>
+        <span class="col-date">投稿日</span>
+    </div>
+
+    <!-- 一覧 -->
+    <div class="boards-list">
+        {% for b in boards %}
+            <a href="{% url 'boards:detail' b.id %}" class="board-row">
+                <span class="row-title">{{ b.title }}</span>
+                <span class="row-date">{{ b.date|date:"Y/m/d" }}</span>
+            </a>
+        {% empty %}
+            <p class="no-data-text">投稿はまだありません。</p>
+        {% endfor %}
+    </div>
+
+    <!-- ページネーション -->
+    <div class="pager">
+        <span class="pager-btn {% if not page_obj.has_previous %}{% endif %}">
+          {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+        {% else %}
+            &laquo;
+        {% endif %}
+        </span>
+
+        <span class="pager-info">
+            {{ page_obj.number }}ページ
+        </span>
+
+        <span class="pager-btn {% if not page_obj.has_next %}{% endif %}">
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+        {% else %}
+            &raquo;
+        {% endif %}
+        </span>
+    </div>
+
+    <div class="to-create-wrapper">
+        <a href="{% url 'boards:create' %}" class="to-create-btn">新規投稿</a>
+    </div>
+</div>
+
+{% endblock %}
+

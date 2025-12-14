@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Q＆A掲示板新規投稿画面{% endblock %}
+
+{% block head_extra %}  
+  <link rel="stylesheet" href="{% static 'css/boards.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="board-frame">
+    <div class="page-title">新規投稿</div>
+
+    <form method="post" class="board-form">
+        {% csrf_token %}
+
+        <div class="form-block">
+            <label>投稿年月日</label>
+            {{ form.date }}
+        </div>
+
+        <div class="form-block">
+            <label>タイトル</label>
+            {{ form.title }}
+        </div>
+
+        <div class="form-block">
+            <label>カテゴリ</label>
+            {{ form.category }}
+        </div>
+
+        <div class="form-block form-block-textarea">
+            <textarea name="comment" rows="10" class="textarea-input" placeholder="本文"></textarea>
+        </div>
+
+        <div class="button-area">
+            <button type="submit" class="submit-btn">投稿</button>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
+

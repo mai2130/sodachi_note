@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Q＆A掲示板詳細画面{% endblock %}
+
+{% block head_extra %}  
+  <link rel="stylesheet" href="{% static 'css/boards.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="board-frame">
+  <div class="page-title">Q＆A掲示板</div>
+
+  <!-- 見出し行 -->
+  <div class="detail-head-row">
+    <div class="head-col head-title">タイトル名</div>
+    <div class="head-col head-date">投稿年月日</div>
+  </div>
+
+  <!-- 本体行（タイトル / 投稿日） -->
+  <div class="detail-body-row">
+    <div class="body-col body-title">{{ board.title }}</div>
+    <div class="body-col body-date">{{ board.date|date:"Y/m/d" }}</div>
+  </div>
+
+  <!-- 名前 + 削除 -->
+  <div class="detail-name-row">
+    <div class="name-text">
+      名前：{{ board.user.get_full_name|default:board.user.username }}
+    </div>
+
+    {% if request.user == board.user %}
+      <form method="post" class="delete-form">
+        {% csrf_token %}
+        <button type="submit" name="delete" class="delete-btn">削除</button>
+      </form>
+    {% endif %}
+  </div>
+
+  <!-- エラーメッセージ -->
+  {% if error_message %}
+    <p class="field-error">{{ error_message }}</p>
+  {% endif %}
+
+  <!-- 回答一覧 -->
+  <div class="board-post-list">
+    {% for post in posts %}
+      <div class="board-post-item">
+        <div class="post-meta">
+          <span class="post-user">
+            {{ post.user.get_full_name|default:post.user.username }}
+          </span>
+          <span class="post-date">
+            {{ post.created_at|date:"Y/m/d" }}
+          </span>
+        </div>
+        <div class="post-comment">{{ post.comment }}</div>
+      </div>
+    {% empty %}
+      <p class="no-data-text">まだ回答はありません。</p>
+    {% endfor %}
+  </div>
+
+  <!-- 入力欄 + 投稿ボタン -->
+  <form method="post" class="reply-area">
+    {% csrf_token %}
+    <input type="text" name="comment" class="reply-input" placeholder="">
+    <button type="submit" class="reply-submit-btn">投稿</button>
+  </form>
+
+  <!-- ページャー -->
+  {% if page_obj.paginator.num_pages > 1 %}
+    <div class="pager">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">＜＜</a>
+      {% else %}
+        <span class="pager-disabled">＜＜</span>
+      {% endif %}
+
+      <span>{{ page_obj.number }} ページ</span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">＞＞</a>
+      {% else %}
+        <span class="pager-disabled">＞＞</span>
+      {% endif %}
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}
