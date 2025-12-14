@@ -24,6 +24,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),#ログイン/ログアウト/パスワード再設定
     path("schoollogs/",include("schoollogs.urls")),
     path("notices/",include("notices.urls", "notices")),
+    path("boards/",include("boards.urls", "boards")),
     path('home/', include(("dashboard.urls" , "dashboard"))),
     path('', include("portfolio.urls")), #トップページ
 ]
