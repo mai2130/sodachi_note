@@ -19,7 +19,7 @@ class EmailLoginView(View):
         if form.is_valid():
             user = form.cleaned_data['user']
             login(request, user)
-            return redirect('home')
+            return redirect('dashboard:home')
         return render(request, self.template_name,{'form':form})
      
 class FacilitySignUpView(View):
@@ -52,5 +52,5 @@ class FacilitySignUpView(View):
         )
         
         login(request, user)
-        return redirect("home")
+        return redirect('dashboard:home')
     
