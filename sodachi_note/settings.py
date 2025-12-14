@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'schoollogs',
     'dashboard',
     'notices',
+    'boards',
 ]
 
 MIDDLEWARE = [
