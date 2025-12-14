@@ -1,0 +1,252 @@
+/* 共通 */
+.board-frame{
+    max-width: 420px;
+    margin: 0 auto;  /* 左右中央寄せ */
+    padding: 10px;  
+    color: #111;
+}
+
+.page-title {
+    font-size: 20px;           
+    margin: 0 0 12px;
+    text-align: center;  
+}
+
+.board-search-form {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    margin: 10px 0;
+}
+
+.keyword-input {
+    flex: 1;
+    padding: 4px;
+    border: 1px solid #777;
+}
+
+.category-select {
+    width: 80px;
+    padding: 4px;
+    border: 1px solid #777;
+}
+
+.search-btn {
+    padding: 4px 10px;
+    border: 1px solid #777;
+    background: #fff;
+}
+
+.board-list-header {
+    display: flex;
+    justify-content:space-evenly;
+    padding: 6px 4px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.board-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 4px;
+    text-decoration: none;
+    color: #000;
+    font-size: 13px;
+}
+
+.pager {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.pager-btn {
+    padding: 4px 10px; 
+    text-decoration: none;
+}
+
+
+.board-create-area {
+    text-align: center;
+    margin: 10px 0 20px;
+}
+
+.to-create-wrapper {
+    text-align:right;
+}
+
+.to-create-btn {
+    padding: 6px 10px;
+    background: #b7cdf4;
+    border: 1px solid #777;
+    text-decoration: none;
+    color: #000;
+}
+
+/* 新規投稿 */
+.board-form {
+    padding: 0 20px;
+}
+
+.form-block {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.form-block label {
+    width: 80px;
+    font-size: 14px;
+}
+
+.form-block input,
+.form-block select {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #777;
+}
+
+.form-block-textarea {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form-block-textarea label {
+    width: auto;
+    margin-bottom: 4px;
+}
+
+.textarea-input {
+    width: 100%;
+    border: 1px solid #777;
+    padding: 6px;
+}
+
+.button-area {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.submit-btn {
+    display: inline-block;
+    padding: 6px 24px;
+    border: 1px solid #777;
+    background: #b7cdf4;
+}
+
+/* 質問ヘッダー部分 */
+.detail-head-row,
+.detail-body-row {
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 6px 8px;
+    font-size: 13px;
+}
+
+.detail-head-row {
+    font-weight: bold;
+}
+
+
+/* 左：タイトル / 右：投稿日 */
+.head-title, .body-title {
+    width: 70%;
+    text-align: left;
+}
+
+.head-date,  .body-date  {
+    text-align: right;
+}
+
+
+/* 名前行 + 削除ボタン */
+.detail-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.delete-form{
+  margin: 0;
+  padding: 0;
+  display: inline-flex;      /* 横幅を中身に合わせる */
+  width: auto;               /* 横いっぱい禁止 */
+  background: transparent;   /* 青い帯の原因を潰す */
+  border: 0;
+}
+
+.delete-btn {
+    padding: 2px 10px;
+    font-size: 12px;
+    border: 1px solid #777;
+    background:pink;
+}
+
+/* 回答（本文/コメント）表示ブロック：設計図のように余白少なめに */
+.board-post-list{
+  padding: 0 10px;
+  margin-top: 6px;
+}
+.board-post-item{
+  border: 0;
+  padding: 4px 0;
+}
+.post-meta{
+  font-size: 12px;
+  display:flex;
+  gap: 10px;
+  color:#000;
+}
+.post-comment{
+  margin-top: 2px;
+  font-size: 13px;
+}
+
+/* 下部：入力欄 + 投稿ボタン（横並び） */
+.reply-area {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 10px;
+  padding: 0 8px;
+}
+
+.reply-input {
+  flex: 1;
+  height: 26px;
+  border: 1px solid #777;
+  padding: 2px 6px;
+  font-size: 13px;
+}
+
+.reply-submit-btn {
+  width: 64px;
+  height: 28px;
+  border: 1px solid #777;
+  background: #b7cdf4;   /* 設計図の水色 */
+}
+
+/* ページャー（詳細下） */
+.pager {
+    text-align: center;
+    margin: 8px 0;
+    font-size: 12px;
+}
+
+.pager a {
+    margin: 0 8px;
+}
+
+.pager-disabled {
+    margin: 0 8px;
+    color: #ccc;
+}
+
+.field-error {
+    color: #d00;
+    font-size: 12px;
+    margin: 4px 0;
+}
