@@ -1,0 +1,123 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 外枠 */
+.phone-frame{
+  width: 340px;
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+}
+
+/* タイトル */
+.page-title{
+  text-align: center;
+  font-size: 18px;
+  margin: 0 10px;
+}
+
+/* 保存しました！ */
+.mypage-success{
+  padding-top: 10px;
+  color: red;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* フォーム全体 */
+.mypage-form{
+  margin: 0;
+}
+
+/* 1行 */
+.mypage-row{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+/* ラベル */
+.mypage-label{
+  width: 90px; /* ラベル列の幅を固定して縦に揃える */
+  font-size: 13px;
+  text-align:left;
+  white-space: nowrap; /* 「メールアドレス」など折り返し防止 */
+}
+
+/* 右の入力欄 */
+.mypage-field{
+  flex: 1;
+}
+
+.mypage-input{
+  width: 100%;
+  height: 28px;
+  padding: 4px 8px;
+  font-size: 13px;
+  border: 1px solid #bfbfbf;
+  box-sizing: border-box;
+}
+
+/* readonly（メール）を“編集不可”っぽく */
+.mypage-input[readonly]{
+  background: #f5f5f5;
+  color: #555;
+}
+
+/* フォーカス時（入力中） */
+.mp-input:focus{
+  outline: none;
+  border-color: #6b6b6b;
+}
+
+/* パスワード再設定リンク */
+.mypage-link{
+  text-align: center;
+  margin: 12px 0 10px;
+  font-size: 12px;
+}
+
+.mypage-link a{
+  text-decoration: underline;
+}
+
+/* ボタンエリア */
+.mypage-actions{
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* 保存ボタン */
+.mypage-save-btn{
+  min-width: 100px;
+  height: 30px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid #8a8a8a;
+  background: #b7cdf4;
+}
+
+.mypage-save-btn:hover{
+  background: #e6e6e6;
+}
+
+.mypage-save-btn:active{
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* エラーメッセージ */
+.top-error{
+  color: red;
+  font-size: 14px;
+}
+
+.top-error-title{
+  margin: 10px;
+  text-align: center;
+}
