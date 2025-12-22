@@ -1,0 +1,54 @@
+<!-- DEBUG: account_list.html v2 -->
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="phone-frame">
+
+  <div class="page-title">アカウント一覧</div>
+
+  <div class="account-table">
+    <div class="account-row header">
+      <div class="col code">認証コード</div>
+      <div class="col name">園児氏名</div>
+      <div class="col classroom">クラス</div>
+    </div>
+
+    {% for c in codes %}
+      {# クリックで「アカウント管理」へ（次の画面） #}
+      <a class="account-row body"
+         href="{% url 'invites:account_manage' c.id %}">
+        <div class="col code">
+          {{ c.code|stringformat:"s"|slice:":6"|upper }}
+        </div>
+        <div class="col name">{{ c.child.name }}</div>
+        <div class="col classroom">{{ c.child.classroom.name }}</div>
+      </a>
+    {% empty %}
+      <p class="no-data">データがありません。</p>
+    {% endfor %}
+  </div>
+
+  <div class="pager">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">＜＜</a>
+    {% else %}
+      <span class="disabled"><<</span>
+    {% endif %}
+
+    <span>{{ page_obj.number }}ページ</span>
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">＞＞</a>
+    {% else %}
+      <span class="disabled">>></span>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

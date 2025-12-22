@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="phone-frame">
+  <div class="page-title">アカウント管理</div>
+
+  <form method="post" class="mypage-form" novalidate>
+    {% csrf_token %}
+
+    {% if form.errors %}
+      <div class="top-error">
+        <p class="top-error-title">未入力項目があります</p>
+      </div>
+    {% endif %}
+
+    <div class="mypage-row">
+      <div class="mypage-label">園児氏名</div>
+      <div class="mypage-field">{{ form.name }}</div>
+    </div>
+
+    <div class="mypage-row">
+      <div class="mypage-label">クラス名</div>
+      <div class="mypage-field">{{ form.classroom }}</div>
+    </div>
+
+    <div class="mypage-actions">
+      <button type="submit" name="issue_code" class="mypage-save-btn">認証コード発行</button>
+    </div>
+
+    <div class="mypage-row">
+      <div class="mypage-label">認証コード：</div>
+      <div class="mypage-field">
+        <input class="mypage-input code-display"
+               value='{{ invite.code|stringformat:"s"|slice:":6"|upper }}'
+               readonly>
+      </div>
+    </div>
+
+    <div class="mypage-row">
+      <div class="mypage-label">退園月</div>
+      <div class="mypage-field">
+        {{ form.withdrawn_month }}
+      </div>
+    </div>
+    
+    <div class="mypage-actions">
+      <button type="button" class="delete-btn-link" id="openDeleteModal">削除</button>    
+    </div>
+
+  {# 削除確認ポップアップ #}
+  <div class="modal-backdrop" id="deleteModal" style="display:none;">
+    <div class="modal-box">
+      <p class="modal-text">本当に削除してもよろしいですか？</p>
+      
+      <div class="modal-actions">
+        <button type="submit" name="delete_yes" class="modal-btn yes">はい</button>
+        <button type="button" class="modal-btn no" id="closeDeleteModal">いいえ</button>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<script>
+  const modal = document.getElementById("deleteModal");
+  document.getElementById("openDeleteModal").addEventListener("click", () => {
+    modal.style.display = "flex";
+  });
+  document.getElementById("closeDeleteModal").addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+</script>
+</div>
+{% endblock %}
