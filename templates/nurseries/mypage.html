@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="phone-frame">
+
+  <div class="page-title">マイページ</div>
+  
+  <form method="post" class="mypage-form" novalidate>
+    {% csrf_token %}
+
+  {% if form.errors %}
+    <div class="top-error">
+      <p class="top-error-title">未入力項目があります</p>
+    </div>
+  {% endif %}
+
+  {# 成功メッセージ #}
+  {% if messages %}
+    {% for message in messages %}
+      <p class="mypage-success">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+
+    <div class="mypage-row">
+      <div class="mypage-label">施設名</div>
+      <div class="mypage-field">{{ form.name }}</div>
+    </div>
+
+    <div class="mypage-row">
+      <div class="mypage-label">郵便番号</div>
+      <div class="mypage-field">{{ form.postal_code }}</div>
+    </div>
+
+    <div class="mypage-row">
+      <div class="mypage-label">住所</div>
+      <div class="mypage-field">{{ form.address }}</div>
+    </div>
+
+    <div class="mypage-row">
+      <div class="mypage-label">電話番号</div>
+      <div class="mypage-field">{{ form.phone_number }}</div>
+    </div>
+
+    <div class="mypage-row">
+      <div class="mypage-label">メールアドレス</div>
+      <div class="mypage-field">
+        <input class="mypage-input" value="{{ request.user.email }}" readonly>
+      </div>
+    </div>
+
+    <div class="mypage-link">
+      <a href="{% url 'password_reset' %}">パスワード再設定はこちら</a>
+    </div>
+
+    <div class="mypage-actions">
+      <button type="submit" class="mypage-save-btn">保存</button>
+    </div>
+  </form>
+
+</div>
+{% endblock %}
