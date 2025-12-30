@@ -13,7 +13,6 @@
             <h1 class="title">そだちノートへようこそ！</h1>
             <h2 class="subtitle">～【施設用】新規アカウント登録～</h2>
 
-            {# 画面上部の共通エラー #}
             {% if form.errors %}
                 <div class="form-error" role="alert">
                     未入力項目があります
@@ -21,44 +20,58 @@
             {% endif %}
 
             {% if form.non_field_errors %}
-            <div class = "form-error">{{ form.non_field_errors.0 }}</div>
+            <div class = "form-error" role="alert">
+                {% for e in form.non_field_errors %}
+            <div>{{ e }}</div>
+                {% endfor %}
+        </div>
             {% endif %}
             
             <form method="POST" novalidate>
                 {% csrf_token %}
 
                 <p class="field">
-                    <label for="{{ form.nursery_name.id_for_label }}">施設名</label>
+                    <label for="{{ form.nursery_name.id_for_label }}" class="{% if form.nursery_name.errors %}is-error{% endif %}">
+                        施設名
+                    </label>
                     {{ form.nursery_name }}
                     {{ form.nursery_name.errors }}
                 </p>
 
                 <p class="field">
-                    <label for="{{ form.postal_code.id_for_label }}">郵便番号</label>
+                    <label for="{{ form.postal_code.id_for_label }}" class="{% if form.postal_code.errors %}is-error{% endif %}">
+                        郵便番号
+                    </label>
                     {{ form.postal_code }}
                     {{ form.postal_code.errors }}
                 </p>
 
                 <p class="field">
-                    <label for="{{ form.address.id_for_label }}">住所</label>
+                    <label for="{{ form.address.id_for_label }}" class="{% if form.address.errors %}is-error{% endif %}">
+                        住所
+                    </label>
                     {{ form.address }}
                     {{ form.address.errors }}
                 </p>
 
                 <p class="field">
-                    <label for="{{ form.phone_number.id_for_label }}">電話番号</label>
+                    <label for="{{ form.phone_number.id_for_label }}" class="{% if form.phone_number.errors %}is-error{% endif %}">
+                        電話番号
+                    </label>
                     {{ form.phone_number }}
                     {{ form.phone_number.errors }}
                 </p>
 
                 <p class="field">
-                    <label for="{{ form.email.id_for_label }}">メールアドレス</label>
+                    <label for="{{ form.email.id_for_label }}" class="{% if form.email.errors %}is-error{% endif %}">
+                        メールアドレス
+                    </label>
                     {{ form.email }}
                     {{ form.email.errors }}
                 </p>
 
                 <p class="field">
-                    <label for="{{ form.password1.id_for_label }}">
+                    <label for="{{ form.password1.id_for_label }}" class="{% if form.password1.errors %}is-error{% endif %}">
                         パスワード<span class="helper -warn">※英数字8文字以上</span>
                     </label>
                     {{ form.password1 }}
@@ -66,7 +79,9 @@
                 </p>
 
                 <p class="field">
-                    <label for="{{ form.password2.id_for_label }}">パスワード（確認用）</label>
+                    <label for="{{ form.password2.id_for_label }}" class="{% if form.password2.errors %}is-error{% endif %}">
+                        パスワード（確認用）
+                    </label>
                     {{ form.password2 }}
                     {{ form.password2.errors }}
                 </p>
