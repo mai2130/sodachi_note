@@ -47,20 +47,20 @@
             <span>おたより</span>            
             </a>
 
-            {#<a href="{% url 'boards:index' %}"class="footer-item">#}
+            <a href="{% url 'boards:list' %}"class="footer-item">
             <i class="bi bi-wechat"></i>
             <span>掲示板</span>
-            {#</a>#}
+            </a>
 
-            {#<a href="{% url 'accounts:profile' %}"class="footer-item">#}
+            <a href="{% url 'invites:account_list' %}"class="footer-item">
             <i class="bi bi-people"></i>
             <span>アカウント</span>
-            {#</a>#}
+            </a>
 
-            {#<a href="{% url 'mypage' %}"class="footer-item">#}
+            <a href="{% url 'nurseries:mypage' %}"class="footer-item">
             <i class="bi bi-person"></i>
             <span>マイページ</span>
-            {#</a>#}
+            </a>
 
         </nav>
     </footer>
