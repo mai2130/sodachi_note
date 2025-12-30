@@ -40,7 +40,6 @@ html, body {
     flex-direction: column;   /* 縦方向に並べる */
     align-items: center;
     gap: 2px;
-    cursor: pointer;
 }
 
 .site-footer{
