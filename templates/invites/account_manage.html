@@ -25,26 +25,34 @@
 
     <div class="mypage-row">
       <div class="mypage-label">クラス名</div>
-      <div class="mypage-field">{{ form.classroom }}</div>
+      <div class="mypage-field">
+        <div class="select-wrap">
+          {{ form.classroom }}
+        </div>
+      </div>
     </div>
 
     <div class="mypage-actions">
       <button type="submit" name="issue_code" class="mypage-save-btn">認証コード発行</button>
     </div>
 
-    <div class="mypage-row">
-      <div class="mypage-label">認証コード：</div>
-      <div class="mypage-field">
-        <input class="mypage-input code-display"
-               value='{{ invite.code|stringformat:"s"|slice:":6"|upper }}'
-               readonly>
+    <div class="code-result">
+      <div class="code-result-label">認証コード：</div>
+      <div class="code-result-value">
+        {% if invite and invite.code %}
+          {{ invite.code|stringformat:"s"|slice:":6"|upper }}
+        {% else %}
+          &nbsp;
+        {% endif %}
       </div>
     </div>
 
     <div class="mypage-row">
       <div class="mypage-label">退園月</div>
       <div class="mypage-field">
+        <div class="select-wrap">
         {{ form.withdrawn_month }}
+        </div>
       </div>
     </div>
     

@@ -1,5 +1,3 @@
-<!-- DEBUG: account_list.html v2 -->
-
 {% extends "base.html" %}
 {% load static %}
 
@@ -22,7 +20,7 @@
     {% for c in codes %}
       {# クリックで「アカウント管理」へ（次の画面） #}
       <a class="account-row body"
-         href="{% url 'invites:account_manage' c.id %}">
+         href="{% url 'invites:account_manage' pk=c.id %}">
         <div class="col code">
           {{ c.code|stringformat:"s"|slice:":6"|upper }}
         </div>
@@ -49,6 +47,9 @@
       <span class="disabled">>></span>
     {% endif %}
   </div>
+
+  <a class="btn-new-account"
+     href="{% url 'invites:account_new' %}">アカウント管理画面へ</a>
 
 </div>
 {% endblock %}
