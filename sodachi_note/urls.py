@@ -16,15 +16,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include(('accounts.urls',"accounts"))),
+    path('accounts/', include(('accounts.urls',"accounts"), namespace="accounts")),
     path('accounts/', include('django.contrib.auth.urls')),#ログイン/ログアウト/パスワード再設定
-    path("schoollogs/",include("schoollogs.urls")),
-    path("notices/",include("notices.urls", "notices")),
-    path("boards/",include("boards.urls", "boards")),
-    path('home/', include(("dashboard.urls" , "dashboard"))),
-    path('', include("portfolio.urls")), #トップページ
+    path("schoollogs/",include(("schoollogs.urls", "schoollogs"),namespace="schoollogs")),
+    path("notices/",include(("notices.urls", "notices"), namespace="notices")),
+    path("boards/",include(("boards.urls", "boards"), namespace="boards")),
+    path("mypage/", include(("nurseries.urls", "nurseries"), namespace="nurseries")),
+    path("invites/", include(("invites.urls", "invites"), namespace="invites")),
+    path('home/', include(("dashboard.urls" , "dashboard"), namespace="dashboard")),
+    path('', include(("portfolio.urls" ,"portfolio"), namespace="portfolio")), #トップページ
 ]
