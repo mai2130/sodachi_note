@@ -1,11 +1,16 @@
-from django.contrib.auth import login, get_user_model
+from django.views.generic import FormView
+from django.contrib.auth import login, get_user_model # テンプレ表示/リダイレクト
 from django.shortcuts import render, redirect
 from django.views import View
 from django.db import transaction
-from .forms import EmailAuthenticationForm, FacilitySignUpForm
+
+from .forms import EmailAuthenticationForm, FacilitySignUpForm, GuardianSignUpForm
 from nurseries.models import Nursery
+from invites.models import InviteCode
+from families.models import Family
+from django.db.models import F
 
-
+User = get_user_model()
 
 class EmailLoginView(View):
     template_name = 'registration/login.html'
@@ -34,15 +39,13 @@ class FacilitySignUpView(View):
         if not form.is_valid():
             return render(request, self.template_name, {"form":form})
     
-        User = get_user_model()    
-        #ユーザー作成
         user = User.objects.create_user(
             username = form.cleaned_data["email"],
             email = form.cleaned_data["email"],
             password =form.cleaned_data["password1"],
             role = User.Role.FACILITY,
         )
-        #園情報作成
+
         Nursery.objects.create(
             user = user,
             name = form.cleaned_data["nursery_name"],
@@ -54,3 +57,30 @@ class FacilitySignUpView(View):
         login(request, user)
         return redirect('dashboard:home')
     
+class GuardianSignUpView(FormView):
+    template_name = "registration/signup_guardian.html"
+    form_class = GuardianSignUpForm
+    success_url = '/dashboard/'
+    
+    @transaction.atomic
+    def form_valid(self, form):
+        invite = form.cleaned_data["invite"]
+        
+        user = User.objects.create_user(
+            username=form.cleaned_data["email"], 
+            email=form.cleaned_data["email"],
+            password=form.cleaned_data["password1"],
+            role=User.Role.GUARDIAN,)
+        
+        Family.objects.get_or_create(
+            guardian=user,
+            child=invite.child,
+            defaults={"relationship": form.cleaned_data["relationship"]}, 
+        )
+# 招待コードの使用回数を +1（DB側で安全に更新）        
+        InviteCode.objects.filter(pk=invite.pk).update(
+            users_count=F("users_count") + 1
+        )
+         
+        login(self.request, user)   
+        return super().form_valid(form)
