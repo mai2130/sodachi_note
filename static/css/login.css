@@ -1,10 +1,15 @@
-/*余白が左に寄るのを防ぐ*/
+*{
+  margin: 0;
+  padding: 0; 
+  box-sizing: border-box;
+}
+
 html,body { 
   height: 100%;
-  margin: 0; } 
+} 
 
 .page-center{
-    min-height: 100vh; /*画面いっぱいの高さを最低限確保する*/
+    min-height: 100vh;
     display: grid;
     place-items: center;
     padding: 16px;
@@ -12,20 +17,31 @@ html,body {
 
 .card{
     width: 100%;
-    max-width: 320px;
-    padding: 24px; 
+    max-width: 340px;
+    padding: 20px; 
+    margin: 0 auto;
 }
 
 .card h2{
     margin:0 0 2px; 
     font-size: 24px;
-    text-align: center; /*中央寄せ*/
+    text-align: center;
 }
 
 .card h3{ 
     margin: 0 0 10px; 
     font-size: 18px;
     text-align: center;
+}
+
+label{
+  font-size: 14px;
+  margin: 0 10px;
+}
+
+/* エラー時のラベル（赤字） */
+label.is-error{
+  color: red;
 }
 
 .form-error{
@@ -36,12 +52,7 @@ html,body {
 }
 
 ul.errorlist{
-    margin: 4px 12px;
-    color:red;
-    font-size: 14px;
-    text-align: left;
-    list-style: none;
-    padding: 0;
+  display: none;
 }
 
 form p{
@@ -51,22 +62,22 @@ form p{
 }
 
 input[type="email"],
-input[type="password"]{
-  width: 100%;
-  box-sizing: border-box;
-  padding: 8px 12px;
+input[type="password"],
+select{
+  width: calc(100% - 20px);  
+  margin: 0 10px;
+  padding: 8px;
   outline: none;
   font-size: 16px;
 }
 
 .btn{
-  width: 55%;
   display: block;
-  margin: 25px auto 0;
+  width: 60%;
+  margin: 20px auto 0;
   padding: 10px 0;
   background:#cfe1ff; 
   font-size: 16px;
-  cursor: pointer;
 }
 
 .form-links{
@@ -76,7 +87,6 @@ input[type="password"]{
   justify-items: center;
 }
 .form-links .link-item{
-  color: #2f7cf6;
   text-decoration: underline;
   text-underline-offset: 2px;
   font-size: 14px;
