@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'dashboard',
     'notices',
     'boards',
+    'invites',
+    'families'
 ]
 
 MIDDLEWARE = [
