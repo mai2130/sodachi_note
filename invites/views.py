@@ -1,13 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView  
+from django.views.generic import ListView
 from invites.models import InviteCode
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .forms import AccountManageForm
 import uuid
-import datetime
 
+# 一覧表示
 class AccountListView(LoginRequiredMixin, ListView):
     model = InviteCode
     template_name = 'invites/account_list.html'
@@ -24,11 +24,11 @@ class AccountListView(LoginRequiredMixin, ListView):
         )
         return qs
 
+# アカウント管理（編集・削除・認証コード発行）
 class AccountManageView(LoginRequiredMixin, View):
     template_name = "invites/account_manage.html"
 
     def get_invite(self, request, pk):
-        # 自園の園児に紐づくInviteCodeだけ触れるように制限
         return get_object_or_404(
             InviteCode,
             pk=pk,
@@ -58,7 +58,8 @@ class AccountManageView(LoginRequiredMixin, View):
                 return render(request, self.template_name, {"invite": invite, "form": form})
             
             form.save()
-            invite.code = str(uuid.uuid4())
+            invite.short_code = None
+            invite.users_count = 0
             invite.save()
             messages.success(request, "認証コードを発行しました！")
             return redirect("invites:account_manage", pk=invite.pk)
@@ -70,4 +71,26 @@ class AccountManageView(LoginRequiredMixin, View):
 
         return render(request, self.template_name, {"invite": invite, "form": form})
 
+# 新規作成
+class AccountCreateView(LoginRequiredMixin, View):
+    template_name = "invites/account_manage.html"
 
+    def get(self, request):
+        form = AccountManageForm()
+        return render(request, self.template_name, {"form": form, "invite": None})
+    
+    def post(self, request):
+        form = AccountManageForm(request.POST)
+        
+        if not form.is_valid():
+            return render(request, self.template_name, {"form": form, "invite": None})
+        
+        child = form.save(commit=False)
+        child.nursery = request.user.nursery
+        child.save()
+        form.save_m2m()
+           
+        invite = InviteCode.objects.create(child=child)
+                   
+        return redirect("invites:account_manage", pk=invite.pk)
+    
