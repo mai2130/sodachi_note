@@ -1,19 +1,18 @@
 from django import forms
 from children.models import Child
-from nurseries.models import Classroom
 from datetime import date
-import datetime
 
-def month_choices(years=3):
+def month_choices(years=3): # 現在月から指定年数(3年）分の選択肢を作成
     today = date.today()
     choices = [('', '20YY/MM')]
     y = today.year
     m = today.month
-    for i in range(years * 12):
-        yy = y + (m + i - 1) // 12
-        mm = (m + i - 1) % 12 + 1
-        value = f"{yy}-{mm:02d}-01"
-        label = f"{yy}/{mm:02d}"
+    
+    for i in range(years * 12): # 月数分ループ
+        yy = y + (m + i - 1) // 12 # 年をまたぐ場合の調整
+        mm = (m + i - 1) % 12 + 1 # 1～12月に収める調整
+        value = f"{yy}-{mm:02d}-01" #DB保存用
+        label = f"{yy}/{mm:02d}" #画面表示用
         choices.append((value, label))
     return choices
 
@@ -43,6 +42,6 @@ class AccountManageForm(forms.ModelForm):
         if not value:
             return None
         y, m, _ = map(int, value.split("-"))
-        return datetime.date(y, m, 1)
+        return date(y, m, 1)
 
 
