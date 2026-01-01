@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'notices',
     'boards',
     'invites',
-    'families'
+    'families',
+    'attendances',
 ]
 
 MIDDLEWARE = [
