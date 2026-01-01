@@ -53,7 +53,7 @@ class FacilitySignUpForm(forms.Form):
 
 # 保護者側の新規登録フォーム
 class GuardianSignUpForm(forms.Form):
-    invite_code = forms.UUIDField(label="認証コード", max_length=36)
+    invite_code = forms.CharField(label="認証コード", max_length=6)
     child_name = forms.CharField(label="園児氏名", max_length=50)
     guardian_name = forms.CharField(label="保護者氏名", max_length=30)
     relationship = forms.ChoiceField(choices=[("","")] + list(Family.Relationship.choices), label="続柄")
@@ -62,15 +62,16 @@ class GuardianSignUpForm(forms.Form):
     password2 = forms.CharField(label="パスワード（確認用）", widget=forms.PasswordInput)
     
     def clean_invite_code(self):
-        code = self.cleaned_data.get("invite_code")
+        code = (self.cleaned_data.get("invite_code") or "").strip().upper() # strip()：前後スペース削除, upper()：小文字で入れても大文字扱いにする（例: ab12cd → AB12CD）
         try:
-            invite = InviteCode.objects.select_related("child").get(code=code)
-        except InviteCode.DoesNotExist:
+            invite = InviteCode.objects.select_related("child").get(short_code=code)
+        except (InviteCode.DoesNotExist, ValueError , TypeError):
             raise ValidationError("認証コードが正しくありません")
         
         if not invite.is_available:
             raise ValidationError("この認証コードは利用上限に達しています")
-        
+    
+        self.cleaned_data['invite'] = invite
         return code
     
     def clean_email(self):
@@ -81,25 +82,15 @@ class GuardianSignUpForm(forms.Form):
         
     def clean(self):
         cleaned = super().clean()
-        
-        #パスワード一致確認
+    #パスワード一致確認
         if cleaned.get("password1") != cleaned.get("password2"):
             self.add_error("password2", "パスワードが一致しません")
 
-        #園児名確認
-        code =cleaned.get("invite_code")
+    #園児名確認
+        invite =cleaned.get("invite")
         child_name = cleaned.get("child_name")
-        
-        if code:
-            try:
-                invite = InviteCode.objects.select_related("child").get(code=code)
-                cleaned['invite'] = invite
-            except InviteCode.DoesNotExist:
-                self.add_error("invite_code", "認証コードが正しくありません")
-                return cleaned
-            
-            if child_name and invite.child and invite.child.name != child_name:
-                self.add_error("child_name", "園児氏名が認証コードと一致しません")            
-              
-        return cleaned
-                       
+    
+        if invite and child_name and invite.child.name != child_name:
+            self.add_error("child_name", "園児氏名が認証コードと一致しません")
+
+        return cleaned                      
