@@ -39,8 +39,8 @@
     <div class="code-result">
       <div class="code-result-label">認証コード：</div>
       <div class="code-result-value">
-        {% if invite and invite.code %}
-          {{ invite.code|stringformat:"s"|slice:":6"|upper }}
+        {% if invite and invite.short_code %}
+          {{ invite.short_code }}
         {% else %}
           &nbsp;
         {% endif %}
