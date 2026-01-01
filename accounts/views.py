@@ -9,6 +9,7 @@ from nurseries.models import Nursery
 from invites.models import InviteCode
 from families.models import Family
 from django.db.models import F
+from django.urls import reverse_lazy
 
 User = get_user_model()
 
@@ -60,11 +61,14 @@ class FacilitySignUpView(View):
 class GuardianSignUpView(FormView):
     template_name = "registration/signup_guardian.html"
     form_class = GuardianSignUpForm
-    success_url = '/dashboard/'
+    success_url = reverse_lazy('dashboard:home')
     
     @transaction.atomic
     def form_valid(self, form):
-        invite = form.cleaned_data["invite"]
+        invite = form.cleaned_data.get("invite")
+        if not invite:
+            form.add_error("invite_code", "無効な認証コードです")
+            return self.form_invalid(form)
         
         user = User.objects.create_user(
             username=form.cleaned_data["email"], 
