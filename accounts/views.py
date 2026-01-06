@@ -1,5 +1,5 @@
 from django.views.generic import FormView
-from django.contrib.auth import login, get_user_model # テンプレ表示/リダイレクト
+from django.contrib.auth import login, get_user_model 
 from django.shortcuts import render, redirect
 from django.views import View
 from django.db import transaction
@@ -61,7 +61,7 @@ class FacilitySignUpView(View):
 class GuardianSignUpView(FormView):
     template_name = "registration/signup_guardian.html"
     form_class = GuardianSignUpForm
-    success_url = reverse_lazy('dashboard:home')
+    success_url = reverse_lazy('dashboard:guardian_home')
     
     @transaction.atomic
     def form_valid(self, form):
@@ -70,17 +70,26 @@ class GuardianSignUpView(FormView):
             form.add_error("invite_code", "無効な認証コードです")
             return self.form_invalid(form)
         
+        if not invite.is_available:
+            form.add_error("invite_code", "この認証コードは利用上限に達しています")
+            return self.form_invalid(form)
+        
         user = User.objects.create_user(
             username=form.cleaned_data["email"], 
             email=form.cleaned_data["email"],
             password=form.cleaned_data["password1"],
-            role=User.Role.GUARDIAN,)
+            role=User.Role.GUARDIAN,
+        )
         
         Family.objects.get_or_create(
             guardian=user,
             child=invite.child,
             defaults={"relationship": form.cleaned_data["relationship"]}, 
         )
+        
+        user.active_child = invite.child
+        user.save(update_fields=["active_child"])
+        
 # 招待コードの使用回数を +1（DB側で安全に更新）        
         InviteCode.objects.filter(pk=invite.pk).update(
             users_count=F("users_count") + 1
