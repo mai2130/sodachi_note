@@ -1,146 +1,184 @@
-.bar { /* 見出しバー（「生活・成長記録」） */
-  padding: 8px 12px; /* 内側余白 */
-  border-bottom: 1px solid #eee; /* 下線で区切り */
-  text-align: center; /* セル内テキストを中央揃え */
-  font-size: 20px;
+:root{
+  --line:#eee;       /* 薄い区切り線 */
+  --line2:#f3f3f3;   /* さらに薄い区切り */
+  --accent:#ffb978;  /* 選択強調色（オレンジ） */
+  --accent-bg:#fff6ee; /* 選択背景（薄オレンジ） */
+  --link:dodgerblue; /* 前月/次月リンク色 */
+  --danger:#d33;     /* 注意書きの赤 */
 }
 
-.calendar { /* カレンダー全体 */
-  border: 1px solid #eee; 
-  padding: 4px;
-  border-bottom: none;
+*{
+  box-sizing:border-box;
 }
 
-.cal-head { /* カレンダー上部（前月/次月の行） */
-  display: flex; /* 横並び */
-  justify-content: space-between; /* 左右端に配置 */
-  align-items: center; /* 縦中央揃え */
-  padding: 8px 12px; /* 余白 */
-  border-bottom: 1px solid #eee; /* 下線 */
+/* 見出しバー（生活・成長記録）*/
+.bar{
+  padding: 8px 12px;            /* 見出し内の余白 */
+  text-align: center;           /* タイトルを中央寄せ */
+  font-size: 20px;              
+  font-weight: 700;             /* 太字 */
 }
 
-.cal-head a.btn{ /* 前月/次月テキスト */
-  text-decoration: none;
-  color:dodgerblue;
+/* カレンダー全体枠 */
+.calendar{
+  padding: 4px;                  /* 内側の余白 */
+  border-bottom: none;           /* 下はパネルとつながるので消す */
 }
 
-.ym { /* 年月テキスト */
-  font-size: 18px;
+/* カレンダーヘッダー（前月/次月 + 年月） */
+.cal-head{
+  display:flex;                 /* 横並び */
+  justify-content:space-between;/* 左右に分ける */
+  align-items:center;           /* 縦の中央揃え */
+  padding: 8px 12px;            /* 余白 */
+  border-bottom: 1px solid var(--line); /* 下線 */
 }
 
-.grid { /* カレンダーの7列グリッド */
-  display: grid; 
-  grid-template-columns: repeat(7, 1fr); /* 7列均等割り */
+.cal-head a.btn{
+  text-decoration:none;         /* リンク下線を消す */
+  color: var(--link);           /* リンク色 */
 }
 
-.grid .dow:nth-child(7n){
-  color: blue;
+.cal-head a.btn:hover{
+  opacity:.8;                   /* hoverで少し薄く */
 }
 
-.grid .dow:nth-child(7n+1){
-  color: red;
+.ym{
+  font-size:18px;               /* 年月を少し大きく */
+  font-weight:700;
 }
 
-.dow { /* 曜日行の見た目 */
-  font-size: 12px; 
-  text-align: center; 
-  color: #999; 
-  padding: 6px 0; /* 縦方向の余白 */
-  border-bottom: 1px solid #eee; 
+/* 曜日 + 日付のグリッド- 7列に均等割り */
+.grid{
+  display:grid;
+  grid-template-columns: repeat(7, 1fr); /* 7列 */
 }
 
-.cell { /* 日付セルの基本 */
-  padding: 8px 0;
-  border-bottom: 1px solid #f3f3f3; /* 行の区切り */
-  border-right: 1px solid #f3f3f3; /* 列の区切り */
-  min-height: 50px; /* タップしやすい高さ */
-  text-decoration: none; 
-  color: black;
-  position: relative;
-  text-align: center;
+/* 曜日（Sun〜Sat）のセル */
+.dow{
+  font-size:12px;
+  text-align:center;
+  color:#999;
+  padding:6px 0;
+  border-bottom:1px solid var(--line);
 }
 
-.cell:visited { color: inherit; } /* 既読リンクの色が変わらないように */
+/* 日曜・土曜の色（曜日行のみ） */
+.grid .dow:nth-child(7n+1){ color:red; } /* 1列目（日） */
+.grid .dow:nth-child(7n){   color:blue; }/* 7列目（土） */
 
-.cell.out { /* 当月外セルの見た目 */
-  color:#555;
-  background-color:#eee;
+
+/*  日付セル（クリックできる1マス） */
+.cell{
+  position:relative;               /* 子要素を絶対配置できる */
+  text-decoration:none;            /* リンク下線なし */
+  color:#111;                      /* 基本文字色 */
+  padding: 6px 0;                  /* 上下の余白 */
+  min-height: 56px;                /* タップしやすい高さ */
+  text-align:center;               /* 日付・〇△×を中央に */
+  border-bottom: 1px solid var(--line2); /* 行区切り */
+  border-right:  1px solid var(--line2); /* 列区切り */
 }
 
-.cell.selected { /* 選択日の視覚強調 */
-  outline: 2px solid #ffb978; /* 外枠のハイライト */
-  outline-offset: -2px; /* 枠を内側に寄せる */
-  background: #fff6ee; 
+.cell:visited{ color:inherit; }    /* 既読リンク色の変化を防ぐ */
+
+/* 当月外（前月/次月のはみ出し部分） */
+.cell.out{
+  color:#666;
+  background:#eee;
 }
 
-.cell.sunday:not(.out):not(.selected){
-  color: red;
+/* 選択中の日付（クリックした日） */
+.cell.selected{
+  outline:2px solid var(--accent); /* 外枠を強調 */
+  outline-offset:-2px;             /* 枠を内側に寄せる */
+  background: var(--accent-bg);    /* 背景を薄オレンジ */
 }
 
-.cell.saturday:not(.out):not(.selected){
-  color: blue;
+/* 日曜/土曜の色（当月かつ未選択の時） */
+.cell.sunday:not(.out):not(.selected){ color:red; }
+.cell.saturday:not(.out):not(.selected){ color:blue; }
+
+/* 日付数字（1〜31） */
+.day{
+  display:block;
+  font-size:14px;      /* 日付が見えるサイズ */
+  line-height:1.1;
 }
 
-.panel { /* 下部の情報パネル */
-  padding: 0 10px;
+/* 日付の下に表示する 〇△× */
+.mark{
+  margin-top:4px;      /* 日付との間隔 */
+  font-size:12px;
+  line-height:1;
 }
 
+/* 下部パネル（選択日の情報）*/
+.panel{
+  margin-top:10px;
+  padding: 8px 10px;
+}
+
+.panel-date{
+  font-weight:700;
+}
+
+/*  出欠ボタン（押したら即保存）- 3つのボタンを横並びにする */
+.att-form{
+  margin-top:8px;
+}
+
+/* 3ボタンの並び */
 .seg{
-  display: flex;
-  gap: 10px;
-  margin-top: 8px;
+  display:flex;
+  gap:10px;
+  margin-top:8px;
 }
 
-.seg input[type="radio"]{
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-}
-
+/* ボタン見た目（labelではなくbuttonでも使えるように） */
 .seg-btn{
-  flex: 1;
-  text-align: center;
+  flex:1;                      /* 3等分 */
+  text-align:center;
   padding: 10px 12px;
-  border: 1px solid #ddd;
-  color: black;
-  user-select: none;
+  background:#fff;
+  color:#111;
+  user-select:none;
   transition: background .15s, box-shadow .15s, border-color .15s;
 }
 
-.seg input[type="radio"]:checked + .seg-btn{
-  background: #fff6ee;
-  border-color: #ffb978;
-  box-shadow: inset 0 0 0 2px #ffb978;
-  font-weight: 600;
+/* 「選択中」の見た目（テンプレで is-selected を付ける） */
+.seg-btn.is-selected{
+  background: var(--accent-bg);
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 2px var(--accent);
+  font-weight:700;
 }
 
+/* 注意書き */
 .att-note{
-  margin-top: 6px;
-  font-size: 12px;
-  color: red;
+  margin-top:8px;
+  font-size:12px;
+  color: var(--danger);
 }
 
-.cell .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  position: absolute;
-  right: 6px;
-  bottom: 6px;
-  background: #555;   /* 未登録のときのベース色 */
-  opacity: .25;       /* 薄く */
+/*  下部リンク（園での/家庭での）*/
+.btn{
+  display:inline-block;
+  padding:10px 12px;
+  background:#fff;
+  text-decoration:none;
+  text-align:center;
 }
 
-/* 状態別の色（○/△/×イメージ） */
-.dot-present { background: #28a745; opacity: .9; }  /* 出席=緑 */
-.dot-late    { background: #ff9800; opacity: .9; }  /* 遅刻・早退=橙 */
-.dot-absent  { background: #e53935; opacity: .9; }  /* 欠席=赤 */
-
-/* 当月外は少し薄く（任意） */
-.cell.out .dot { opacity: .35; }
-
-/* 5) cal-headのリンク：hover色を少しだけ明るく */
-.cal-head a.btn:hover {
-  color: #1e90ff; /* dodgerblue系のまま軽く強調 */
+.btn.primary{
+  background:#4a90e2;
+  color:#fff;
+  border-color:#4a90e2;
 }
 
+/* 縦に並べる（画像のUIに近い） */
+.link-row{
+  margin-top:10px;
+  display:grid;
+  gap:8px;
+}
