@@ -4,7 +4,7 @@
   --accent:#ffb978;  /* 選択強調色（オレンジ） */
   --accent-bg:#fff6ee; /* 選択背景（薄オレンジ） */
   --link:dodgerblue; /* 前月/次月リンク色 */
-  --danger:#d33;     /* 注意書きの赤 */
+  --danger:red;     /* 注意書きの赤 */
 }
 
 *{
@@ -13,39 +13,40 @@
 
 /* 見出しバー（生活・成長記録）*/
 .bar{
-  padding: 8px 12px;            /* 見出し内の余白 */
-  text-align: center;           /* タイトルを中央寄せ */
+  padding: 8px 12px; 
+  text-align: center; 
   font-size: 20px;              
-  font-weight: 700;             /* 太字 */
+  font-weight: 700; /* 太字 */
+  border-bottom: 1px solid var(--line); /* 下線 */
 }
 
 /* カレンダー全体枠 */
 .calendar{
-  padding: 4px;                  /* 内側の余白 */
-  border-bottom: none;           /* 下はパネルとつながるので消す */
+  padding: 2px;
+  border-bottom: none; 
 }
 
 /* カレンダーヘッダー（前月/次月 + 年月） */
 .cal-head{
-  display:flex;                 /* 横並び */
+  display:flex; /* 横並び */
   justify-content:space-between;/* 左右に分ける */
-  align-items:center;           /* 縦の中央揃え */
-  padding: 8px 12px;            /* 余白 */
-  border-bottom: 1px solid var(--line); /* 下線 */
+  align-items:center; /* 縦の中央揃え */
+  padding: 4px 12px;
+  border-bottom: 1px solid var(--line); 
 }
 
 .cal-head a.btn{
-  text-decoration:none;         /* リンク下線を消す */
-  color: var(--link);           /* リンク色 */
+  text-decoration:none; /* リンク下線を消す */
+  color: var(--link); /* リンク色 */
+  font-size: 12px;
 }
 
 .cal-head a.btn:hover{
-  opacity:.8;                   /* hoverで少し薄く */
+  opacity:.8; /* hoverで少し薄く */
 }
 
 .ym{
-  font-size:18px;               /* 年月を少し大きく */
-  font-weight:700;
+  font-size:18px;
 }
 
 /* 曜日 + 日付のグリッド- 7列に均等割り */
@@ -58,7 +59,6 @@
 .dow{
   font-size:12px;
   text-align:center;
-  color:#999;
   padding:6px 0;
   border-bottom:1px solid var(--line);
 }
@@ -70,12 +70,11 @@
 
 /*  日付セル（クリックできる1マス） */
 .cell{
-  position:relative;               /* 子要素を絶対配置できる */
-  text-decoration:none;            /* リンク下線なし */
-  color:#111;                      /* 基本文字色 */
-  padding: 6px 0;                  /* 上下の余白 */
-  min-height: 56px;                /* タップしやすい高さ */
-  text-align:center;               /* 日付・〇△×を中央に */
+  position:relative; /* 子要素を絶対配置できる */
+  text-decoration:none; 
+  padding: 6px 0;
+  min-height: 56px; /* タップしやすい高さ */
+  text-align:center; 
   border-bottom: 1px solid var(--line2); /* 行区切り */
   border-right:  1px solid var(--line2); /* 列区切り */
 }
@@ -102,28 +101,27 @@
 /* 日付数字（1〜31） */
 .day{
   display:block;
-  font-size:14px;      /* 日付が見えるサイズ */
+  font-size:14px;
   line-height:1.1;
 }
 
 /* 日付の下に表示する 〇△× */
 .mark{
-  margin-top:4px;      /* 日付との間隔 */
+  margin-top:10px; /* 日付との間隔 */
   font-size:12px;
   line-height:1;
 }
 
 /* 下部パネル（選択日の情報）*/
 .panel{
-  margin-top:10px;
-  padding: 8px 10px;
+  padding: 8px 18px;
 }
 
 .panel-date{
   font-weight:700;
 }
 
-/*  出欠ボタン（押したら即保存）- 3つのボタンを横並びにする */
+/*  出欠ボタン */
 .att-form{
   margin-top:8px;
 }
@@ -135,22 +133,20 @@
   margin-top:8px;
 }
 
-/* ボタン見た目（labelではなくbuttonでも使えるように） */
+/* ボタン見た目 */
 .seg-btn{
-  flex:1;                      /* 3等分 */
+  flex:1; /* 3等分 */
   text-align:center;
   padding: 10px 12px;
   background:#fff;
-  color:#111;
   user-select:none;
   transition: background .15s, box-shadow .15s, border-color .15s;
 }
 
-/* 「選択中」の見た目（テンプレで is-selected を付ける） */
+/* 「選択中」の見た目 */
 .seg-btn.is-selected{
   background: var(--accent-bg);
   border-color: var(--accent);
-  box-shadow: inset 0 0 0 2px var(--accent);
   font-weight:700;
 }
 
@@ -161,22 +157,17 @@
   color: var(--danger);
 }
 
-/*  下部リンク（園での/家庭での）*/
-.btn{
+/*  下部リンク */
+.link-row .btn{
   display:inline-block;
-  padding:10px 12px;
-  background:#fff;
-  text-decoration:none;
-  text-align:center;
+  padding:0 12px;
 }
 
-.btn.primary{
-  background:#4a90e2;
-  color:#fff;
-  border-color:#4a90e2;
+.link-row .btn.primary{
+  border:none;
 }
 
-/* 縦に並べる（画像のUIに近い） */
+/* 縦に並べる */
 .link-row{
   margin-top:10px;
   display:grid;
