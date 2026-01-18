@@ -1,10 +1,14 @@
 from django.urls import path
-from .views import SchoolGrowthLogCreateView
+from .views import SchoolGrowthLogView, HomeGrowthLogView
 
 app_name = 'schoollogs'
 
 urlpatterns = [
-    path('new/',
-        SchoolGrowthLogCreateView.as_view(),
+    path('school/',
+        SchoolGrowthLogView.as_view(),
         name='school_growthlog_form'),
+    path('home/',
+        HomeGrowthLogView.as_view(),
+        name='home_growthlog_form'),
+
 ]
