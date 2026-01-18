@@ -21,11 +21,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include(('accounts.urls',"accounts"), namespace="accounts")),
     path('accounts/', include('django.contrib.auth.urls')),#ログイン/ログアウト/パスワード再設定
-    path("schoollogs/",include(("schoollogs.urls", "schoollogs"),namespace="schoollogs")),
+    path("growthlogs/",include(("schoollogs.urls", "schoollogs"),namespace="schoollogs")),
     path("notices/",include(("notices.urls", "notices"), namespace="notices")),
     path("boards/",include(("boards.urls", "boards"), namespace="boards")),
     path("mypage/", include(("nurseries.urls", "nurseries"), namespace="nurseries")),
     path("invites/", include(("invites.urls", "invites"), namespace="invites")),
+    path("attendances/", include(("attendances.urls", "attendances"), namespace="attendances")),
     path('home/', include(("dashboard.urls" , "dashboard"), namespace="dashboard")),
     path('', include(("portfolio.urls" ,"portfolio"), namespace="portfolio")), #トップページ
 ]
