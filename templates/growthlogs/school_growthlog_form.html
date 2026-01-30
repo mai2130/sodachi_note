@@ -2,41 +2,35 @@
 {% load static %}
 
 {% block head_extra %}
-<link rel="stylesheet" href="{% static 'css/school_growthlog.css' %}">
+<link rel="stylesheet" href="{% static 'css/growthlog.css' %}">
 {% endblock %}
 
 {% block content %}
 
 <div class="growthlog-subtitle">園での生活・成長記録</div>
+
 <div class="growthlog-body">
-  <form method="post" id="school-growthlog-form">
+  <form method="post" action="{% url 'schoollogs:select_child' %}">
     {% csrf_token %}
-    {{ form.non_field_errors }}
+    <select class="child-select" name="child_id" onchange="this.form.submit()">
+      <option value="">園児を選択</option>
+      {% for child in children %}
+        <option value="{{ child.id }}"
+          {% if selected_child and child.id == selected_child.id %}selected{% endif %}>
+          {{ child }}
+        </option>
+      {% endfor %}
+    </select>
+    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+  </form>
 
-<!-- 園児 
-      <div class="growthlog-field">
-        <span class="growthlog-label">園児</span>
-        <span class="growthlog-input-inline">
-          {{ form.child.errors }}
-          {{ form.child }}
-        </span>
-      </div>
--->
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}  
 
-<!-- 日付
-    <div class="growthlog-field">
-      <span class="growthlog-label">日付</span>
-      <span class="growthlog-input-inline">
-      {{ form.date.errors }}
-      {{ form.date }}
-      </span>
-    </div>
--->
-
-    <div class="growthlog-field">
+    <div class="growthlog-field shift-wide">
       <div class="growthlog-label">昼　食</div>
       <div class="growthlog-input-inline button-choices">
-        {% for radio in form.lunch %}
+        {% for radio in form.school_lunch %}
           <label class="choice-btn">
             {{ radio.tag }}
             <span>{{ radio.choice_label }}</span>
@@ -45,20 +39,21 @@
       </div>
     </div>
 
-    <div class="growthlog-field">
+    <div class="growthlog-field growthlog-nap">
       <div class="growthlog-label">午睡時間</div>
       <div class="growthlog-input-inline">
-        {{ form.nap_start.errors }}
-        {{  form.nap_start }} ～
-        {{ form.nap_end.errors }}
-        {{ form.nap_end }}
+        {{ form.school_nap_start.errors }}
+        {{  form.school_nap_start }}
+        <span class="nap-sep"> ～ </span>
+        {{ form.school_nap_end.errors }}
+        {{ form.school_nap_end }}
       </div>
     </div>
 
-    <div class="growthlog-field">
+    <div class="growthlog-field shift-wide">
       <div class="growthlog-label">排　便</div>
       <div class="growthlog-input-inline button-choices">
-        {% for radio in form.poo %}
+        {% for radio in form.school_poo %}
           <label class="choice-btn">
             {{ radio.tag }}
             <span>{{ radio.choice_label }}</span>
@@ -67,27 +62,27 @@
       </div>
     </div>
 
-    <div class="growthlog-field">
+    <div class="growthlog-field shift-narrow">
       <div class="growthlog-label">体　調</div>
       <div class="growthlog-input-inline">
-        {{ form.condition.errors }}
-        {{ form.condition }}
+        {{ form.school_condition.errors }}
+        {{ form.school_condition }}
       </div>
     </div>
 
-    <div class="growthlog-field">
+    <div class="growthlog-field shift-narrow growthlog-temp">
       <div class="growthlog-label">体　温</div>
       <div class="growthlog-input-inline">
-        {{ form.temperature.errors }}
-        {{ form.temperature }} ℃
+        {{ form.school_temperature.errors }}
+        {{ form.school_temperature }} <span class="unit">℃</span>
       </div>
     </div>
 
-    <div class="growthlog-field growthlog-textarea">
+    <div class="growthlog-field shift-narrow growthlog-textarea">
       <div class="growthlog-label">様　子</div>
       <div class="growthlog-input-inline">
-        {{ form.state.errors }}
-        {{ form.state }}
+        {{ form.school_state.errors }}
+        {{ form.school_state }}
       </div>
     </div>
 
@@ -113,8 +108,7 @@
                 onclick="closeConfirmBox();">いいえ</button>
       </div>
     </div>
-    </form>
-  </div>  
+  </form>
 </div>
 
 <script>

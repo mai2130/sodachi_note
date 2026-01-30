@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/growthlog.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="growthlog-subtitle">家庭での生活・成長記録</div>
+
+<div class="growthlog-body">
+  <form method="post" id="home-growthlog-form">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <!-- （任意）提出済みメッセージ -->
+    {% if log and log.submitted %}
+      <div class="growthlog-submitted-msg">
+        提出済みのため編集できません
+      </div>
+    {% endif %}
+
+    <div class="growthlog-field">
+      <div class="growthlog-label">就寝時間</div>
+      <div class="growthlog-input-inline">
+        {{ form.home_bedtime.errors }}
+        {{ form.home_bedtime }}
+      </div>
+    </div>
+
+    <div class="growthlog-field">
+      <div class="growthlog-label">起床時間</div>
+      <div class="growthlog-input-inline">
+        {{ form.home_wake_up_time.errors }}
+        {{  form.home_wake_up_time }}
+      </div>
+    </div>
+
+    <div class="growthlog-field">
+      <div class="growthlog-label">食　欲</div>
+      <div class="growthlog-input-inline button-choices">
+        {% for radio in form.home_appetite %}
+          <label class="choice-btn">
+            {{ radio.tag }}
+            <span>{{ radio.choice_label }}</span>
+          </label>        
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="growthlog-field">
+      <div class="growthlog-label">体　調</div>
+      <div class="growthlog-input-inline">
+        {{ form.home_condition.errors }}
+        {{ form.home_condition }}
+      </div>
+    </div>
+
+    <div class="growthlog-field">
+      <div class="growthlog-label">体　温</div>
+      <div class="growthlog-input-inline">
+        {{ form.home_temperature.errors }}
+        {{ form.home_temperature }} ℃
+      </div>
+    </div>
+
+    <div class="growthlog-field">
+      <div class="growthlog-label">排　便</div>
+      <div class="growthlog-input-inline button-choices">
+        {% for radio in form.home_poo %}
+          <label class="choice-btn">
+            {{ radio.tag }}
+            <span>{{ radio.choice_label }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="growthlog-field growthlog-textarea">
+      <div class="growthlog-label">様　子</div>
+      <div class="growthlog-input-inline">
+        {{ form.home_state.errors }}
+        {{ form.home_state }}
+      </div>
+    </div>
+
+    <div class="growthlog-actions">
+      <button type="submit" name="action" value="draft" class="growthlog-btn"
+               {% if log and log.submitted %}disabled{% endif %}>
+        一時保存
+      </button>
+
+      <button type="button" class="growthlog-btn growthlog-btn-primary"
+              onclick="return openConfirmBox();"
+              {% if log and log.submitted %}disabled{% endif %}>
+        提　出
+      </button>
+    </div>
+
+    <div class="growthlog-confirm-box" id="confirm-box" style="display: none;">
+      <div>
+        提出後は修正できません。<br>
+        提出してもよろしいですか？
+      </div>
+      <div class="growthlog-confirm-actions">
+        <button type="submit" name="action" value="submit"
+                class="growthlog-btn growthlog-btn-primary">は　い</button>
+        <button type="button" class="growthlog-btn"
+                onclick="closeConfirmBox();">いいえ</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+  function openConfirmBox() {
+    const btn = document.querySelector(".growthlog-btn-primary");
+    if (btn && btn.disabled) return false;
+
+    document.getElementById("confirm-box").style.display = "block";
+    return false;
+  }
+  function closeConfirmBox() {
+    document.getElementById("confirm-box").style.display = "none";
+  }
+</script>
+
+{% endblock %}
