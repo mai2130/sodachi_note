@@ -54,9 +54,7 @@
 }
 
 .notice-list {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     list-style: none; /* デフォルトの行頭の点を消す */
     margin-top: 5px;
     padding: 0;
@@ -64,9 +62,10 @@
 
 .notice-row{
     display: flex;
-    align-items: center;        
+    align-items: center; 
+    justify-content: center;       
     gap: 50px;
-    padding: 4px 0;    
+    padding: 6px 0;    
 }
 
 .notice-date {
@@ -162,7 +161,7 @@
     text-align: center;
 }
 
-.file-btn
+.file-btn,
 .submit-btn{
     display: inline-block;
     font-size: 16px;
@@ -179,26 +178,29 @@
 
 /* ======= 詳細用スタイル ======= */
 
-.notice-detail-header {
+.notice-detail-header{
+    margin-top: 6px;
+    margin-bottom: 10px;
+    text-align: center;
 }
 
 .notice-detail-top-row {
     display: flex;
     justify-content: center;
-    gap: 45px;
+    gap: 36px;
     align-items: center;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .chip {
     display: inline-block;
-    padding: 2px 6px;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .notice-detail-title {
     text-align: center;
     font-size: 18px;
+    font-weight: 700;
     margin: 0 0 8px;
 }
 
@@ -210,37 +212,126 @@
 
 .notice-body {
     text-align: left;
-    white-space: pre-wrap;
+    white-space: nomal;
     font-size: 14px;
+    line-height: 1.8;
+    margin: 0 auto;
+    max-width: 360px;
 }
 
 /* 添付資料 */
 .notice-attachment {
     margin-top: 10px;
-}
-
-.notice-detail-buttons {
-    margin-top: 10px;
     text-align: center;
-    display: flex;
-    justify-content: center;
-    gap:12px;
-}
-
-.notice-detail-btn {
-    display: inline-block;
-    text-align: center;
-    padding: 6px 24px;
-    font-size: 14px;
-    text-decoration: none;
-    background-color:gainsboro;
-    border: 1px solid black;
 }
 
 .notice-detail-btn-secondary {
-    display: left;
+    display: inline-block;
     font-size: 12px;
-
+    text-decoration: none;
+    padding: 6px 16px;
+    border: 1px solid black;
 }
 
+/* ======= 詳細（ボタン） ======= */
+.notice-detail-buttons{
+    margin-top: 14px;
+    display: flex;
+    justify-content: center; /* 「戻る」を中央 */
+    align-items: center;
+    gap: 12px;
+}
+
+/* 戻るボタン（設計図の四角ボタン） */
+.notice-detail-btn{
+    display: inline-block;
+    min-width: 96px;
+    padding: 8px 18px;
+    text-align: center;
+    font-size: 14px;
+    text-decoration: none;
+    background: #d9d9d9;
+    border: 1px solid #000;
+}
+
+/* 編集（設計図だと小さめでOK） */
+.notice-detail-btn-secondary{
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 12px;
+    text-decoration: none;
+    border: 1px solid #000;
+    background: #fff;
+}
+
+/* 添付リンク */
+.attach-link{
+    display:inline-block;
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0066cc;
+    text-decoration: underline;
+}
+
+/* 通常は非表示 */
+.m{
+    display:none;
+}
+
+/* URLの#が一致したときだけ表示（例：#imgModal） */
+.m:target{
+    display:block;
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+}
+
+/* 背景（画面全体を覆う） */
+.m__bg{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 9999;
+}
+
+/* 中央の箱 */
+.m__box{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(92vw, 860px);
+    height: min(80vh, 640px);
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 10000;
+}
+
+/* 閉じるボタン（右上） */
+.m__close{
+    position: absolute;
+    top: 6px;
+    right: 10px;
+    font-size: 26px;
+    text-decoration: none;
+    color: #333;
+}
+
+/* 中身 */
+.m__body{
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.m__img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
 
