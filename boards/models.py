@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 from nurseries.models import Nursery
 
 class Board(models.Model):
@@ -11,7 +12,7 @@ class Board(models.Model):
     nursery = models.ForeignKey(Nursery, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
-    date = models.DateField()
+    date = models.DateField(default=timezone.localdate)
     category = models.PositiveSmallIntegerField(choices=Category.choices)
     title = models.CharField(max_length=100)
     
