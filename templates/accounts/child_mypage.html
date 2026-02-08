@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="phone-frame">
+  <div class="page-title">マイページ</div>
+
+  {% if form.errors %}
+    <div class="top-error">
+      <p class="top-error-title">未入力項目があります</p>
+    </div>
+  {% endif %}
+
+  {% if messages %}
+    {% for message in messages %}
+      <p class="mypage-success">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <div class="box">
+    <div class="mypage-row">
+      <div class="mypage-label">園児氏名</div>
+      <div class="mypage-field">
+        <input value="{{ child.name }}" readonly>
+      </div>
+    </div>
+
+    <div class="mypage-row">
+      <div class="mypage-label">保護者氏名</div>
+      <div class="mypage-field">
+        {{ form.guardian_name }}
+        {{ form.guardian_name.errors }}
+      </div>
+    </div>
+
+    <form method="post" class="mypage-form" novalidate>
+      {% csrf_token %}
+
+      <div class="mypage-row">
+        <div class="mypage-label">{{ form.relationship.label }}</div>
+        <div class="mypage-field">
+          {{ form.relationship }}
+          {{ form.relationship.errors }}
+        </div>
+      </div>
+
+      <div class="mypage-row">
+        <div class="mypage-label">{{ form.email.label }}</div>
+        <div class="mypage-field">
+          {{ form.email }}
+          {{ form.email.errors }}
+        </div>
+      </div>
+
+      <div class="mypage-row">
+        <div class="mypage-label">{{ form.postal_code.label }}</div>
+        <div class="mypage-field">
+          {{ form.postal_code }}
+          {{ form.postal_code.errors }}
+        </div>
+      </div>
+
+      <div class="mypage-row">
+        <div class="mypage-label">{{ form.address.label }}</div>
+        <div class="mypage-field">
+          {{ form.address }}
+          {{ form.address.errors }}
+        </div>
+      </div>
+
+      <div class="mypage-row">
+        <div class="mypage-label">{{ form.phone_number.label }}</div>
+        <div class="mypage-field">
+          {{ form.phone_number }}
+          {{ form.phone_number.errors }}
+        </div>
+      </div>
+
+      <div class="mypage-link">
+        <a href="{% url 'password_reset' %}">パスワード再設定はこちら</a>
+      </div>
+
+      <div class="mypage-actions">
+        <button class="mypage-save-btn" type="submit">保存</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
