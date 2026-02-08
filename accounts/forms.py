@@ -93,4 +93,60 @@ class GuardianSignUpForm(forms.Form):
         if invite and child_name and invite.child.name != child_name:
             self.add_error("child_name", "園児氏名が認証コードと一致しません")
 
-        return cleaned                      
+        return cleaned
+
+# マイページ管理画面（園児用）
+class ChildMyPageForm(forms.ModelForm):
+
+    guardian_name = forms.CharField(required=False, label="保護者氏名")
+    class Meta:
+        model = User
+        fields = ["relationship", "email", "postal_code", "address", "phone_number"]
+        labels = {
+            "relationship" : "続柄", 
+            "email" : "メールアドレス",
+            "postal_code" : "郵便番号",
+            "address" : "住所",
+            "phone_number" : "電話番号",
+        } 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["relationship"].choices = [
+            (0,"父"),
+            (1,"母"),
+            (2,"祖父"),
+            (3,"祖母"),
+            (4,"その他"),
+        ]
+
+        full = (self.instance.get_full_name() or "").strip()
+        self.fields["guardian_name"].initial = full
+
+    def clean_guardian_name(self):
+        return (self.cleaned_data.get("guardian_name") or "").strip()
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        data = getattr(self, "cleaned_data", {})
+        if isinstance(data, dict):
+            full = (data.get("guardian_name")or "").strip()
+        else:
+            full = (self.data.get("guardian_name")or "").strip()
+            
+        parts = full.split()
+
+        if len(parts) >= 2 :
+            user.last_name  = parts[0]
+            user.first_name = " ".join(parts[1:])
+        elif len(parts) == 1:
+            user.last_name = parts[0]
+            user.first_name = ""
+        else:
+            user.last_name = ""
+            user.first_name = ""
+
+        if commit:
+            user.save()
+        
+        return user

@@ -3,13 +3,16 @@ from django.contrib.auth import login, get_user_model
 from django.shortcuts import render, redirect
 from django.views import View
 from django.db import transaction
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
-from .forms import EmailAuthenticationForm, FacilitySignUpForm, GuardianSignUpForm
+from .forms import EmailAuthenticationForm, FacilitySignUpForm, GuardianSignUpForm ,ChildMyPageForm
 from nurseries.models import Nursery
 from invites.models import InviteCode
 from families.models import Family
 from django.db.models import F
 from django.urls import reverse_lazy
+from .forms import ChildMyPageForm
 
 User = get_user_model()
 
@@ -61,7 +64,7 @@ class FacilitySignUpView(View):
 class GuardianSignUpView(FormView):
     template_name = "registration/signup_guardian.html"
     form_class = GuardianSignUpForm
-    success_url = reverse_lazy('dashboard:guardian_home')
+    success_url = reverse_lazy('dashboard:home')
     
     @transaction.atomic
     def form_valid(self, form):
@@ -94,6 +97,41 @@ class GuardianSignUpView(FormView):
         InviteCode.objects.filter(pk=invite.pk).update(
             users_count=F("users_count") + 1
         )
-         
         login(self.request, user)   
         return super().form_valid(form)
+
+class ChildMyPageView(LoginRequiredMixin, View):
+    template_name = "accounts/child_mypage.html"
+
+    def get(self, request):
+        child = request.user.active_child
+        if not child:
+            messages.error(request,"園児が選択されていません")
+            return redirect("dashboard:home")
+
+        form = ChildMyPageForm(instance=request.user)
+
+        return render(request, self.template_name,{
+            "form": form,
+            "child": child,
+            "guardian":request.user
+        })
+    
+    def post(self, request):
+        child = request.user.active_child
+        if not child:
+            messages.error(request,"園児が選択されていません")
+            return redirect("dashboard:home")
+        
+        form = ChildMyPageForm(request.POST, instance=request.user)
+        
+        if not form.is_valid():
+            messages.error(request, "未入力項目があります")
+            return render(request, self.template_name,{
+                "form" : form,
+                "child": child,
+                "guardian":request.user,
+            })
+        form.save()
+        messages.success(request, "保存しました！")
+        return redirect("accounts:child_mypage")
