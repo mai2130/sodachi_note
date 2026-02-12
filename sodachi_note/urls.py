@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from nurseries.views import NurseryMyPageView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +27,8 @@ urlpatterns = [
     path("growthlogs/",include(("schoollogs.urls", "schoollogs"),namespace="schoollogs")),
     path("notices/",include(("notices.urls", "notices"), namespace="notices")),
     path("boards/",include(("boards.urls", "boards"), namespace="boards")),
-    path("mypage/", include(("nurseries.urls", "nurseries"), namespace="nurseries")),
+    path("nurseries/", NurseryMyPageView.as_view(), name="nursery_mypage"),
+    path("families/", include("families.urls")),
     path("invites/", include(("invites.urls", "invites"), namespace="invites")),
     path("attendances/", include(("attendances.urls", "attendances"), namespace="attendances")),
     path('home/', include(("dashboard.urls" , "dashboard"), namespace="dashboard")),
