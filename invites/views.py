@@ -23,6 +23,12 @@ class AccountListView(LoginRequiredMixin, ListView):
             .order_by('-created_at')
         )
         return qs
+    
+    def dispatch(self, request, *args, **kwargs):
+        if hasattr(request.user, "is_guardian") and request.user.is_guardian():
+            messages.error(request, "このページは園アカウント専用です")
+            return redirect("dashboard:home")
+        return super().dispatch(request, *args, **kwargs)
 
 # アカウント管理（編集・削除・認証コード発行）
 class AccountManageView(LoginRequiredMixin, View):
