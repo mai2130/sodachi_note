@@ -37,29 +37,40 @@
     {% block footer %}
     <footer class="site-footer">
         <nav class="footer-nav">
-            <a href="{% url 'dashboard:home' %}" class="footer-item">
+            <a class="footer-item" href="{% url 'dashboard:home' %}">
             <i class="bi bi-emoji-smile"></i>
             <span class="label">記録</span>
             </a>
 
-            <a href="{% url 'notices:list' %}"class="footer-item">
+            <a class="footer-item" href="{% url 'notices:list' %}">
             <i class="bi bi-envelope"></i>
             <span>おたより</span>            
             </a>
 
-            <a href="{% url 'boards:list' %}"class="footer-item">
+            <a class="footer-item" href="{% url 'boards:list' %}">
             <i class="bi bi-wechat"></i>
             <span>掲示板</span>
             </a>
 
-            <a href="{% url 'invites:account_list' %}"class="footer-item">
+            <a class="footer-item"
+            href="{% if request.user.role == request.user.Role.FACILITY %}
+            {% url 'invites:account_list' %}
+            {% else %}
+            {% url 'families:info' %}
+            {% endif %}">
             <i class="bi bi-people"></i>
             <span>アカウント</span>
             </a>
 
-            <a href="{% url 'nurseries:mypage' %}"class="footer-item">
-            <i class="bi bi-person"></i>
-            <span>マイページ</span>
+            
+            <a class="footer-item"
+                href="{% if request.user.role == request.user.Role.FACILITY %}
+                {% url 'nurseries:mypage' %}
+                {% else %}
+                {% url 'accounts:child_mypage' %}
+                {% endif %}">
+                <i class="bi bi-person"></i>
+                <span>マイページ</span>
             </a>
 
         </nav>
