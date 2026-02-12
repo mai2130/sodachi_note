@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/family.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="family-page">
+  <div class="family-title">家族情報</div>
+
+  <div class="family-box">
+    {% for s in slots %}
+      <div class="family-row">
+        <div class="family-no">
+          {% if forloop.counter == 1 %}①
+          {% elif forloop.counter == 2 %}②
+          {% elif forloop.counter == 3 %}③
+          {% elif forloop.counter == 4 %}④
+          {% else %}⑤
+          {% endif %}
+        </div>
+
+        {% if s.pk %}
+          <a class="family-label-link" href="{% url 'families:confirm' s.pk %}">{{ s.label }}</a>
+        {% else %}
+          <div class="family-label">{{ s.label }}</div>
+        {% endif %}
+
+        <input class="family-input" type="text" value="{{ s.name }}" readonly>
+  </div>
+    {% endfor %}
+</div>
+{% endblock %}

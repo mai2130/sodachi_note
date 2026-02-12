@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/family.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="confirm-page">
+  <div class="confirm-title">家族情報確認</div>
+
+  <div class="confirm-box">
+    <div class="confirm-row">
+      <div class="confirm-label">家族氏名</div>
+      <input class="confirm-input" type="text" value="{{ guardian.username }}" readonly>
+    </div>
+
+    <div class="confirm-row">
+      <div class="confirm-label">続　柄</div>
+      <input class="confirm-input" type="text" value="{{ link.get_relationship_display }}" readonly>
+    </div>
+
+    <div class="confirm-row">
+      <div class="confirm-label confirm-email">メールアドレス</div>
+      <input class="confirm-input" type="text" value="{{ guardian.email }}" readonly>
+    </div>
+
+    <div class="confirm-row">
+      <div class="confirm-label">郵便番号</div>
+      <input class="confirm-input" type="text" value="{{ guardian.postal_code }}" readonly>
+    </div>
+
+    <div class="confirm-row">
+      <div class="confirm-label">住　所</div>
+      <input class="confirm-input" type="text" value="{{ guardian.address }}" readonly>
+    </div>
+
+    <div class="confirm-row">
+      <div class="confirm-label">電話番号</div>
+      <input class="confirm-input" type="text" value="{{ guardian.phone_number }}" readonly>
+    </div>
+
+    <!-- ✅ 削除ボタン：まずはモーダルを開くだけ（submitしない） -->
+    <button type="button" class="delete-btn" id="openDeleteModal">削除</button>
+
+    <!-- ✅ 削除フォーム（モーダル内の「はい」で submit する） -->
+    <form method="post" action="{% url 'families:delete' link.pk %}">
+      {% csrf_token %}
+
+      {# あなたが使ってる削除確認ポップアップ（そのまま流用） #}
+      <div class="modal-backdrop" id="deleteModal" style="display:none;">
+        <div class="modal-box">
+          <p class="modal-text">本当に削除してもよろしいですか？</p>
+
+          <div class="modal-actions">
+            <button type="submit" name="delete_yes" class="modal-btn yes">はい</button>
+            <button type="button" class="modal-btn no" id="closeDeleteModal">いいえ</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <a class="back-link" href="{% url 'families:info' %}">家族情報一覧へ戻る</a>
+  </div>
+</div>
+
+<!-- ✅ 画面専用JS（他画面と同じ方式：display切替） -->
+<script>
+  const openBtn = document.getElementById("openDeleteModal");
+  const closeBtn = document.getElementById("closeDeleteModal");
+  const modal = document.getElementById("deleteModal");
+
+  openBtn.addEventListener("click", () => {
+    modal.style.display = "flex";
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  // 背景クリックで閉じる（便利）
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
+</script>
+{% endblock %}
