@@ -5,6 +5,7 @@ from django.views import View
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.contrib.auth.views import PasswordChangeView
 
 from .forms import EmailAuthenticationForm, FacilitySignUpForm, GuardianSignUpForm ,ChildMyPageForm
 from nurseries.models import Nursery
@@ -135,3 +136,18 @@ class ChildMyPageView(LoginRequiredMixin, View):
         form.save()
         messages.success(request, "保存しました！")
         return redirect("accounts:child_mypage")
+    
+class UserPasswordChangeView(PasswordChangeView):
+    template_name = "accounts/password_change.html"
+    success_url = reverse_lazy("accounts:password_change")
+
+    def form_valid(self, form):
+        messages.success(self.request, "パスワードを変更しました")
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        user = self.request.user
+
+        if hasattr(user, "role") and user.role == user.Role.FACILITY:
+            return reverse_lazy("nurseries:mypage")   
+        return reverse_lazy("accounts:child_mypage")
