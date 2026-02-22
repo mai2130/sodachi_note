@@ -5,7 +5,7 @@ from django.views import View
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 
 from .forms import EmailAuthenticationForm, FacilitySignUpForm, GuardianSignUpForm ,ChildMyPageForm
 from nurseries.models import Nursery
@@ -151,3 +151,22 @@ class UserPasswordChangeView(PasswordChangeView):
         if hasattr(user, "role") and user.role == user.Role.FACILITY:
             return reverse_lazy("nurseries:mypage")   
         return reverse_lazy("accounts:child_mypage")
+    
+class SodachiPasswordResetView(PasswordResetView):
+    template_name = "registration/password_reset_form.html"
+    email_template_name = "registration/password_reset_email.html"
+    subject_template_name = "registration/password_reset_subject.txt"
+
+    success_url = reverse_lazy("password_reset")
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        messages.success(self.request,"パスワード再設定用のメールを送信しました")
+
+        return response
+
+class SodachiPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = "registration/password_reset_confirm.html"
+
+    success_url = reverse_lazy("login")
