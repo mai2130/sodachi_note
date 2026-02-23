@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -142,6 +143,17 @@ LOGIN_REDIRECT_URL =  'home'
 LOGOUT_REDIRECT_URL = 'login' 
 LOGIN_URL =  'login'
 
-#パスワード再発行（開発中はコンソールにメール出力）
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# =========================
+# Gmail SMTP（パスワード再発行メール送信用）
+# =========================
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = "sodachiii.note@gmail.com"
+EMAIL_HOST_PASSWORD = "xxvbjtcntlyxtver"
+
+DEFAULT_FROM_EMAIL = f"そだちノート <{EMAIL_HOST_USER}>"
+
 
