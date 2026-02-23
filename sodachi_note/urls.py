@@ -18,16 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from nurseries.views import NurseryMyPageView
+from accounts.views import SodachiPasswordResetView, SodachiPasswordResetConfirmView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include(('accounts.urls',"accounts"), namespace="accounts")),
+    path("accounts/password_reset/", SodachiPasswordResetView.as_view(), name="password_reset"),
+    path("accounts/reset/<uidb64>/<token>/",SodachiPasswordResetConfirmView.as_view(),name="password_reset_confirm",),    
     path('accounts/', include('django.contrib.auth.urls')),#ログイン/ログアウト/パスワード再設定
     path("growthlogs/",include(("schoollogs.urls", "schoollogs"),namespace="schoollogs")),
     path("notices/",include(("notices.urls", "notices"), namespace="notices")),
     path("boards/",include(("boards.urls", "boards"), namespace="boards")),
-    path("nurseries/", NurseryMyPageView.as_view(), name="nursery_mypage"),
+    path("nurseries/", include(("nurseries.urls", "nurseries"), namespace="nurseries")),
     path("families/", include("families.urls")),
     path("invites/", include(("invites.urls", "invites"), namespace="invites")),
     path("attendances/", include(("attendances.urls", "attendances"), namespace="attendances")),
