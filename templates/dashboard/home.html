@@ -11,16 +11,41 @@
 <div class="bar">生活・成長記録</div>
 
 <section class="calendar">
+  {% if mode == "nursery" %}
+    <form method="get" class="child-select">
+      <input type="hidden" name="y" value="{{ year }}">
+      <input type="hidden" name="m" value="{{ month }}">
+      {% if selected %}
+        <input type="hidden" name="d" value="{{ selected|date:'Y-m-d' }}">
+      {% else %}
+        <input type="hidden" name="d" value="{{ daily_info.date|date:'Y-m-d' }}">
+      {% endif %}
+
+      <select name="child_id" onchange="this.form.submit()">
+        <option value="">園児を選択</option>
+        {% for c in nursery_children %}
+          <option value="{{ c.id }}" {% if child and c.id == child.id %}selected{% endif %}>
+            {{ c.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </form>
+  {% endif %}
+
   <div class="cal-head">
-    <a class="btn"
-       href="?y={{ prev_y }}&m={{ prev_m }}{% if selected %}&d={{ selected|date:'Y-m-d' }}{% endif %}">
-      ＜ 前月
-    </a>
-    <div class="ym">{{ year }}年{{ month }}月</div>
-    <a class="btn"
-       href="?y={{ next_y }}&m={{ next_m }}{% if selected %}&d={{ selected|date:'Y-m-d' }}{% endif %}">
-      次月 ＞
-    </a>
+    {% with d_keep=selected|default:daily_info.date %}
+      <a class="btn"
+         href="?y={{ prev_y }}&m={{ prev_m }}&d={{ d_keep|date:'Y-m-d' }}{% if mode == 'nursery' and child_id %}&child_id={{ child_id }}{% endif %}">
+        ＜ 前月
+      </a>
+
+      <div class="ym">{{ year }}年{{ month }}月</div>
+
+      <a class="btn"
+         href="?y={{ next_y }}&m={{ next_m }}&d={{ d_keep|date:'Y-m-d' }}{% if mode == 'nursery' and child_id %}&child_id={{ child_id }}{% endif %}">
+        次月 ＞
+      </a>
+    {% endwith %}
   </div>
 
   <div class="grid">
@@ -34,18 +59,17 @@
                   {% if not cell.in_month %}out{% endif %}
                   {% if cell.selected %}selected{% endif %}
                   {% if forloop.counter0 == 0 %}sunday{% elif forloop.counter0 == 6 %}saturday{% endif %}"
-           href="?y={{ cell.date|date:'Y' }}&m={{ cell.date|date:'n' }}&d={{ cell.date|date:'Y-m-d' }}"
+           href="?y={{ cell.date|date:'Y' }}&m={{ cell.date|date:'n' }}&d={{ cell.date|date:'Y-m-d' }}{% if mode == 'nursery' and child_id %}&child_id={{ child_id }}{% endif %}"
            title="{{ cell.date|date:'Y-m-d' }}">
-          <span class="day">{{ cell.date|date:"j" }}</span>
+          <span class="day">{{ cell.date|date:'j' }}</span>
 
-          <!-- 日付下に 〇△× を表示 -->
           <div class="mark">
             {% if cell.status == 0 %}〇
             {% elif cell.status == 1 %}△
             {% elif cell.status == 2 %}×
             {% endif %}
-            </div>
-          </a>
+          </div>
+        </a>
       {% endfor %}
     {% endfor %}
   </div>
@@ -55,13 +79,12 @@
   <time class="panel-date">{{ daily_info.date|date:"n/j (D)" }}</time>
 
   {% if mode == "guardian" %}
-    <!-- ★ボタン1回押しで即保存 -->
     <form class="att-form"
           method="post"
           action="{% url 'attendances:guardian_upsert' %}?y={{ year }}&m={{ month }}&d={{ daily_info.date|date:'Y-m-d' }}">
       {% csrf_token %}
       <input type="hidden" name="date" value="{{ daily_info.date|date:'Y-m-d' }}">
-  
+
       <div class="seg">
         <button class="seg-btn {% if daily_info.attendance == 0 %}is-selected{% endif %}"
                 type="submit" name="status" value="0">出席</button>
@@ -77,21 +100,26 @@
         ※ 出欠状況に変更がある場合、遅刻・早退の場合は<br>　園までご連絡ください。
       </div>
     </form>
-
   {% else %}
-  <!-- 施設：確認のみ -->
-  <div class="att-form">
-    <div class ="seg">
-      <div class ="seg-btn {% if daily_info.attendance == 0 %}is-selected{% endif %}">出席</div>
-      <div class ="seg-btn {% if daily_info.attendance == 1 %}is-selected{% endif %}">遅刻・早退</div>
-      <div class ="seg-btn {% if daily_info.attendance == 2 %}is-selected{% endif %}">欠席</div>
+    <div class="att-form">
+      <div class="seg">
+        <div class="seg-btn {% if daily_info.attendance == 0 %}is-selected{% endif %}">出席</div>
+        <div class="seg-btn {% if daily_info.attendance == 1 %}is-selected{% endif %}">遅刻・早退</div>
+        <div class="seg-btn {% if daily_info.attendance == 2 %}is-selected{% endif %}">欠席</div>
+      </div>
     </div>
-  </div>
   {% endif %}
 
   <div class="link-row">
-    <a class="btn primary" href="{% url 'schoollogs:school_growthlog_form' %}">園での生活・成長記録へ</a>
-    <a class="btn primary"href="{% url 'schoollogs:home_growthlog_form' %}">家庭での生活・成長記録へ</a>
+    <a class="btn primary"
+       href="{% url 'schoollogs:school_growthlog_form' %}?d={{ daily_info.date|date:'Y-m-d' }}{% if mode == 'nursery' and child_id %}&child_id={{ child_id }}{% endif %}">
+      園での生活・成長記録へ
+    </a>
+
+    <a class="btn primary"
+       href="{% url 'schoollogs:home_growthlog_form' %}?d={{ daily_info.date|date:'Y-m-d' }}">
+      家庭での生活・成長記録へ
+    </a>
   </div>
 </section>
 {% endblock %}
