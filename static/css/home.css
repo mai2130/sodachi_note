@@ -17,7 +17,6 @@
   text-align: center; 
   font-size: 20px;              
   font-weight: 700; /* 太字 */
-  border-bottom: 1px solid var(--line); /* 下線 */
 }
 
 /* カレンダー全体枠 */
@@ -77,9 +76,12 @@
   text-align:center; 
   border-bottom: 1px solid var(--line2); /* 行区切り */
   border-right:  1px solid var(--line2); /* 列区切り */
+  color: black;
 }
 
-.cell:visited{ color:inherit; }    /* 既読リンク色の変化を防ぐ */
+.cell:visited{ 
+  color:black;
+} 
 
 /* 当月外（前月/次月のはみ出し部分） */
 .cell.out{
@@ -140,14 +142,14 @@
   padding: 10px 12px;
   background:#fff;
   user-select:none;
+  border: 1px solid #000;
   transition: background .15s, box-shadow .15s, border-color .15s;
 }
 
 /* 「選択中」の見た目 */
 .seg-btn.is-selected{
-  background: var(--accent-bg);
-  border-color: var(--accent);
-  font-weight:700;
+  background:#eee;
+  border-color:black;
 }
 
 /* 注意書き */
@@ -172,4 +174,27 @@
   margin-top:10px;
   display:grid;
   gap:8px;
+}
+
+.link-row a{
+  color: #000;
+}
+
+/* 園児プルダウン */
+.child-select{
+  padding: 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: center;
+}
+
+.child-select select{
+  width: 100%;
+  max-width: 360px;
+  padding: 10px 12px;
+  background: #fff;
+  font-size: 14px;
+  text-align: center;
+  text-align-last: center;
+  border-color: #eee;
 }
