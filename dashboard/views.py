@@ -24,22 +24,27 @@ class HomeView(LoginRequiredMixin, TemplateView):
         target_day = selected or today
         
         child = None
+        month_att = None
         attendance_map = {}
         day_attendance = None
-        
+       
         #  園（施設）
         if user.is_facility():
             ctx["mode"] = "nursery"
+            # プルダウン用の園児一覧
+            ctx["nursery_children"] = Child.objects.filter(nursery=user.nursery).order_by("id")
 
-            # 施設は「確認したい園児」をGET(child_id)で受け取る設計
+            # GETのchild_id（無いときはNone）
             child_id = self.request.GET.get("child_id")
+            ctx["child_id"] = child_id
+
+            # 選択中園児（child_idがあるときだけ取得）
             if child_id:
-                # Nurseryは user.nursery がある想定（あなたの既存設計）
                 child = get_object_or_404(
                     Child.objects.filter(nursery=user.nursery),
                     id=child_id
                 )
-
+            # ★重要：テンプレが使うので必ず渡す
             ctx["child"] = child
 
             if child:
@@ -47,11 +52,11 @@ class HomeView(LoginRequiredMixin, TemplateView):
                     child=child,
                     date__year=year,
                     date__month=month,
-                )
-                attendance_map = build_attendance_map(month_att)
+            )
+            attendance_map = build_attendance_map(month_att) if month_att else {}
 
-                att = Attendance.objects.filter(child=child, date=target_day).first()
-                day_attendance = att.status if att else None
+            att = Attendance.objects.filter(child=child, date=target_day).first()
+            day_attendance = att.status if att else None
 
         #  保護者
         elif user.is_guardian():
