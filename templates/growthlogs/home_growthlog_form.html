@@ -57,11 +57,11 @@
       </div>
     </div>
 
-    <div class="growthlog-field">
+    <div class="growthlog-field growthlog-temp">
       <div class="growthlog-label">体　温</div>
       <div class="growthlog-input-inline">
         {{ form.home_temperature.errors }}
-        {{ form.home_temperature }} ℃
+        {{ form.home_temperature }} <span class="unit">℃</span>
       </div>
     </div>
 
@@ -85,6 +85,7 @@
       </div>
     </div>
 
+    {% if not log or not log.submitted %}
     <div class="growthlog-actions">
       <button type="submit" name="action" value="draft" class="growthlog-btn"
                {% if log and log.submitted %}disabled{% endif %}>
@@ -106,11 +107,11 @@
       <div class="growthlog-confirm-actions">
         <button type="submit" name="action" value="submit"
                 class="growthlog-btn growthlog-btn-primary">は　い</button>
-        <button type="button" class="growthlog-btn"
+        <button type="button" class="growthlog-btn growthlog-btn-cancel"
                 onclick="closeConfirmBox();">いいえ</button>
       </div>
     </div>
-
+    {% endif %}
   </form>
 </div>
 

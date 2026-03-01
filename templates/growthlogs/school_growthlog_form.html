@@ -25,7 +25,15 @@
   </form>
 
   <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}  
+    {% csrf_token %}
+    <input type="hidden" name="action" id="action-field" value="draft">
+
+{# 提出済みメッセージ（任意） #}
+{% if form.instance.submitted %}
+  <div class="growthlog-submitted-msg">
+    提出済みのため編集できません
+  </div>
+{% endif %}
 
     <div class="growthlog-field shift-wide">
       <div class="growthlog-label">昼　食</div>
@@ -86,39 +94,55 @@
       </div>
     </div>
 
-    <div class="growthlog-actions">
-      <button type="submit" name="action" value="draft" class="growthlog-btn">
-        一時保存
+{% if not form.instance.submitted %}
+  <div class="growthlog-actions">
+    <!-- 一時保存 -->
+    <button type="submit"
+            name="action"
+            value="draft"
+            class="growthlog-btn">
+            一時保存
+    </button>
+    <!-- 提出 -->
+    <button type="button"
+            class="growthlog-btn growthlog-btn-primary"
+            onclick="return openConfirmBox();">
+            提　出
+    </button>
+  </div>
+  
+  <div class="growthlog-confirm-box" id="confirm-box" style="display:none;">
+    <div>
+      提出後は修正できません。<br>
+      提出してもよろしいですか？
+    </div>
+    <div class="growthlog-confirm-actions">
+      <button type="submit"
+              name="action"
+              value="submit"
+              class="growthlog-btn growthlog-btn-primary">
+              は　い
       </button>
-      <button type="button" class="growthlog-btn growthlog-btn-primary"
-              onclick="return openConfirmBox();">
-        提　出
+      <button type="button"
+              class="growthlog-btn growthlog-btn-cancel"
+              onclick="closeConfirmBox();">
+              いいえ
       </button>
     </div>
-
-    <div class="growthlog-confirm-box" id="confirm-box" style="display: none;">
-      <div>
-        提出後は修正できません。<br>
-        提出してもよろしいですか？
-      </div>
-      <div class="growthlog-confirm-actions">
-        <button type="submit" name="action" value="submit"
-                class="growthlog-btn growthlog-btn-primary">は　い</button>
-        <button type="button" class="growthlog-btn"
-                onclick="closeConfirmBox();">いいえ</button>
-      </div>
-    </div>
+  </div>
+{% endif %}
   </form>
 </div>
 
 <script>
   function openConfirmBox() {
     document.getElementById("confirm-box").style.display = "block";
-    return false; // すぐ送信させない
+    return false;//
   }
   function closeConfirmBox() {
     document.getElementById("confirm-box").style.display = "none";
   }
 </script>
-
 {% endblock %}
+
+
