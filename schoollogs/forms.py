@@ -15,8 +15,6 @@ class SchoolGrowthLogForm(forms.ModelForm):
     class Meta:
         model = GrowthLog
         fields = [
-            'child',
-            'date',
             'school_lunch',
             'school_nap_start',
             'school_nap_end',
