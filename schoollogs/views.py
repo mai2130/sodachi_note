@@ -16,7 +16,7 @@ from families.models import Family
 
 # 日付を決める共通関数
 def _get_target_date(request, key="d"):
-    # ?d=YYYY-MM-DD を日付にして返す（無ければ今日）
+    # ?d=YYYY-MM-DD を日付にして返す（ない場合は今日）
     d_str = request.GET.get(key)
     if not d_str :
         return date.today()
@@ -29,7 +29,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
     template_name = 'growthlogs/school_growthlog_form.html'
 
     def _ensure_active_child(self, request):
-        # 園ユーザーに対して、active_child（選択中園児）を正しい状態にする
+        # 園ユーザーのactive_childを自園の園児にする
         # 戻り値： (園児一覧, 選択中園児)
         nursery = getattr(request.user, "nursery", None)
         if nursery is None:
@@ -49,9 +49,11 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
 
         return children, child
     
-    def _redirect_self(self, target_date):
+    def _redirect_self(self, target_date, child_id=None):
         # 保存後に、同じページへ ?d=... を付けて戻す
         url = reverse('schoollogs:school_growthlog_form')
+        if child_id:
+            return redirect(f"{url}?d={target_date:%Y-%m-%d}&child_id={child_id}")
         return redirect(f"{url}?d={target_date:%Y-%m-%d}")
     
     def _get_or_create_log(self, child, target_date):
@@ -74,6 +76,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         target_date = _get_target_date(request, "d")
         # その日のログを確保
         log = self._get_or_create_log(child, target_date)
+
         # フォーム表示（既存logを初期値にする）
         form = SchoolGrowthLogForm(instance=log)
         
@@ -97,7 +100,12 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         target_date = _get_target_date(request, "d")
         # その日のログを確保
         log = self._get_or_create_log(child, target_date)
-        #　入力値でフォームを作り、更新としてバリデーション
+        # 提出済みなら修正不可
+        if getattr(log, "submitted", False):
+            messages.error(request, "提出後は修正できません")
+            return self._redirect_self(target_date, child_id=child.id) 
+        
+        #　未提出の時だけ更新
         form = SchoolGrowthLogForm(request.POST, request.FILES, instance=log)
 
         if not form.is_valid():
@@ -117,9 +125,16 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         obj.child = child
         obj.source = GrowthLog.Source.SCHOOL
         obj.date = target_date
+
+        action = request.POST.get("action")
+        if action == "submit":
+            obj.submitted = True
+            messages.success(request, "提出しました")
+        else:
+            messages.success(request, "一時保存しました")
+
         obj.save()
-        messages.success(request, "保存しました！")
-        return self._redirect_self(target_date=target_date)
+        return self._redirect_self(target_date, child_id=child.id)
                 
 class HomeGrowthLogView(LoginRequiredMixin, View):
     template_name = "growthlogs/home_growthlog_form.html"
