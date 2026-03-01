@@ -2,6 +2,14 @@
     box-sizing: border-box;
 }
 
+:root{
+    --line: #ddd;
+    --selected: #eee;   /* 薄いグレー（選択中） */
+    --label-w: 72px;    /* ラベル幅 */
+    --field-gap: 10px;
+    --control-w: 150px; /* selectの幅（就寝/起床/体調） */
+}
+
 .growthlog-subtitle {
     text-align: center;
     font-size: 20px;
@@ -21,62 +29,46 @@
 .growthlog-field {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
+    gap: var(--field-gap);
+    margin-bottom: 10px;
 }
 
 /* ラベル名 */
 .growthlog-label {
-    flex: 0 0 72px;  
-    font-weight: bold;
-    text-align: left;
+    flex: 0 0 var(--label-w);  
+    font-weight: 700;
     white-space: nowrap;
 }
 
-/* 入力エリア */
-.shift-narrow select,
-.shift-narrow input[type="text"],
-.shift-narrow input[type="number"]{
-    max-width: 200px;
+.growthlog-input-inline{
+    justify-content: flex-start;
 }
 
-.shift-narrow textarea{
-    max-width: 260px;
+.growthlog-input-inline.button-choices{
+    flex: 0 0 var(--control-w);
+    width: var(--control-w);   
 }
 
 .growthlog-body select,
 .growthlog-body input[type="text"],
-.growthlog-body input[type="number"]{
-    padding: 4px 6px;
-    font-size: 14px;
+.growthlog-body input[type="number"],
+.growthlog-body textarea{
+    padding: 6px 8px;
+    font-size: 16px;
+    text-align: center;
 }
 
-.growthlog-input-inline input[type="time"]{
-    max-width: 110px;
-}
-
-.growthlog-nap .growthlog-input-inline{
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: nowrap;
-}
-
-.growthlog-temp .unit{
-    white-space: nowrap;
+.growthlog-body select{
+    width: var(--control-w);
+    max-width: none;
 }
 
 .growthlog-temp input[type="number"]{
-    max-width: 120px;
-    width: 120px;
+    width: var(--control-w);
+    max-width: none;
 }
 
-.growthlog-nap select{
-    width:auto;
-    max-width: 110px;
-}
-
-.growthlog-nap .nap-sep{
+.growthlog-temp .unit{
     white-space: nowrap;
 }
 
@@ -84,23 +76,36 @@
 .growthlog-textarea{
     align-items: flex-start;
 }
-
-.growthlog-textarea .growthlog-input-inline textarea {
+.growthlog-textarea .growthlog-input-inline{
+  justify-content: flex-start; 
+}
+.growthlog-textarea textarea{
     width: 100%;
     min-height: 90px;
-    font-size: 13px;
-    padding: 6px;
+}
+
+/* あり/なし全体を他の入力と同じ幅にする */
+.growthlog-input-inline.button-choices{
+  justify-content: flex-start; /* 左端基準（揃える） */
+}
+
+/* ボタン2つで幅を埋める */
+.growthlog-input-inline.button-choices .choice-btn{
+  flex: 1;                     /* あり/なしを半分ずつ */
+}
+
+/* ラベル(span)をボタン幅いっぱいにする */
+.growthlog-input-inline.button-choices .choice-btn span{
+    display: block;              /* inline-block → block */
+    width: 100%;
+    text-align: center;
 }
 
 .button-choices{
-    display: inline-flex;
-    width: fit-content;
+  display: flex;        /* inline-flex をやめる */
+  width: 100%;          /* 親の幅に合わせる */
 }
 
-.choice-btn{
-    display: inline-flex;
-    align-items: center;
-}
 
 /* 本物のラジオボタンは隠す */
 .choice-btn input[type="radio"] {
@@ -110,9 +115,10 @@
 /* ボタンのラベル部分 */
 .choice-btn span {
     display: inline-block;
-    padding: 4px 12px;
+    padding: 6px 14px;
     font-size: 15px;
     border: 1px solid #aaa;
+    background: #fff;
 }
 
 .choice-btn + .choice-btn span{
@@ -120,37 +126,71 @@
 }
 
 .choice-btn input[type="radio"]:checked + span {
-    background:#aaa;
+    background: var(--selected);
     color:black;
 }
 
-/* 一時保存・提出ボタン */
-.growthlog-actions {
-    margin-top: 10px;
-    text-align: center;
+.growthlog-nap .growthlog-input-inline{
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
-.growthlog-actions button {
-    margin: 0 6px;
+.growthlog-nap select{
+    width: 100px;
+    max-width: none;
+}
+
+.growthlog-nap .nap-sep{
+    white-space: nowrap;
+}
+
+
+
+/* 一時保存・提出ボタン */
+.growthlog-actions {
+    margin-top: 12px;
+    text-align: center;
 }
 
 .growthlog-btn {
     display: inline-block;
     min-width: 84px;
-    padding: 4px 10px;
+    padding: 6px 12px;
     font-size: 15px;
     border: 1px solid dodgerblue;
     background:white;
-    color:dodgerblue
+    color:dodgerblue;
+    margin: 0 6px;
 }
 
 .growthlog-btn-primary {
     background:skyblue;
     color:black;
-    border-color:skyblue;
+    border-color:black;
 }
 
-/* 右側の黄色い確認ボックス */
+.growthlog-btn:disabled{
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* 確認ボックス：いいえ（キャンセル） */
+.growthlog-btn-cancel{
+    background: #eee;
+    color: #000;
+    border-color: #aaa;
+}
+
+
+/* 提出済み表示 */
+.growthlog-submitted-msg{
+    margin: 0 0 8px;
+    padding: 6px;
+    font-size: 14px;
+    text-align: center;
+    color: red;
+}
+
 .growthlog-confirm-box {
     margin-top: 12px;
     padding: 10px;
@@ -164,20 +204,15 @@
     min-width: 70px;
 }
 
-/* 提出済み表示（家庭用でも園用でも使える） */
-.growthlog-submitted-msg{
-    margin: 8px 0;
-    padding: 8px;
-    background: #fff6ee;
-    border: 1px solid #ffb978;
-    font-size: 14px;
-    text-align: center;
+/* 入力エリア */
+.shift-narrow select,
+.shift-narrow input[type="text"],
+.shift-narrow input[type="number"]{
+    max-width: 200px;
 }
 
-/* disabledボタンの見た目（共通） */
-.growthlog-btn:disabled{
-    opacity: .5;
-    cursor: not-allowed;
+.shift-narrow textarea{
+    max-width: 260px;
 }
 
 /* 園児プルダウンだけ中央寄せしたい場合（クラスを付けられるなら） */
