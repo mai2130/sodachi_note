@@ -1,8 +1,10 @@
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q #条件を「OR」などで組み合わせたいときに使うクラス
+from django.contrib import messages
+from django.http import Http404
 
 from children.models import Child
 from .models import Notice
@@ -56,9 +58,11 @@ class NoticeListView(LoginRequiredMixin, ListView):
             else:
                 # active_childがない場合は紐づく園児の園まで許可
                 nursery_ids = {c.nursery_id for c in children}
-                qs = qs.filter(nursery_id__in=nursery_ids)
+                classroom_ids = {c.classroom_id for c in children if c.classroom_id}
+                qs = qs.filter(nursery_id__in=nursery_ids).filter(
+                    Q(noticeclassroom__isnull=True)| Q(classrooms__id=classroom_ids)
+                ).distinct()
 
-                  
         # 年月日で絞る
         month = get.get("month")
         if month:
@@ -83,7 +87,7 @@ class NoticeListView(LoginRequiredMixin, ListView):
         
         classroom = get.get("classroom")
         if classroom:
-            qs = qs.filter(classrooms__id=classroom)
+            qs = qs.filter(Q(classrooms__id=classroom)| Q(noticeclassroom__isnull=True)).distinct()
 
         return qs.order_by("-date", "-id").distinct()
     
@@ -107,6 +111,10 @@ class NoticeListView(LoginRequiredMixin, ListView):
 
         # カテゴリプルダウン用
         ctx["category_options"] = [{"value": v, "label": l} for v, l in Notice.Category.choices]
+
+        q = self.request.GET.copy()
+        q.pop("page", None)
+        ctx["querystring"] = q.urlencode()
 
         # クラスプルダウン用
         user = self.request.user
@@ -141,7 +149,7 @@ class NoticeDetailView(LoginRequiredMixin, DetailView):
     model = Notice
     template_name = 'notices/detail.html'
     context_object_name = 'notice'
-    
+
     def get_queryset(self):
         list_view = NoticeListView()
         list_view.request = self.request
@@ -154,10 +162,23 @@ class NoticeDetailView(LoginRequiredMixin, DetailView):
 
         body = self.object.body or ""
         body = body.replace("\r\n", "\n").replace("\r", "\n")
-        body = body.lstrip(" \t　\n")
+        body = body.lstrip(" \t \n")
         body = re.sub(r'^(?:<br\s*/?>\s*)+', "", body, flags=re.IGNORECASE)
-
         ctx["body_clean"] = body
+
+        category_label = self.object.get_category_display()
+        first_classroom = self.object.classrooms.first()
+        classroom_label = first_classroom.name if first_classroom else "全園児"
+        ctx["category_classroom_label"] = f"{category_label}・{classroom_label}"
+
+        if self.object.file:
+            name = (self.object.file.name or "").lower()
+            ctx["file_is_pdf"] = name.endswith(".pdf")
+            ctx["file_is_image"] = name.endswith((".png", ".jpg", ".jpeg", ".gif", ".webp"))
+
+        else:
+            ctx["file_is_pdf"] = False
+            ctx["file_is_image"] = False
 
         return ctx 
 
@@ -177,7 +198,18 @@ class NoticeCreateView(LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         form.instance.nursery = self.request.user.nursery
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        classroom = form.cleaned_data.get("classroom")
+        self.object.classrooms.set([classroom] if classroom else [])
+
+        messages.success(self.request, "保存しました！")
+        return response
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["nursery"] = self.request.user.nursery
+        return kwargs
 
 # おたより編集ページ
 class NoticeUpdateView(LoginRequiredMixin, UpdateView):
@@ -197,4 +229,34 @@ class NoticeUpdateView(LoginRequiredMixin, UpdateView):
     
     def form_valid(self, form):
         form.instance.nursery = self.request.user.nursery
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        classroom = form.cleaned_data.get("classroom")
+        self.object.classrooms.set([classroom] if classroom else [])
+        
+        messages.success(self.request, "保存しました！")
+        return response
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["nursery"] = self.request.user.nursery
+        return kwargs
+    
+class NoticeDeleteView(LoginRequiredMixin, DeleteView):
+    model = Notice
+    template_name = "notices/delete_confirm.html"  # ※使わない運用でもOK（後述）
+    success_url = reverse_lazy("notices:list")
+
+    def dispatch(self, request, *args, **kwargs):
+        # 園以外は削除できない
+        if not hasattr(request.user, "nursery"):
+            raise Http404
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        # 自分の園のおたよりだけ削除OK
+        return Notice.objects.filter(nursery=self.request.user.nursery)
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, "削除しました")
+        return super().delete(request, *args, **kwargs)
