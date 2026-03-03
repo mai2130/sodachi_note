@@ -1,53 +1,126 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block title %}おたより編集{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/notices.css' %}">
+{% endblock %}
 
 {% block content %}
-<h2>園からのおたより編集</h2>
+<div class="notice-frame">
+  <div class="page-title">園からのおたより編集</div>
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
+  <form method="post" enctype="multipart/form-data" class="notice-conteiner">
+    {% csrf_token %}
 
-  {{ form.non_field_errors }}
-
-  <div>
-    {{ form.date.label_tag }}<br>
-    {{ form.date }}
-    {{ form.date.errors }}
-  </div>
-
-  <div>
-    {{ form.title.label_tag }}<br>
-    {{ form.title }}
-    {{ form.title.errors }}
-  </div>
-
-  <div>
-    {{ form.category.label_tag }}<br>
-    {{ form.category }}
-    {{ form.category.errors }}
-  </div>
-
-  <div>
-    {{ form.classrooms.label_tag }}<br>
-    {{ form.classrooms }}
-    {{ form.classrooms.errors }}
-  </div>
-
-  <div>
-    {{ form.body.label_tag }}<br>
-    {{ form.body }}
-    {{ form.body.errors }}
-  </div>
-
-  <div>
-    {{ form.file.label_tag }}<br>
-    {% if object.file %}
-      <p>現在の添付: <a href="{{ object.file.url }}" target="_blank">ファイルを確認</a></p>
+    {% if form.non_field_errors %}
+      <p class="error-message">{{ form.non_field_errors }}</p>
     {% endif %}
-    {{ form.file }}
-    {{ form.file.errors }}
+
+    <div class="form-block{% if form.date.errors %} has-error{% endif %}">
+      <label class="{% if form.date.errors %}label-error{% endif %}">投稿年月日</label>
+      {{ form.date }}
+      {% for error in form.date.errors %}
+        <p class="field-error">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div class="form-block{% if form.title.errors %} has-error{% endif %}">
+      <label class="{% if form.title.errors %}label-error{% endif %}">タイトル</label>
+      {{ form.title }}
+      {% for error in form.title.errors %}
+        <p class="field-error">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div class="form-block{% if form.category.errors %} has-error{% endif %}">
+      <label class="{% if form.category.errors %}label-error{% endif %}">カテゴリ</label>
+      {{ form.category }}
+      {% for error in form.category.errors %}
+        <p class="field-error">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div class="form-block{% if form.classroom.errors %} has-error{% endif %}">
+      <label class="{% if form.classroom.errors %}label-error{% endif %}">クラス名</label>
+      {{ form.classroom }}
+      {% for error in form.classroom.errors %}
+        <p class="field-error">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div class="form-block{% if form.body.errors %} has-error{% endif %}">
+      {{ form.body }}
+      {% for error in form.body.errors %}
+        <p class="field-error">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <!-- 添付 -->
+    <div class="form-block form-block-file">
+      <label for="id_file" class="file-btn">添付資料</label>
+
+      <input type="file" name="file" id="id_file" accept="image/*,application/pdf">
+
+      {% if object.file %}
+        <div class="current-file">
+          現在の添付：
+          <a href="#editFileModal" class="attach-link attach-link--black">ファイルを確認</a>
+        </div>
+
+        <!-- 添付確認モーダル -->
+        <div id="editFileModal" class="m">
+          <a href="#" class="m__bg" aria-label="閉じる"></a>
+
+          <div class="m__box" role="dialog" aria-modal="true">
+            <a href="#" class="m__close" aria-label="閉じる">×</a>
+
+            <div class="m__body">
+              {% with object.file.name|lower as fname %}
+                {% if fname|slice:"-4:" == ".pdf" %}
+                  <iframe src="{{ object.file.url }}" class="m__pdf" title="添付資料PDF"></iframe>
+                {% elif fname|slice:"-4:" == ".png" or fname|slice:"-4:" == ".jpg" or fname|slice:"-5:" == ".jpeg" or fname|slice:"-4:" == ".gif" or fname|slice:"-5:" == ".webp" %}
+                  <img src="{{ object.file.url }}" alt="添付資料" class="m__img">
+                {% else %}
+                  <a href="{{ object.file.url }}" target="_blank" rel="noopener">添付資料を開く</a>
+                {% endif %}
+              {% endwith %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% for error in form.file.errors %}
+        <p class="field-error">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <!-- ボタン -->
+    <div class="edit-action-row">
+      <button type="submit" class="submit-btn submit-btn--small">編集</button>
+      <a href="#deleteModal" class="submit-btn submit-btn--small submit-btn--danger">削除</a>
+    </div>
+  </form>
+</div>
+
+<!-- 削除確認モーダル -->
+<div id="deleteModal" class="m">
+  <a href="#" class="m__bg" aria-label="閉じる"></a>
+
+  <div class="m__box m__box--confirm" role="dialog" aria-modal="true">
+    <div class="m__confirm">
+      <p class="m__title">本当に削除してもよろしいですか？</p>
+
+      <div class="m__actions">
+        <form method="post" action="{% url 'notices:delete' object.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="confirm-btn confirm-btn--yes">はい</button>
+        </form>
+
+        <a href="#" class="confirm-btn confirm-btn--no">いいえ</a>
+      </div>
+    </div>
   </div>
-
-  <button type="submit">編集</button>
-</form>
-
+</div>
 {% endblock %}

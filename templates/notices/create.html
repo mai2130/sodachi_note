@@ -42,10 +42,10 @@
             {% endfor %}
         </div>
 
-        <div class="form-block{% if form.classrooms.errors %} has-error{% endif %}">
-            <label class="{% if form.classrooms.errors %}label-error{% endif %}">クラス名</label>
-            {{ form.classrooms }}
-            {% for error in form.classrooms.errors %}
+        <div class="form-block{% if form.classroom.errors %} has-error{% endif %}">
+            <label class="{% if form.classroom.errors %}label-error{% endif %}">クラス名</label>
+            {{ form.classroom }}
+            {% for error in form.classroom.errors %}
                 <p class="field-error">{{ error }}</p>
             {% endfor %}
         </div>

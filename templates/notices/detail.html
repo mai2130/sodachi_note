@@ -14,44 +14,48 @@
     <div class="notice-detail-header">
         <div class="notice-detail-top-row">
             <span class="notice-date">{{ notice.date|date:"Y/n/j" }}</span>
-            <span class="chip">{{ notice.get_category_display }}</span>
+            <span class="chip">{{ category_classroom_label }}</span>
         </div>
+
         <div class="notice-detail-title">{{ notice.title }}</div>
     </div>
 
     <div class="notice-body">
         {{ body_clean|linebreaksbr }}
     </div>
-    
+
     {% if notice.file %}
         <section class="notice-attachment">
-            <a href="#imgModal" class="attach-link">添付資料</a>
+            <a href="#fileModal" class="attach_link">添付資料</a>
         </section>
-    {% endif %}                  
 
-    <div class="notice-detail-buttons">
-        <a href="{% url 'notices:list' %}?{{ request.GET.urlencode }}" class="notice-detail-btn">
-            戻る
-        </a>
-    </div>
-    
-        <div id="imgModal" class="m">
-            <a href="#" class ="m__bg" aria-label="閉じる"></a>
+        <!-- モーダル -->
+        <div id="fileModal" class="m">
+            <a href="#" class="m__bg" aria-label="閉じる"></a>
 
             <div class="m__box" role="dialog" aria-modal="true">
                 <a href="#" class="m__close" aria-label="閉じる">×</a>
 
                 <div class="m__body">
-                    <img src="{{ notice.file.url }}" alt="添付資料" class="m__img">
+                    {% if file_is_pdf %}
+                        <iframe src="{{ notice.file.url }}" class="m__pdf" title="添付資料PDF"></iframe>
+                    {% elif file_is_image %}
+                        <img src="{{ notice.file.url }}" alt="添付資料" class="m__img">
+                    {% else %}
+                        <a href="{{ notice.file.url }}" target="_blank" rel="noopener">添付資料を開く</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
-    
-    {% if can_edit %}
-        <a href="{% url 'notices:edit' notice.pk %}" class="notice-detail-btn-secondary">
-            編集画面へ
-        </a>
     {% endif %}
-</div>
 
+    <!-- ボタン -->
+    <div class="notice-detail-buttons-under">
+        <a href="{% url 'notices:list' %}?{{ request.GET.urlencode }}" class="notice-detail-btn">戻る</a>
+
+        {% if can_edit %}
+            <a href="{% url 'notices:edit' notice.pk %}" class="notice-detail-btn-secondary  notice-link-black notice-edit-right">編集画面へ</a>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

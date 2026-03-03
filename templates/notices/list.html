@@ -11,48 +11,45 @@
 <div class="notice-frame">
     <div class="page-title">園からのおたより</div>
     {# 検索フォーム #}
+    
     <form method="get" class="notice-search-form">
-    <div class="notice-search-row">
-        <select name="month">
-            <option value="">年月</option>
-            {% for opt in month_options %}
-                <option value="{{ opt.value }}"
-                {% if request.GET.month == opt.value %}selected{% endif %}>
-                {{ opt.label }}
-            </option>
-            {% endfor %}
-        </select>
-        
-        <select name="category">
-            <option value="">カテゴリ</option>
-            {% for c in category_options %}
-                <option value="{{ c.value }}"
-                {% if request.GET.category == c.value|stringformat:"s" %}selected{% endif %}>
-                {{ c.label }}
-            </option>
-            {% endfor %}
-        </select>
-    </div>
-    
-    <div class="notice-search-row">
-        <input type="text" name="keyword" placeholder="キーワード入力" value="{{ request.GET.keyword }}">
-        
-        <select name="classroom">
-            <option value="">クラス名</option>
-            {% for cr in classroom_options %}
-                <option value="{{ cr.id }}"
-                {% if request.GET.classroom == cr.id|stringformat:"s" %}selected{% endif %}>
-                {{ cr.name }}
-            </option>
-            {% endfor %}
-        </select>
-    </div>
+        <div class="notice-search-grid">
+            <select name="month" class="notice-input">
+                <option value="">年月</option>
+                {% for opt in month_options %}
+                    <option value="{{ opt.value }}" {% if request.GET.month == opt.value %}selected{% endif %}>
+                        {{ opt.label }}
+                    </option>
+                {% endfor %}
+            </select>
 
-    <div class="notice-search-row notice-search-row--button">
-        <button type="submit">検索</button>
-    </div>
+            <select name="category" class="notice-input">
+                <option value="">カテゴリ</option>
+                {% for c in category_options %}
+                    <option value="{{ c.value }}" {% if request.GET.category == c.value|stringformat:"s" %}selected{% endif %}>
+                        {{ c.label }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <input type="text" name="keyword" class="notice-input"
+                placeholder="キーワード入力" value="{{ request.GET.keyword|default_if_none:'' }}">
+
+            <select name="classroom" class="notice-input">
+                <option value="">クラス名</option>
+                {% for cr in classroom_options %}
+                    <option value="{{ cr.id }}" {% if request.GET.classroom == cr.id|stringformat:"s" %}selected{% endif %}>
+                        {{ cr.name }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <div class="notice-search-actions">
+                <button type="submit" class="notice-search-btn">検索</button>
+            </div>
+        </div>
     </form>
-    
+
     <div class="notice-list-header">
         <span>配信年月日</span>
         <span>タイトル</span>
@@ -69,31 +66,31 @@
                 </li>
             {% endfor %}
         </ul>
+    {% else %}
+        <p class="notice-empty">該当するおたよりがありません</p>
     {% endif %}
+    
+    <div class="pager">
+        <span class="">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}&{{ querystring }}"><<</a>
+            {% else %}
+                <span class="pager-disabled"><<</span>
+            {% endif %}
+        </span>
 
-    {% if is_paginated %}
-        <div class="pager">
-            <span class="pager-btn">
-                {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}"><<</a>
-                {% else %}
-                    <<
-                {% endif %}
-            </span>
+        <span class="pager-info">
+            {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}ページ
+        </span>
 
-            <span class="pager-info">
-                {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}ページ
-            </span>
-
-            <span class="pager-btn">
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}&{{ request.GET.urlencode }}">>></a>
-                {% else %}
-                    >>
-                {% endif %}
-            </span>
-        </div>
-    {% endif %}
+        <span class="">
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&{{ querystring }}">>></a>
+            {% else %}
+                <span class="pager-disabled">>></span>
+            {% endif %}
+        </span>
+    </div>
     
     {% if can_post %}
         <div class="to-create-wrapper">
