@@ -1,48 +1,75 @@
 /* 共通 */
 .board-frame{
-    max-width: 420px;
+    width: 380px;
+    max-width: 92vw;
     margin: 0 auto;  /* 左右中央寄せ */
-    padding: 10px;  
-    color: #111;
 }
 
 .page-title {
     font-size: 20px;           
-    margin: 0 0 12px;
+    margin: 10px 0;
     text-align: center;  
 }
 
-.board-search-form {
+.no-data-text{
+    text-align: center;
+    margin: 18px 0;
+    font-size: 14px;
+}
+
+/* エラー */
+.field-error,
+.form-error{
+    color: #c00;
+    font-size: 12px;
+    margin-top: 4px;
+    text-align: center;
+}
+
+/* 一覧 */
+.board-search-form{
     display: flex;
-    justify-content: space-between;
-    gap: 6px;
-    margin: 10px 0;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
 }
 
 .keyword-input {
-    flex: 1;
-    padding: 4px;
-    border: 1px solid #777;
+    width: 170px;
+    height: 34px;
+    padding: 0 10px;
+    border: 1px solid #777;    box-sizing: border-box;
 }
 
 .category-select {
-    width: 80px;
-    padding: 4px;
+    width: 120px;
+    height: 34px;
     border: 1px solid #777;
+    box-sizing: border-box;
 }
 
 .search-btn {
+    width: 40px;
+    height: 34px;
     padding: 4px 10px;
     border: 1px solid #777;
-    background: #fff;
+    background: white;
 }
 
 .board-list-header {
     display: flex;
-    justify-content:space-evenly;
-    padding: 6px 4px;
+    justify-content:space-between;
+    padding: 6px 10px;
     font-size: 14px;
-    margin-top: 10px;
+}
+
+.col-title{
+    flex: 1;
+    text-align: center;
+}
+.col-date{
+    width: 90px;
+    text-align: center;
 }
 
 .board-row {
@@ -51,31 +78,48 @@
     padding: 8px 4px;
     text-decoration: none;
     color: #000;
-    font-size: 13px;
 }
 
-.pager {
+.row-title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.row-date{
+    width: 90px;
     text-align: center;
-    margin: 10px 0;
 }
 
-.pager-btn {
-    padding: 4px 10px; 
+/* ページャー */
+.pager{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0;
+}
+
+.pager-btn{
+    display: inline-block;
+    text-align: center;
     text-decoration: none;
+    color: inherit;
+    padding: 2px 6px;
 }
 
-
-.board-create-area {
-    text-align: center;
-    margin: 10px 0 20px;
+.pager-disabled{
+    opacity: 0.4;
 }
 
 .to-create-wrapper {
-    text-align:right;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .to-create-btn {
-    padding: 6px 10px;
+    display: inline-block;
+    padding: 8px 12px;
     background: #b7cdf4;
     border: 1px solid #777;
     text-decoration: none;
@@ -84,55 +128,65 @@
 
 /* 新規投稿 */
 .board-form {
-    padding: 0 20px;
-}
-
-.form-block {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.form-block label {
-    width: 80px;
-    font-size: 14px;
-}
-
-.form-block input,
-.form-block select {
-    flex: 1;
-    padding: 6px;
-    border: 1px solid #777;
-}
-
-.form-block-textarea {
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.form-block-textarea label {
-    width: auto;
-    margin-bottom: 4px;
-}
-
-.textarea-input {
     width: 100%;
-    border: 1px solid #777;
-    padding: 6px;
 }
 
-.button-area {
+.form-row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.form-label {
+    width: 90px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.form-field {
+    flex: 1;
+}
+
+.text-input,
+.select-input {
+    width: 100%;
+    height: 32px;
+    padding: 4px 8px;
+    border: 1px solid #777;
+    box-sizing: border-box;
+    font-size: 14px;
+    background: #fff;
+}
+
+.text-input:disabled,
+.select-input:disabled {
+    color: #000;
+    background: #fff;
+    opacity: 1;
+}
+
+/* ボタン */
+.form-actions {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 14px;
 }
 
 .submit-btn {
     display: inline-block;
-    padding: 6px 24px;
+    font-size: 14px;
+    padding: 6px 30px;
     border: 1px solid #777;
     background: #b7cdf4;
 }
+
+.form-error {
+    color: red;
+    font-size: 12px;
+    margin: 2px 0;
+}
+
+/* 詳細 */
 
 /* 質問ヘッダー部分 */
 .detail-head-row,
@@ -148,17 +202,18 @@
     font-weight: bold;
 }
 
-
 /* 左：タイトル / 右：投稿日 */
-.head-title, .body-title {
+.head-title,
+.body-title {
     width: 70%;
     text-align: left;
 }
 
-.head-date,  .body-date  {
+.head-date, 
+.body-date {
+    width: 30%;
     text-align: right;
 }
-
 
 /* 名前行 + 削除ボタン */
 .detail-name-row {
@@ -172,9 +227,9 @@
 .delete-form{
   margin: 0;
   padding: 0;
-  display: inline-flex;      /* 横幅を中身に合わせる */
-  width: auto;               /* 横いっぱい禁止 */
-  background: transparent;   /* 青い帯の原因を潰す */
+  display: inline-flex;      
+  width: auto;               
+  background: transparent;   
   border: 0;
 }
 
@@ -185,7 +240,7 @@
     background:pink;
 }
 
-/* 回答（本文/コメント）表示ブロック：設計図のように余白少なめに */
+/* 回答 */
 .board-post-list{
   padding: 0 10px;
   margin-top: 6px;
@@ -197,56 +252,45 @@
 .post-meta{
   font-size: 12px;
   display:flex;
+  justify-content: space-between;
   gap: 10px;
   color:#000;
 }
+
 .post-comment{
   margin-top: 2px;
   font-size: 13px;
+  line-height: 1.6;
+  word-break: break-word;
+  white-space: normal;
 }
 
 /* 下部：入力欄 + 投稿ボタン（横並び） */
 .reply-area {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-top: 10px;
-  padding: 0 8px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 10px;
+    padding: 0 8px;
 }
 
 .reply-input {
   flex: 1;
-  height: 26px;
   border: 1px solid #777;
-  padding: 2px 6px;
+  padding: 6px;
   font-size: 13px;
+  resize: none;
 }
 
 .reply-submit-btn {
   width: 64px;
-  height: 28px;
+  height: 32px;
   border: 1px solid #777;
-  background: #b7cdf4;   /* 設計図の水色 */
-}
-
-/* ページャー（詳細下） */
-.pager {
-    text-align: center;
-    margin: 8px 0;
-    font-size: 12px;
-}
-
-.pager a {
-    margin: 0 8px;
-}
-
-.pager-disabled {
-    margin: 0 8px;
-    color: #ccc;
+  background: #b7cdf4;  
 }
 
 .field-error {
-    color: #d00;
+    color: red;
     font-size: 12px;
-    margin: 4px 0;
+    margin: 4px 8px;
 }
