@@ -1,7 +1,6 @@
 from datetime import date
 from django.views.generic import ListView , CreateView  #ListView：一覧表示用の汎用ビュー
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db import transaction
 from django.core.paginator import Paginator
@@ -15,11 +14,11 @@ from .forms import BoardForm
 def get_current_nursery(request):
     user = request.user
 
-    # 園ユーザー：Nurseryが紐づいている（related_name="nursery"）
+    # 園ユーザー
     if getattr(user, "is_facility", None) and user.is_facility():
         return getattr(user, "nursery", None)
 
-    # 保護者ユーザー：active_child から園を辿る
+    # 保護者ユーザー
     if getattr(user, "is_guardian", None) and user.is_guardian():
         child = getattr(user, "active_child", None)
         return getattr(child, "nursery", None) if child else None
@@ -59,7 +58,6 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
     model = Board
     form_class = BoardForm
     template_name = "boards/create.html"
-    success_url = reverse_lazy("boards:list")
     
     @transaction.atomic
     def form_valid(self, form):
@@ -70,22 +68,13 @@ class BoardCreateView(LoginRequiredMixin, CreateView):
         board = form.save(commit = False)
         board.nursery = nursery
         board.user = self.request.user
-        board.save()
         # dateが空なら今日
         if not board.date:
             board.date = date.today()
 
         board.save()
         
-        comment =self.request.POST.get("comment","").strip()
-        if comment:
-            BoardPost.objects.create(
-                board = board,
-                user =self.request.user,
-                comment =comment,
-            )
-            
-        return redirect(self.success_url)
+        return redirect("boards:detail", pk=board.pk)
     
 @login_required
 def board_detail(request, pk):
