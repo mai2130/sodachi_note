@@ -54,38 +54,40 @@
             {{ post.created_at|date:"Y/m/d" }}
           </span>
         </div>
-        <div class="post-comment">{{ post.comment }}</div>
+        <div class="post-comment">{{ post.comment|linebreaksbr }}</div>
       </div>
     {% empty %}
-      <p class="no-data-text">まだ回答はありません。</p>
+      <p class="no-data-text">まだ回答はありません</p>
     {% endfor %}
   </div>
 
   <!-- 入力欄 + 投稿ボタン -->
   <form method="post" class="reply-area">
     {% csrf_token %}
-    <input type="text" name="comment" class="reply-input" placeholder="">
+    <textarea name="comment" class="reply-input" rows="2" placeholder=""></textarea>
     <button type="submit" class="reply-submit-btn">投稿</button>
   </form>
 
-  <!-- ページャー -->
-  {% if page_obj.paginator.num_pages > 1 %}
-    <div class="pager">
+  <div class="pager">
+    <span class="pager-btn">
       {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}">＜＜</a>
+        <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
       {% else %}
-        <span class="pager-disabled">＜＜</span>
+        &laquo;
       {% endif %}
+    </span>
 
-      <span>{{ page_obj.number }} ページ</span>
+    <span class="pager-info">
+      {{ page_obj.number }}ページ
+    </span>
 
+    <span class="pager-btn">
       {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">＞＞</a>
+        <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
       {% else %}
-        <span class="pager-disabled">＞＞</span>
+        &raquo;
       {% endif %}
-    </div>
-  {% endif %}
-
+    </span>
+  </div>
 </div>
 {% endblock %}

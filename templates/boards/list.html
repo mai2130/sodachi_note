@@ -15,16 +15,16 @@
     <!-- 検索行 -->
     <form method="get" class="board-search-form">
         <input type="text" name="keyword" class="keyword-input"
-            placeholder="キーワード入力" value="{{ keyword }}">
+            placeholder="キーワード入力" value="{{ request.GET.keyword|default_if_none:'' }}">
 
         <select name="category" class="category-select">
             <option value="">カテゴリ</option>
-            <option value="0" {% if category == "0" %}>selected{% endif %}日常生活</option>
-            <option value="1"> {% if category == "1" %}>selected{% endif %}行事</option>
-            <option value="2"> {% if category == "2" %}>selected{% endif %}その他</option>
+            <option value="0" {% if request.GET.category == "0" %}selected{% endif %}>日常生活</option>
+            <option value="1" {% if request.GET.category == "1" %}selected{% endif %}>行事</option>
+            <option value="2" {% if request.GET.category == "2" %}selected{% endif %}>その他</option>
         </select>
 
-        <button type="submit" class="search-btn">🔍</button>
+        <button type="submit" class="search-btn" aria-label="検索">🔍</button>
     </form>
 
     <!-- 一覧表ヘッダー -->

@@ -11,28 +11,48 @@
 <div class="board-frame">
     <div class="page-title">新規投稿</div>
 
-    <form method="post" class="board-form">
+    <form method="post" class="board-form" novalidate>
         {% csrf_token %}
+        
+        {% if form.errors %}
+            <div class="form-error">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="form-error">{{ error }}</div>
+                    {% endfor %}
+                {% endfor %}
 
-        <div class="form-block">
-            <label>タイトル</label>
+                {% for error in form.non_field_errors %}
+                    <div class="form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="form-row">
+            <div class="form-label">投稿年月日</div>
+            <div class="form-field">
+                {{ form.date }}
+            </div>
+        </div> 
+
+        <div class="form-row">
+            <div class="form-label">タイトル</div>
+            <div class="form-field">
             {{ form.title }}
+            </div>
         </div>
 
-        <div class="form-block">
-            <label>カテゴリ</label>
+        <div class="form-row">
+            <div class="form-label">カテゴリ</div>
+            <div class="form-field">
             {{ form.category }}
+            </div>
         </div>
 
-        <div class="form-block form-block-textarea">
-            <textarea name="comment" rows="10" class="textarea-input" placeholder="本文"></textarea>
-        </div>
-
-        <div class="button-area">
+        <div class="form-actions">
             <button type="submit" class="submit-btn">投稿</button>
         </div>
     </form>
-
 </div>
 {% endblock %}
 
