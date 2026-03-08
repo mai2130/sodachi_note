@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 
-from .forms import EmailAuthenticationForm, FacilitySignUpForm, GuardianSignUpForm ,ChildMyPageForm
+from .forms import EmailAuthenticationForm, FacilitySignUpForm, GuardianSignUpForm ,ChildMyPageForm ,UserPasswordChangeForm
 from nurseries.models import Nursery
 from invites.models import InviteCode
 from families.models import Family
@@ -139,6 +139,7 @@ class ChildMyPageView(LoginRequiredMixin, View):
     
 class UserPasswordChangeView(PasswordChangeView):
     template_name = "accounts/password_change.html"
+    form_class = UserPasswordChangeForm
     success_url = reverse_lazy("accounts:password_change")
 
     def form_valid(self, form):
@@ -149,7 +150,7 @@ class UserPasswordChangeView(PasswordChangeView):
         user = self.request.user
 
         if hasattr(user, "role") and user.role == user.Role.FACILITY:
-            return reverse_lazy("nurseries:mypage")   
+            return reverse_lazy("nurseries:nursery_mypage")   
         return reverse_lazy("accounts:child_mypage")
     
 class SodachiPasswordResetView(PasswordResetView):
