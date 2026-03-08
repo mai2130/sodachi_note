@@ -27,3 +27,4 @@ class NurseryMyPageView(LoginRequiredMixin, UpdateView):
             messages.error(request, "このページは園アカウント専用です")
             return redirect("dashboard:home")
         return super().dispatch(request, *args, **kwargs)
+
