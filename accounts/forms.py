@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate, get_user_model #認証処理・ユーザ取得
+from django.contrib.auth.forms import PasswordChangeForm 
 from django.core.exceptions import ValidationError
 
 from invites.models import InviteCode
@@ -150,3 +151,40 @@ class ChildMyPageForm(forms.ModelForm):
             user.save()
         
         return user
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    error_messages = PasswordChangeForm.error_messages.copy()
+    error_messages.update({
+        "password_incorrect": "現在のパスワードが正しくありません",
+        "password_mismatch": "新しいパスワードと確認用パスワードが一致しません",    
+    })
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # ラベル名
+        self.fields["old_password"].label = "現在のパスワード"
+        self.fields["new_password1"].label = "新しいパスワード"
+        self.fields["new_password2"].label = "新しいパスワード（確認用）"
+
+        # 必須エラー文
+        self.fields["old_password"].error_messages["required"] = "現在のパスワードを入力してください"
+        self.fields["new_password1"].error_messages["required"] = "新しいパスワードを入力してください"
+        self.fields["new_password2"].error_messages["required"] = "確認用パスワードを入力してください"
+
+        # help_text を消したい場合
+        self.fields["old_password"].help_text = ""
+        self.fields["new_password1"].help_text = ""
+        self.fields["new_password2"].help_text = ""
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        old_password = cleaned_data.get("old_password")
+        new_password1 = cleaned_data.get("new_password1")
+
+        # 現在と同じパスワードを禁止
+        if old_password and new_password1 and old_password == new_password1:
+            self.add_error("new_password1", "現在と同じパスワードは設定できません")
+
+        return cleaned_data
