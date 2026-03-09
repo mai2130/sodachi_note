@@ -65,7 +65,7 @@
             
             <a class="footer-item"
                 href="{% if request.user.role == request.user.Role.FACILITY %}
-                {% url 'nurseries:mypage' %}
+                {% url 'nurseries:nursery_mypage' %}
                 {% else %}
                 {% url 'accounts:child_mypage' %}
                 {% endif %}">
