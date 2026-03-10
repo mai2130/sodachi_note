@@ -60,7 +60,6 @@
 .no-data{
   text-align: center;
   margin: 20px 0;
-  color: red;
   font-size: 13px;
 }
 
@@ -109,21 +108,8 @@
   position: relative;
 }
 .select-wrap select{
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  padding-right: 28px; /* ▼のスペース */
+  padding-right: 6px; 
 }
-.select-wrap::after{
-  content: "▼";
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 11px;
-  pointer-events: none;
-}
-
 .code-result{
   display: flex;
   align-items: center;
