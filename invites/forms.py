@@ -33,6 +33,9 @@ class AccountManageForm(forms.ModelForm):
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.fields["classroom"].empty_label = "クラス名を選択"
+
         # 既存値がある場合、初期選択を合わせる
         if self.instance and getattr(self.instance, "withdrawn_month", None):
             self.fields["withdrawn_month"].initial = self.instance.withdrawn_month.strftime("%Y-%m-01")
