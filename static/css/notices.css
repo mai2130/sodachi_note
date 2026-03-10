@@ -1,6 +1,4 @@
-/* =========================
-   共通（全画面）
-========================= */
+/* 共通 */
 .notice-frame{
   max-width: 420px;
   margin: 0 auto;
@@ -15,9 +13,7 @@
   text-align: center;
 }
 
-/* =========================
-   一覧（list.html）
-========================= */
+/* 一覧（list.html）*/
 .notice-search-form{ margin-bottom: 16px; }
 
 .notice-search-grid{
@@ -96,7 +92,6 @@
 
 .notice-empty{
   text-align: center;
-  color: red;
   margin-top: 10px;
 }
 
@@ -138,9 +133,6 @@
   min-width: 28px;
   text-align: center;
   padding: 4px 6px;
-  border: 1px solid #000;
-  background: #eee;
-  color: #777;
 }
 
 .to-create-wrapper{
@@ -150,15 +142,13 @@
 }
 
 .to-create-btn{
-  font-size: 14px;
+  font-size: 16px;
   color: #000;
 }
 .to-create-btn:visited{ color:#000; }
 
 
-/* =========================
-   投稿・編集（create/edit）
-========================= */
+/* 投稿・編集 */
 .label-error{ color: red; }
 
 .notice-conteiner{
@@ -250,9 +240,7 @@
 }
 
 
-/* =========================
-   詳細（detail）
-========================= */
+/* 詳細 */
 .notice-detail-header{
   margin-top: 6px;
   margin-bottom: 10px;
@@ -347,9 +335,7 @@
 .attach-link:visited{ color:#000; }
 
 
-/* =========================
-   モーダル（添付資料）
-========================= */
+/* モーダル（添付資料） */
 .m{ display:none; }
 
 .m:target{
@@ -411,9 +397,7 @@
 }
 
 
-/* =========================
-   削除確認モーダル（小さい箱）
-========================= */
+/* 削除確認モーダル */
 .m__box--confirm{
   width: min(86vw, 360px);
   height: auto;
