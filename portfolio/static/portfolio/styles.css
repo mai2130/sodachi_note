@@ -2,7 +2,7 @@
 :root {
     --bg: #FAF7F2; /*背景*/
     --text: #2B2B2B; /*文字*/
-    --primary: #86B6F6; /*ボタン色*/
+    --primary: blue; /*ボタン色*/
     color-scheme: light;
 }
 * { box-sizing: border-box; }
@@ -32,7 +32,6 @@ body{
 .btn-primary {
     display: inline-block;
     padding: 10px 16px;
-    border-radius: 10px;
     text-decoration: none;
     background: var(--primary);
     color: #fff;

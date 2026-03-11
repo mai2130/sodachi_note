@@ -4,7 +4,7 @@
 {% block title %}Q&A掲示板{% endblock %}
 
 {% block head_extra %}  
-  <link rel="stylesheet" href="{% static 'css/boards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/boards.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -41,7 +41,7 @@
                 <span class="row-date">{{ b.date|date:"Y/m/d" }}</span>
             </a>
         {% empty %}
-            <p class="no-data-text">投稿はまだありません。</p>
+            <p class="no-data-text">投稿はまだありません</p>
         {% endfor %}
     </div>
 
