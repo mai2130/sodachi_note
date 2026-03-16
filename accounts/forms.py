@@ -95,6 +95,49 @@ class GuardianSignUpForm(forms.Form):
             self.add_error("child_name", "園児氏名が認証コードと一致しません")
 
         return cleaned
+    
+    def save(self):
+        invite = self.clened_data["invite"]
+        child = invite.child
+
+        full_name = (self.cleaned_data.get("guardian_name") or "").strip()
+        parts = full_name.split()
+
+        if len(parts) >= 2:
+            last_name = parts[0]
+            first_name = "".join(parts[1:])
+        elif len(parts) == 1:
+            last_name = parts[0]
+            first_name = ""
+        else:
+            last_name = ""
+            first_name = ""
+
+        email = self.cleaned_data["email"]
+        password = self.cleaned_data["password1"]
+        relationship = self.cleaned_data.get("relationship")
+
+        user = User.objects.create_user(
+            username=email,
+            email=email,
+            password=password,
+            last_name=last_name,
+            first_name=first_name,
+            role=User.Role.GUARDIAN,
+            relationship=relationship if relationship != "" else None,
+            active_child=child,
+        )
+
+        Family.objects.create(
+            user=user,
+            child=child,
+            relationship=relationship if relationship != "" else None,
+        )
+
+        invite.users_count += 1
+        invite.save(update_fields=["users_count"])
+
+        return user
 
 # マイページ管理画面（園児用）
 class ChildMyPageForm(forms.ModelForm):
@@ -120,7 +163,9 @@ class ChildMyPageForm(forms.ModelForm):
             (4,"その他"),
         ]
 
-        full = (self.instance.get_full_name() or "").strip()
+        last_name = self.instance.last_name or ""
+        first_name = self.instance.first_name or ""
+        full = f"{last_name} {first_name}".strip()
         self.fields["guardian_name"].initial = full
 
     def clean_guardian_name(self):
@@ -129,23 +174,21 @@ class ChildMyPageForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
 
-        data = getattr(self, "cleaned_data", {})
-        if isinstance(data, dict):
-            full = (data.get("guardian_name")or "").strip()
-        else:
-            full = (self.data.get("guardian_name")or "").strip()
-            
-        parts = full.split()
+        full = (self.cleaned_data.get("guardian_name") or "").strip()
+        full = full.replace("  ","  ")
 
-        if len(parts) >= 2 :
-            user.last_name  = parts[0]
-            user.first_name = " ".join(parts[1:])
-        elif len(parts) == 1:
-            user.last_name = parts[0]
-            user.first_name = ""
-        else:
-            user.last_name = ""
-            user.first_name = ""
+        if full:
+            parts = full.split()
+
+            if len(parts) >= 2 :
+                user.last_name  = parts[0]
+                user.first_name = " ".join(parts[1:])
+            elif len(parts) == 1:
+                user.last_name = parts[0]
+                user.first_name = ""
+            else:
+                user.last_name = ""
+                user.first_name = ""
 
         if commit:
             user.save()
