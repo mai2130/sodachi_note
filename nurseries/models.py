@@ -17,6 +17,11 @@ class Nursery(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "施設一覧"
+        verbose_name_plural = "施設一覧"
+
+
     def __str__(self) :
         return self.name
     
@@ -47,4 +52,4 @@ class Classroom(models.Model):
         unique_together = ("nursery", "name")
             
     def __str__(self):
-        return f"{self.nursery.name}/{self.name}"
+        return self.name
