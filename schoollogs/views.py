@@ -29,8 +29,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
     template_name = 'growthlogs/school_growthlog_form.html'
 
     def _ensure_active_child(self, request):
-        # 園ユーザーのactive_childを自園の園児にする
-        # 戻り値： (園児一覧, 選択中園児)
+        # 園ユーザーの active_child が正しい園児になるように整える関数
         nursery = getattr(request.user, "nursery", None)
         if nursery is None:
             return None, None
@@ -38,7 +37,6 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         children = nursery.children.all().order_by("id")
         child = getattr(request.user, "active_child", None)
 
-    # active_child がない/他園の子なら、この園の最初の園児に自動セット
         if (not child) or (child.nursery_id != nursery.id):
             first = children.first()
             if not first:
@@ -49,15 +47,15 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
 
         return children, child
     
-    def _redirect_self(self, target_date, child_id=None):
-        # 保存後に、同じページへ ?d=... を付けて戻す
-        url = reverse('schoollogs:school_growthlog_form')
+    def _redirect_home(self, target_date, child_id=None):
+        # 保存後にホーム画面へ戻すための共通関数
+        url = reverse("dashboard:home")
         if child_id:
             return redirect(f"{url}?d={target_date:%Y-%m-%d}&child_id={child_id}")
         return redirect(f"{url}?d={target_date:%Y-%m-%d}")
     
     def _get_or_create_log(self, child, target_date):
-        # 園側：その子・その日 の園ログを確保
+        # 園側の「その子・その日」の記録を取得し、無ければ作る関数
         log, _ = GrowthLog.objects.get_or_create(
             child=child,
             source=GrowthLog.Source.SCHOOL,
@@ -67,45 +65,41 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         return log
     
     def get(self, request):
-        # 対象園児を確定
+        # 画面を開いたときの表示処理
         children, child = self._ensure_active_child(request)
         if not child:
             messages.error(request, "園児が選択されていません")
             return redirect("dashboard:home")
-        # 対象日付を確定
         target_date = _get_target_date(request, "d")
-        # その日のログを確保
         log = self._get_or_create_log(child, target_date)
 
-        # フォーム表示（既存logを初期値にする）
         form = SchoolGrowthLogForm(instance=log)
         
-        return render(request, self.template_name, {
+        return render(request, self.template_name,
+        {
             "children":children,
             "selected_child":child,
             "form":form,
             "log":log,
             "date":target_date,
             "child":child
-        },)
+        },
+        )
     
     def post(self, request):
-        # 対象園児を確定
+        # 園側フォーム送信時の保存処理
         children, child = self._ensure_active_child(request)
         if not child:
             messages.error(request, "園児が選択されていません")
             return redirect("dashboard:home")
         
-        # 対象日付を確定
         target_date = _get_target_date(request, "d")
-        # その日のログを確保
         log = self._get_or_create_log(child, target_date)
-        # 提出済みなら修正不可
+
         if getattr(log, "submitted", False):
             messages.error(request, "提出後は修正できません")
-            return self._redirect_self(target_date, child_id=child.id) 
+            return self._redirect_home(target_date, child_id=child.id) 
         
-        #　未提出の時だけ更新
         form = SchoolGrowthLogForm(request.POST, request.FILES, instance=log)
 
         if not form.is_valid():
@@ -134,7 +128,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
             messages.success(request, "一時保存しました")
 
         obj.save()
-        return self._redirect_self(target_date, child_id=child.id)
+        return self._redirect_home(target_date, child_id=child.id)
                 
 class HomeGrowthLogView(LoginRequiredMixin, View):
     template_name = "growthlogs/home_growthlog_form.html"
@@ -156,12 +150,12 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
         request.user.save(update_fields=["active_child"])
         return link.child
 
-    def _redirect_self(self, target_date):
-        base = reverse("schoollogs:home_growthlog_form")
-        return redirect(f"{base}?d={target_date:%Y-%m-%d}")
+    def _redirect_home(self, target_date):
+        url = reverse("dashboard:home")
+        return redirect(f"{url}?d={target_date:%Y-%m-%d}")
     
     def _get_or_create_log(self, child, target_date):
-        log,_ = GrowthLog.objects.get_or_create(
+        log, _ = GrowthLog.objects.get_or_create(
             child=child,
             source=GrowthLog.Source.HOME,
             date=target_date,
@@ -177,12 +171,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
 
         target_date = _get_target_date(request, "d")
 
-        log,_ = GrowthLog.objects.get_or_create(
-            child=child,
-            source=GrowthLog.Source.HOME,
-            date=target_date,
-            defaults={"home_temperature": Decimal("37.0")},
-    )
+        log = self._get_or_create_log(child, target_date)
     
         form = HomeGrowthLogForm(instance=log)
         return render(
@@ -237,7 +226,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
             messages.success(request, "一時保存しました")
 
         obj.save()
-        return self._redirect_self(target_date)
+        return self._redirect_home(target_date)
 
 @require_POST
 @login_required
