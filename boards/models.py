@@ -19,6 +19,10 @@ class Board(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "掲示板"
+        verbose_name_plural = "掲示板"
+
     def __str__(self):
         return self.title
     
@@ -30,4 +34,8 @@ class BoardPost(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "掲示板投稿"
+        verbose_name_plural = "掲示板投稿"
 
