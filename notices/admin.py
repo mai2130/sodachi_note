@@ -7,14 +7,16 @@ class NoticeClassroomInline(admin.TabularInline):
 
 @admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):
-    list_display = ('title', 'nursery', 'date', 'category', 'created_at')
-    list_filter = ('nursery','date','category')
+    list_display = ('id', 'title', 'category', 'date' ,'nursery', 'created_at')
+    list_filter = ('category', 'date', 'nursery')
     search_fields =('title','body')
-    inlines = [NoticeClassroomInline]
+    ordering = ('-date','-created_at')
 
 @admin.register(NoticeClassroom)
 class NoticeClassroomAdmin(admin.ModelAdmin):
-    list_display = ('notice', 'classroom','created_at','updated_at')
-    list_filter = ('classroom',)
+    list_display = ('id', 'notice', 'classroom','created_at')
+    list_filter = ('classroom', 'created_at')
+    search_fields = ('notice__title', 'classroom__name')
+    ordering = ('-created_at',)
 
 
