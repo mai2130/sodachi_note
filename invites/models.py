@@ -27,6 +27,10 @@ class InviteCode(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = '認証コード'
+        verbose_name_plural = '認証コード'
+
     @property
     def is_available(self):
         return self.users_count < self.max_uses
