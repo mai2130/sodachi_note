@@ -20,6 +20,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from accounts.views import SodachiPasswordResetView, SodachiPasswordResetConfirmView
 
+admin.site.site_header = "そだちノート管理画面"
+admin.site.site_title = "そだちノート管理"
+admin.site.index_title = "管理メニュー"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include(('accounts.urls',"accounts"), namespace="accounts")),
