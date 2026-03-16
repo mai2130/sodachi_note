@@ -37,6 +37,10 @@ class SchoolGrowthLogForm(forms.ModelForm):
                 
         self.fields["school_nap_start"].widget = forms.Select(choices=ten_minute_choices())
         self.fields["school_nap_end"].widget = forms.Select(choices=ten_minute_choices())
+        self.fields["school_condition"].choices = [
+        choice for choice in self.fields["school_condition"].choices
+        if choice[0] != ""
+    ]
 
 class HomeGrowthLogForm(forms.ModelForm):
     home_bedtime = forms.ChoiceField(
@@ -75,7 +79,12 @@ class HomeGrowthLogForm(forms.ModelForm):
             self.initial["home_bedtime"] = self.instance.home_bedtime.strftime("%H:%M")
         if self.instance and self.instance.home_wake_up_time:
             self.initial["home_wake_up_time"] = self.instance.home_wake_up_time.strftime("%H:%M")
-            
+
+        self.fields["home_condition"].choices = [
+            choice for choice in self.fields["home_condition"].choices
+            if choice[0] != ""
+    ]
+
         if self.instance and getattr(self.instance, "submitted", False):
             for f in self.fields.values():
                 f.disabled = True
