@@ -4,10 +4,10 @@
 
 :root{
     --line: #ddd;
-    --selected: #eee;   /* 薄いグレー（選択中） */
-    --label-w: 72px;    /* ラベル幅 */
+    --selected: #eee;
+    --label-w: 72px;
     --field-gap: 10px;
-    --control-w: 150px; /* selectの幅（就寝/起床/体調） */
+    --control-w: 150px; 
 }
 
 .growthlog-subtitle {
@@ -16,6 +16,15 @@
     padding: 6px 0;
     max-width: 360px;
     margin: 0 auto;
+}
+
+.child-select {
+    display: block;
+    width: 100%;
+    max-width: 270px;   
+    margin: 0 auto 14px;
+    padding: 6px 10px;
+    font-size: 14px;
 }
 
 /* フォーム部分 */
@@ -44,14 +53,10 @@
     justify-content: flex-start;
 }
 
-.growthlog-input-inline.button-choices{
-    flex: 0 0 var(--control-w);
-    width: var(--control-w);   
-}
-
 .growthlog-body select,
 .growthlog-body input[type="text"],
 .growthlog-body input[type="number"],
+.growthlog-body input[type="time"],
 .growthlog-body textarea{
     padding: 6px 8px;
     font-size: 16px;
@@ -84,28 +89,28 @@
     min-height: 90px;
 }
 
-/* あり/なし全体を他の入力と同じ幅にする */
 .growthlog-input-inline.button-choices{
-  justify-content: flex-start; /* 左端基準（揃える） */
+    display: flex;
+    justify-content: flex-start;
+    flex: 1;
+    width: 100%;
 }
 
 /* ボタン2つで幅を埋める */
 .growthlog-input-inline.button-choices .choice-btn{
-  flex: 1;                     /* あり/なしを半分ずつ */
+    flex: 1;  
 }
 
-/* ラベル(span)をボタン幅いっぱいにする */
 .growthlog-input-inline.button-choices .choice-btn span{
-    display: block;              /* inline-block → block */
+    display: block; 
     width: 100%;
     text-align: center;
 }
 
 .button-choices{
-  display: flex;        /* inline-flex をやめる */
-  width: 100%;          /* 親の幅に合わせる */
+  display: flex;   
+  width: 100%;    
 }
-
 
 /* 本物のラジオボタンは隠す */
 .choice-btn input[type="radio"] {
@@ -144,12 +149,12 @@
     white-space: nowrap;
 }
 
-
-
 /* 一時保存・提出ボタン */
 .growthlog-actions {
-    margin-top: 12px;
-    text-align: center;
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
 }
 
 .growthlog-btn {
@@ -180,7 +185,6 @@
     color: #000;
     border-color: #aaa;
 }
-
 
 /* 提出済み表示 */
 .growthlog-submitted-msg{
@@ -215,12 +219,22 @@
     max-width: 260px;
 }
 
-/* 園児プルダウンだけ中央寄せしたい場合（クラスを付けられるなら） */
-.child-select {
-    display: block;
+.growthlog-body .child-select {
     width: 100%;
-    max-width: 180px;   /* 今のCSSに合わせる */
-    margin: 0 auto 12px;
+    max-width: 270px;
+    min-width: 270px;
+    font-size: 14px;
 }
 
+.shift-narrow select {
+    max-width: 220px;
+}
+
+@media (max-width: 480px) {
+    .growthlog-body .child-select {
+        max-width: 100%;
+        min-width: 0;
+        font-size: 14px;
+    }
+}
 
