@@ -16,19 +16,20 @@
     </div>
   {% endif %}
 
-  {% if messages %}
-    {% for message in messages %}
-      <p class="mypage-success">{{ message }}</p>
-    {% endfor %}
-  {% endif %}
+  {% if mypage_success %}
+    <p class="mypage-success">{{ mypage_success }}</p>
+  {% endif %}  
 
   <div class="box">
     <div class="mypage-row">
       <div class="mypage-label">園児氏名</div>
       <div class="mypage-field">
-        <input value="{{ child.name }}" readonly>
+        <input type="text" value="{{ child.name }}" readonly>
       </div>
     </div>
+
+    <form method="post" class="mypage-form" novalidate>
+      {% csrf_token %}
 
     <div class="mypage-row">
       <div class="mypage-label">保護者氏名</div>
@@ -37,9 +38,6 @@
         {{ form.guardian_name.errors }}
       </div>
     </div>
-
-    <form method="post" class="mypage-form" novalidate>
-      {% csrf_token %}
 
       <div class="mypage-row">
         <div class="mypage-label">{{ form.relationship.label }}</div>
