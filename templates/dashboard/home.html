@@ -78,7 +78,21 @@
 <section class="panel">
   <time class="panel-date">{{ daily_info.date|date:"n/j (D)" }}</time>
 
-  {% if mode == "guardian" %}
+{% if mode == "guardian" %}
+  {% if daily_info.attendance is not None %}
+    <div class="att-form">
+      <div class="seg">
+        <div class="seg-btn {% if daily_info.attendance == 0 %}is-selected{% endif %}">出席</div>
+        <div class="seg-btn {% if daily_info.attendance == 1 %}is-selected{% endif %}">遅刻・早退</div>
+        <div class="seg-btn {% if daily_info.attendance == 2 %}is-selected{% endif %}">欠席</div>
+      </div>
+
+      <div class="att-note">
+        ※ 出欠状況は登録済みのため変更できません。<br>
+        　変更がある場合、遅刻・早退の場合は園までご連絡ください。
+      </div>
+    </div>
+  {% else %}
     <form class="att-form"
           method="post"
           action="{% url 'attendances:guardian_upsert' %}?y={{ year }}&m={{ month }}&d={{ daily_info.date|date:'Y-m-d' }}">
@@ -86,29 +100,26 @@
       <input type="hidden" name="date" value="{{ daily_info.date|date:'Y-m-d' }}">
 
       <div class="seg">
-        <button class="seg-btn {% if daily_info.attendance == 0 %}is-selected{% endif %}"
-                type="submit" name="status" value="0">出席</button>
-
-        <button class="seg-btn {% if daily_info.attendance == 1 %}is-selected{% endif %}"
-                type="submit" name="status" value="1">遅刻・早退</button>
-
-        <button class="seg-btn {% if daily_info.attendance == 2 %}is-selected{% endif %}"
-                type="submit" name="status" value="2">欠席</button>
+        <button class="seg-btn" type="submit" name="status" value="0">出席</button>
+        <button class="seg-btn" type="submit" name="status" value="1">遅刻・早退</button>
+        <button class="seg-btn" type="submit" name="status" value="2">欠席</button>
       </div>
 
       <div class="att-note">
-        ※ 出欠状況に変更がある場合、遅刻・早退の場合は<br>　園までご連絡ください。
+        ※ 出欠状況に変更がある場合、遅刻・早退の場合は<br>
+        　園までご連絡ください。
       </div>
     </form>
-  {% else %}
-    <div class="att-form">
-      <div class="seg">
-        <div class="seg-btn {% if daily_info.attendance == 0 %}is-selected{% endif %}">出席</div>
-        <div class="seg-btn {% if daily_info.attendance == 1 %}is-selected{% endif %}">遅刻・早退</div>
-        <div class="seg-btn {% if daily_info.attendance == 2 %}is-selected{% endif %}">欠席</div>
-      </div>
-    </div>
   {% endif %}
+{% else %}
+  <div class="att-form">
+    <div class="seg">
+      <div class="seg-btn {% if daily_info.attendance == 0 %}is-selected{% endif %}">出席</div>
+      <div class="seg-btn {% if daily_info.attendance == 1 %}is-selected{% endif %}">遅刻・早退</div>
+      <div class="seg-btn {% if daily_info.attendance == 2 %}is-selected{% endif %}">欠席</div>
+    </div>
+  </div>
+{% endif %}
 
   <div class="link-row">
     <a class="btn primary"
