@@ -14,7 +14,6 @@
     {% csrf_token %}
     {{ form.non_field_errors }}
 
-    <!-- （任意）提出済みメッセージ -->
     {% if log and log.submitted %}
       <div class="growthlog-submitted-msg">
         提出済みのため編集できません
@@ -86,43 +85,41 @@
     </div>
 
     {% if not log or not log.submitted %}
-    <div class="growthlog-actions">
-      <button type="submit" name="action" value="draft" class="growthlog-btn"
-               {% if log and log.submitted %}disabled{% endif %}>
-        一時保存
-      </button>
+      <div class="growthlog-actions">
+        <button type="submit" name="action" value="save" class="growthlog-btn">
+          一時保存
+        </button>
 
-      <button type="button" class="growthlog-btn growthlog-btn-primary"
-              onclick="return openConfirmBox();"
-              {% if log and log.submitted %}disabled{% endif %}>
-        提　出
-      </button>
-    </div>
+        <button type="button" class="growthlog-btn growthlog-btn-primary"
+              onclick="return openConfirmBox();">
+          提　出
+        </button>
+      </div>
 
-    <div class="growthlog-confirm-box" id="confirm-box" style="display: none;">
-      <div>
-        提出後は修正できません。<br>
-        提出してもよろしいですか？
+      <div class="growthlog-confirm-box" id="confirm-box" style="display: none;">
+        <div>
+          提出後は修正できません。<br>
+          提出してもよろしいですか？
+        </div>
+        <div class="growthlog-confirm-actions">
+          <button type="submit" name="action" value="submit" class="growthlog-btn growthlog-btn-primary">
+            は　い
+          </button>
+          <button type="button" class="growthlog-btn growthlog-btn-cancel" onclick="closeConfirmBox();">
+            いいえ
+          </button>
+        </div>
       </div>
-      <div class="growthlog-confirm-actions">
-        <button type="submit" name="action" value="submit"
-                class="growthlog-btn growthlog-btn-primary">は　い</button>
-        <button type="button" class="growthlog-btn growthlog-btn-cancel"
-                onclick="closeConfirmBox();">いいえ</button>
-      </div>
-    </div>
     {% endif %}
   </form>
 </div>
 
 <script>
   function openConfirmBox() {
-    const btn = document.querySelector(".growthlog-btn-primary");
-    if (btn && btn.disabled) return false;
-
     document.getElementById("confirm-box").style.display = "block";
     return false;
   }
+  
   function closeConfirmBox() {
     document.getElementById("confirm-box").style.display = "none";
   }
