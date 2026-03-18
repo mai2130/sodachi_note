@@ -19,15 +19,14 @@
   margin: 0 10px;
 }
 
-/* ✅ メッセージ（成功・エラー共通で“赤”） */
+/* メッセージ */
 .mypage-success{
   padding-top: 10px;
-  color: red;
   font-size: 13px;
   text-align: center;
 }
 
-/* ✅ 上部エラー */
+/* 上部エラー */
 .top-error{
   color: red;
   font-size: 14px;
@@ -63,7 +62,7 @@
   flex: 1;
 }
 
-/* ✅ input / select / textarea を統一デザインに */
+/* input / select / textarea を統一デザインに */
 .mypage-field input,
 .mypage-field select,
 .mypage-field textarea{
@@ -75,7 +74,6 @@
   box-sizing: border-box;
 }
 
-/* textareaだけは高さを固定しない（将来用） */
 .mypage-field textarea{
   height: auto;
   min-height: 60px;
@@ -95,7 +93,7 @@
   border-color: #6b6b6b;
 }
 
-/* ✅ Djangoのフィールドエラー表示 */
+/* フィールドエラー表示 */
 .mypage-field .errorlist{
   list-style: none;
   margin-top: 4px;
