@@ -78,17 +78,37 @@ class GuardianSignUpView(FormView):
             form.add_error("invite_code", "この認証コードは利用上限に達しています")
             return self.form_invalid(form)
         
+        full_name = (form.cleaned_data.get("guardian_name")or "").strip()
+        parts = full_name.split()
+
+        if len(parts) >= 2:
+            last_name = parts[0]
+            first_name = " ".join(parts[1:])
+        elif len(parts) == 1:
+            last_name = parts[0]
+            first_name = ""
+        else:
+            last_name = ""
+            first_name = ""
+
+        relationship = form.cleaned_data.get("relationship")
+        if relationship == "":
+            relationship = None
+        
         user = User.objects.create_user(
             username=form.cleaned_data["email"], 
             email=form.cleaned_data["email"],
             password=form.cleaned_data["password1"],
             role=User.Role.GUARDIAN,
+            last_name = last_name,
+            first_name = first_name,
+            relationship = relationship,
         )
         
         Family.objects.get_or_create(
             guardian=user,
             child=invite.child,
-            defaults={"relationship": form.cleaned_data["relationship"]}, 
+            defaults={"relationship": relationship}, 
         )
         
         user.active_child = invite.child
@@ -112,10 +132,13 @@ class ChildMyPageView(LoginRequiredMixin, View):
 
         form = ChildMyPageForm(instance=request.user)
 
+        mypage_success = request.session.pop("mypage_success", None)
+
         return render(request, self.template_name,{
             "form": form,
             "child": child,
-            "guardian":request.user
+            "guardian":request.user,
+            "mypage_success":mypage_success,
         })
     
     def post(self, request):
@@ -132,9 +155,10 @@ class ChildMyPageView(LoginRequiredMixin, View):
                 "form" : form,
                 "child": child,
                 "guardian":request.user,
+                "mypage_success":None,
             })
         form.save()
-        messages.success(request, "保存しました！")
+        request.session["mypage_success"] =  "保存しました！"
         return redirect("accounts:child_mypage")
     
 class UserPasswordChangeView(PasswordChangeView):
