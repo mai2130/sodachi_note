@@ -44,6 +44,11 @@ class Notice(models.Model):
     created_at = models.DateTimeField('作成日時', auto_now_add=True)
     updated_at = models.DateTimeField('更新日時', auto_now=True)
 
+    class Meta:
+        verbose_name = 'おたより'
+        verbose_name_plural = 'おたより'
+
+
     def __str__(self):
         return self.title
     
