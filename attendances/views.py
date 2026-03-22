@@ -48,13 +48,20 @@ def guardian_attendance_upsert(request):
         messages.error(request, "出欠情報を確認してください")
         return redirect(_build_home_url(request))
     
-    obj, created = Attendance.objects.update_or_create(
+    exists = Attendance.objects.filter(child=child, date=date_obj).exists()
+    if exists:
+        print("STOP: already submitted")
+        messages.error(request, "出欠状況はすでに登録済みのため変更できません")
+        return redirect(_build_home_url(request))
+    
+    obj = Attendance.objects.create(
         child=child,
         date=date_obj,
-        defaults={"status": status_int},
+        status=status_int,
     )
-    print("SAVED:", obj.id, created)
+    print("CREATED:", obj.id)
 
+    messages.success(request, "出欠状況を登録しました")
     return redirect(_build_home_url(request))
 
 def _build_home_url(request):
