@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 from .models import Notice
 from nurseries.models import Classroom
 
@@ -19,7 +20,16 @@ class NoticeForm(forms.ModelForm):
         if self.instance and self.instance.pk:
             first = self.instance.classrooms.first()
             self.fields["classroom"].initial = first
-    
+
+        else:
+            self.fields["date"].initial = timezone.localdate()
+
+        self.fields["title"].error_messages = {
+            "required": "タイトルを入力してください"
+        }
+        self.fields["body"].error_messages = {
+            "required": "本文を入力してください"
+        }  
     class Meta:
         model = Notice
         fields = ['date','title','category', 'classroom', 'body','file']
