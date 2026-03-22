@@ -9,7 +9,6 @@
 
 .page-title{
   font-size: 20px;
-  margin: 0 0 12px;
   text-align: center;
 }
 
@@ -30,7 +29,7 @@
   width: 100%;
   font-size: 14px;
   padding: 6px 8px;
-  border: 1px solid #000;
+  border: 1px solid #777;
   box-sizing: border-box;
   background: #fff;
 }
@@ -85,10 +84,10 @@
   text-align: center;
   text-decoration: none;
   font-size: 14px;
-  color: #000;                 /* クリックしても黒にしたい場合の基本 */
+  color: #000;
 }
 
-.notice-link:visited{ color:#000; }  /* ← visitedでも黒 */
+.notice-link:visited{ color:#000; }  
 
 .notice-empty{
   text-align: center;
@@ -108,7 +107,7 @@
 .pager-btn{
   display: flex;
   padding: 0;
-  width: 40px;                 /* 左右の空間を揃える（任意） */
+  width: 40px;   
   justify-content: center;
 }
 
@@ -151,7 +150,7 @@
 /* 投稿・編集 */
 .label-error{ color: red; }
 
-.notice-conteiner{
+.notice-container{
   max-width: 360px;
   margin: 0 auto;
 }
@@ -195,7 +194,7 @@
   box-sizing: border-box;
 }
 
-.textarea-input{ height: 120px; }
+.textarea-input{ height: 200px; }
 
 .button-area{ text-align: center; }
 
@@ -238,7 +237,6 @@
   margin: 8px 0 0;
   font-size: 12px;
 }
-
 
 /* 詳細 */
 .notice-detail-header{
@@ -329,7 +327,7 @@
   margin-top: 6px;
   font-size: 14px;
   font-weight: 700;
-  color: #000;                 /* ←クリック後も黒にしたいなら黒 */
+  color: #000;
   text-decoration: underline;
 }
 .attach-link:visited{ color:#000; }
@@ -396,7 +394,6 @@
   border: 0;
 }
 
-
 /* 削除確認モーダル */
 .m__box--confirm{
   width: min(86vw, 360px);
@@ -424,7 +421,7 @@
   min-width: 90px;
   padding: 8px 14px;
   font-size: 14px;
-  border: 1px solid #000;
+  border: 1px solid #aaa;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -436,4 +433,63 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+/* エラーメッセージ */
+.error-message{
+  color: red;
+  font-size: 13px;
+  text-align: center;
+  margin: 0 0 8px;
+}
+
+.top-error-area{
+  margin: 0 10px 8px;
+}
+
+.field-error{
+  color: red;
+  font-size: 12px;
+  margin: 4px 0 0 90px;
+}
+
+.field-error-top{
+  width: calc(100% - 90px);
+}
+
+.has-error .text-input,
+.has-error .select-input,
+.has-error .textarea-input{
+  border: 1px solid red;
+}
+
+/* 投稿年月日エラーを上に出しても横並びを崩さない */
+.form-block{
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.form-block > label{
+  width: 80px;
+}
+
+.form-block > input,
+.form-block > select,
+.form-block > textarea{
+  flex: 1;
+}
+
+/* 本文エラーの位置調整 */
+.form-block textarea + .field-error,
+.form-block .field-error:last-child{
+  width: 100%;
+}
+
+/* 添付ファイル名表示 */
+.selected-file-name{
+  margin: auto 0 ;
+  font-size: 12px;
+  text-align: center;
+  word-break: break-all;
+  max-width: 260px;
 }
