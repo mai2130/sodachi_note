@@ -26,7 +26,12 @@
   <!-- 名前 + 削除 -->
   <div class="detail-name-row">
     <div class="name-text">
-      名前：{{ board.user.get_full_name|default:board.user.username }}
+      名前：
+      {% if board.user.last_name or board.user.first_name %}
+        {{ board.user.last_name }} {{ board.user.first_name }}
+      {% else %}
+        {{ board.user.username }}
+      {% endif %}
     </div>
 
     {% if request.user == board.user %}
@@ -48,7 +53,11 @@
       <div class="board-post-item">
         <div class="post-meta">
           <span class="post-user">
-            {{ post.user.get_full_name|default:post.user.username }}
+            {% if post.user.last_name or post.user.first_name %}
+              {{ post.user.last_name }} {{ post.user.first_name }}
+            {% else %}
+              {{ post.user.username }}
+            {% endif %}
           </span>
           <span class="post-date">
             {{ post.created_at|date:"Y/m/d" }}
