@@ -27,7 +27,9 @@
   <div class="detail-name-row">
     <div class="name-text">
       名前：
-      {% if board.user.last_name or board.user.first_name %}
+      {% if board.user.is_facility %}
+        {{ board.user.nursery.name }}
+      {% elif board.user.last_name or board.user.first_name %}
         {{ board.user.last_name }} {{ board.user.first_name }}
       {% else %}
         {{ board.user.username }}
@@ -53,7 +55,9 @@
       <div class="board-post-item">
         <div class="post-meta">
           <span class="post-user">
-            {% if post.user.last_name or post.user.first_name %}
+            {% if post.user.is_facility %}
+              {{ post.user.nursery.name }}
+            {% elif post.user.last_name or post.user.first_name %}
               {{ post.user.last_name }} {{ post.user.first_name }}
             {% else %}
               {{ post.user.username }}
