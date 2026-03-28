@@ -116,7 +116,7 @@ def board_detail(request, pk):
 
     #回答一覧（古い順）をページング           
     posts_qs = board.posts.order_by('created_at')
-    paginator = Paginator(posts_qs, 5) #1ページあたり5件
+    paginator = Paginator(posts_qs, 6) #1ページあたり5件
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
