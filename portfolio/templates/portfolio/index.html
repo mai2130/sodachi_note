@@ -12,12 +12,18 @@
         <h1 class="page-title">そだちノート</h1>
 
         <section class ="card">
-            <figure class="screenshot-box">
-                <!--画像をimgで挿入-->
-                <!--<img src="{% static 'portfolio/img/screenshot.png' %}" alt="スクショ"> -->
-                <figcaption>アプリの画面</figcaption>
-                </figure>
-                <!-- 概要 -->
+            <figure class="phone-gallery">
+                <div class="phone-shot">
+                    <img src="{% static 'portfolio/home.png' %}" alt="ホーム画面">
+                </div>
+                <div class="phone-shot">
+                    <img src="{% static 'portfolio/board.png' %}" alt="Q&A掲示板">
+                </div>
+                <div class="phone-shot">
+                    <img src="{% static 'portfolio/notice.png' %}" alt="園からのおたより">
+                </div> 
+            </figure>
+
                 <p class="summary">
                     そだちノートは、園と家庭を繋げる<br>
                     子どもの成長と生活を記録するアプリです。<br>
@@ -25,16 +31,15 @@
                     掲示板を通じて在園児の保護者同士で<br>
                     情報交換を行うことができます。
                 </p>
-                <!-- 資料リンク -->
                 <nav class="doc-links">
-                    <!--<a href="" target="_blank" rel="noopener">企画書</a>-->
-                    <!--<a href="" target="_blank" rel="noopener">画面設計図</a>-->
-                    <!--<a href="" target="_blank" rel="noopener">画面遷移図</a>-->
-                    <!--<a href="" target="_blank" rel="noopener">ER図</a>-->
+                    <a href="{% static 'portfolio/kikakusho.pdf' %}" target="_blank" rel="noopener">企画書</a>
+                    <a href="{% static 'portfolio/sekkeizu.pdf' %}" target="_blank" rel="noopener">画面設計図</a>
+                    <a href="{% static 'portfolio/senizu.drawio.svg' %}" target="_blank" rel="noopener">画面遷移図</a>
+                    <a href="{% static 'portfolio/ER.drawio.svg' %}" target="_blank" rel="noopener">ER図</a>
                 </nav>
                 
                 <div class="cta">
-                    <a class="btn-primary" href="{% url 'login' %}">アプリへ移動</a>
+                    <a class="btn-primary" href="{% url 'login' %}">アプリへ</a>
                 </div>
         </section>
     </main>
