@@ -16,7 +16,7 @@ class NoticeListView(LoginRequiredMixin, ListView):
     model = Notice
     template_name = 'notices/list.html'
     context_object_name = 'notices'
-    paginate_by = 10
+    paginate_by = 5
         
     def get_queryset(self):
         user = self.request.user
