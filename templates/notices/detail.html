@@ -38,7 +38,12 @@
 
                 <div class="m__body">
                     {% if file_is_pdf %}
-                        <iframe src="{{ notice.file.url }}" class="m__pdf" title="添付資料PDF"></iframe>
+                        <div class="pdf-fileback">
+                            <p>PDFはこの画面内では表示できない場合があります</p>
+                            <a href="{{ notice.file.url }}" target="_blank" rel="noopener" class="pdf-open-link">
+                                PDFを開く
+                            </a>
+                        </div>
                     {% elif file_is_image %}
                         <img src="{{ notice.file.url }}" alt="添付資料" class="m__img">
                     {% else %}
