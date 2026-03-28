@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,9 +28,9 @@ MEDIA_ROOT = BASE_DIR / "media"
 SECRET_KEY = 'django-insecure-9d_s8mg(iyyb%%3sul%jdlny-$asnd140ocf*^n1=25*hpo1+9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'maiii.pythonanywhere.com']
 
 
 # Application definition
@@ -156,4 +157,12 @@ EMAIL_HOST_PASSWORD = "xxvbjtcntlyxtver"
 
 DEFAULT_FROM_EMAIL = f"そだちノート <{EMAIL_HOST_USER}>"
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
+SECRET_KEY = get_random_secret_key() 
+
+try:
+    from .local_settings import *
+except:
+    pass
