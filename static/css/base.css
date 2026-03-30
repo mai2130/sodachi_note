@@ -1,6 +1,12 @@
 html, body {
     height: 100%;
     margin: 0;
+    font-family:
+        "Hiragino Sans",
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
 }
 .site-header{
     background-color:lightpink;
@@ -14,16 +20,16 @@ html, body {
 }
 .site-header .site-nav {
     display: flex;
-    align-items: center;  /* 縦位置を中央揃え */
-    justify-content: space-between; /* 左右端に配置 */
+    align-items: center; 
+    justify-content: space-between; 
     max-width: 700px;
-    margin: 0 auto; /* 画面中央に */
+    margin: 0 auto;
     padding: 4px 8px;
 }
 .logo {
     margin: 0; 
     font-size: 30px;
-    line-height: 1.1; /* 行間を少し詰めて高さを抑える */
+    line-height: 1.1;
 }
 .logo a{
     text-decoration: none;
@@ -43,7 +49,7 @@ html, body {
     color:black;
     font-size: 12px;
     display: inline-flex;
-    flex-direction: column;   /* 縦方向に並べる */
+    flex-direction: column;  
     align-items: center;
     gap: 2px;
 }
@@ -65,9 +71,9 @@ html, body {
 }
 
 .footer-nav {
-    display: flex; /*横並び*/
-    justify-content: space-around; /*等間隔に配置*/
-    align-items: center; /*縦位置中央*/
+    display: flex; 
+    justify-content: space-around;
+    align-items: center; 
     gap: 6px;
     max-width: 700px;
     margin: 0 auto;
