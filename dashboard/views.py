@@ -15,7 +15,6 @@ class HomeView(LoginRequiredMixin, TemplateView):
     # テンプレに渡すデータを作成する（ctx=context）
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        
         user = self.request.user
         
         today = date.today()
@@ -27,24 +26,29 @@ class HomeView(LoginRequiredMixin, TemplateView):
         month_att = None
         attendance_map = {}
         day_attendance = None
-       
+    
         #  園（施設）
         if user.is_facility():
             ctx["mode"] = "nursery"
-            # プルダウン用の園児一覧
-            ctx["nursery_children"] = Child.objects.filter(nursery=user.nursery).order_by("id")
 
-            # GETのchild_id（無いときはNone）
-            child_id = self.request.GET.get("child_id")
-            ctx["child_id"] = child_id
-
-            # 選択中園児（child_idがあるときだけ取得）
-            if child_id:
-                child = get_object_or_404(
-                    Child.objects.filter(nursery=user.nursery),
-                    id=child_id
-                )
-            # ★重要：テンプレが使うので必ず渡す
+            # nurseryがあるときだけ取得する
+            if hasattr(user, "nursery"):
+                # プルダウン用の園児一覧
+                ctx["nursery_children"] = Child.objects.filter(nursery=user.nursery).order_by("id")
+                # GETのchild_id（無いときはNone）
+                child_id = self.request.GET.get("child_id")
+                ctx["child_id"] = child_id
+                # 選択中園児（child_idがあるときだけ取得）
+                if child_id:
+                    child = get_object_or_404(
+                        Child.objects.filter(nursery=user.nursery),
+                        id=child_id
+                    )
+            else:
+                ctx["nursery_children"] = Child.objects.none()
+                ctx["child_id"] = None
+                messages.error(self.request, "この施設アカウントには園情報が登録されていません")
+            
             ctx["child"] = child
 
             if child:
@@ -58,11 +62,11 @@ class HomeView(LoginRequiredMixin, TemplateView):
             att = Attendance.objects.filter(child=child, date=target_day).first()
             day_attendance = att.status if att else None
 
-        #  保護者
+        # 保護者
         elif user.is_guardian():
             ctx["mode"] = "guardian"
 
-            # A案：active_child を使う（子ども選択UIなし）
+            # active_child を使う
             child = user.active_child
             if not child:
                 first_link = user.family_links.select_related("child").first()
@@ -109,7 +113,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
             "weekdays": ["日", "月", "火", "水", "木", "金", "土"],
         })
 
-        # テンプレ用：daily_info に統一（重要）
+        # テンプレ用：daily_info に統一
         ctx["daily_info"] = {
             "date": target_day,
             "attendance": day_attendance,  # 0/1/2/None
