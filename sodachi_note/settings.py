@@ -29,8 +29,11 @@ SECRET_KEY = 'django-insecure-9d_s8mg(iyyb%%3sul%jdlny-$asnd140ocf*^n1=25*hpo1+9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'maiii.pythonanywhere.com']
+ALLOWED_HOSTS = ['maiii.pythonanywhere.com', '127.0.0.1', 'localhost']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://maiii.pythonanywhere.com',
+]
 
 # Application definition
 
