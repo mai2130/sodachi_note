@@ -332,6 +332,24 @@
 }
 .attach-link:visited{ color:#000; }
 
+.pdf-fallback{
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.pdf-open-link{
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  border: 1px solid #000;
+  background: #eee;
+  color: #000;
+  text-decoration: none;
+}
+
+.pdf-open-link:visited{
+    color: #000;
+}
 
 /* モーダル（添付資料） */
 .m{ display:none; }
