@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -144,7 +143,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL =  'home'
-LOGOUT_REDIRECT_URL = 'login' 
+LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL =  'login'
 
 # =========================
@@ -162,8 +161,6 @@ DEFAULT_FROM_EMAIL = f"そだちノート <{EMAIL_HOST_USER}>"
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-
-SECRET_KEY = get_random_secret_key() 
 
 try:
     from .local_settings import *
