@@ -9,7 +9,6 @@ html,body {
   margin: 0;
   font-family:
     "Hiragino Sans",
-    "Hiragino Kaku Gothic ProN",
     "Yu Gothic",
     "Meiryo",
     sans-serif;
@@ -73,9 +72,10 @@ input[type="password"],
 select{
   width: calc(100% - 20px);  
   margin: 0 10px;
-  padding: 8px;
-  outline: none;
+  padding: 10px 8px;
   font-size: 16px;
+  border: 1px solid #999;
+  background: #fff;
 }
 
 .btn{
@@ -98,13 +98,3 @@ select{
   text-underline-offset: 2px;
   font-size: 14px;
 }
-
-.link-item{
-  display: block;
-  margin: 0 auto;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  font-size: 16px;
-  text-align: center;
-}
-
