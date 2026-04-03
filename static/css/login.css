@@ -89,12 +89,14 @@ select{
 
 .form-links{
   display: grid; 
-  gap: 20px;
+  gap: 24px;
   margin-top: 16px;
   justify-items: center;
 }
 .form-links .link-item{
+display: inline-block;
   text-decoration: underline;
   text-underline-offset: 2px;
   font-size: 14px;
+  line-height: 1.8;
 }
