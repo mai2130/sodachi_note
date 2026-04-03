@@ -35,14 +35,28 @@ class EmailAuthenticationForm(forms.Form):
 
 # 施設（園）側の新規登録フォーム    
 class FacilitySignUpForm(forms.Form):
-    nursery_name = forms.CharField(label= "施設名", max_length=100)
-    postal_code = forms.CharField(label ="郵便番号", max_length=8)
-    address = forms.CharField(label = "住所", max_length=100)
-    phone_number = forms.CharField(label = "電話番号", max_length=15)
-    email = forms.EmailField(label = "メールアドレス")
-    password1 = forms.CharField(label = "パスワード ※英数字８文字以上",widget=forms.PasswordInput)
-    password2 = forms.CharField(label = "パスワード（確認用）",widget=forms.PasswordInput)
-    
+    nursery_name = forms.CharField(label= "施設名", max_length=100,
+                                   error_messages={"required": "施設名を入力してください",},
+                                   )
+    postal_code = forms.CharField(label ="郵便番号", max_length=8,
+                                   error_messages={"required": "郵便番号を入力してください",},
+                                  )
+    address = forms.CharField(label = "住所", max_length=100,
+                                   error_messages={"required": "住所を入力してください",},
+                              )
+    phone_number = forms.CharField(label = "電話番号", max_length=15,
+                                   error_messages={"required": "電話番号を入力してください",},
+                                   )
+    email = forms.EmailField(label = "メールアドレス",
+                                   error_messages={"required": "メールアドレスを入力してください",
+                                                   "invalid": "正しいメールアドレスを入力してください",},
+                             )
+    password1 = forms.CharField(label = "パスワード ※英数字８文字以上",widget=forms.PasswordInput,
+                                   error_messages={"required": "パスワードを入力してください",},
+                                )
+    password2 = forms.CharField(label = "パスワード（確認用）",widget=forms.PasswordInput,
+                                   error_messages={"required": "確認用パスワードを入力してください",},
+                                )
         
     def clean(self):
         cleaned = super().clean()
@@ -54,13 +68,28 @@ class FacilitySignUpForm(forms.Form):
 
 # 保護者側の新規登録フォーム
 class GuardianSignUpForm(forms.Form):
-    invite_code = forms.CharField(label="認証コード", max_length=6)
-    child_name = forms.CharField(label="園児氏名", max_length=50)
-    guardian_name = forms.CharField(label="保護者氏名", max_length=30)
-    relationship = forms.ChoiceField(choices=[("","")] + list(Family.Relationship.choices), label="続柄")
-    email = forms.EmailField(label="メールアドレス")
-    password1 = forms.CharField(label="パスワード ※英数字８文字以上", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="パスワード（確認用）", widget=forms.PasswordInput)
+    invite_code = forms.CharField(label="認証コード", max_length=6,
+                                   error_messages={"required": "認証コードを入力してください",},
+                                  )
+    child_name = forms.CharField(label="園児氏名", max_length=50,
+                                   error_messages={"required": "園児氏名を入力してください",},
+                                 )
+    guardian_name = forms.CharField(label="保護者氏名", max_length=30,
+                                   error_messages={"required": "保護者氏名を入力してください",},
+                                 )       
+    relationship = forms.ChoiceField(choices=[("","選択してください")] + list(Family.Relationship.choices), label="続柄",
+                                   error_messages={"required": "続柄を選択してください",},
+                                     )
+    email = forms.EmailField(label="メールアドレス",
+                                error_messages={"required": "メールアドレスを入力してください",
+                                                "invalid": "正しいメールアドレスを入力してください",},
+                             )
+    password1 = forms.CharField(label="パスワード ※英数字８文字以上", widget=forms.PasswordInput,
+                                   error_messages={"required": "パスワードを入力してください",},
+                                )
+    password2 = forms.CharField(label="パスワード（確認用）", widget=forms.PasswordInput,
+                                error_messages={"required": "確認用パスワードを入力してください",},
+                                )
     
     def clean_invite_code(self):
         code = (self.cleaned_data.get("invite_code") or "").strip().upper() # strip()：前後スペース削除, upper()：小文字で入れても大文字扱いにする（例: ab12cd → AB12CD）

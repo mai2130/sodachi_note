@@ -15,16 +15,18 @@
 
             {% if form.errors %}
                 <div class="form-error" role="alert">
-                    未入力項目があります
-                </div>
-            {% endif %}
+                    {% if form.non_field_errors %}
+                        {% for e in form.non_field_errors %}
+                            <div>{{ e }}</div>
+                        {% endfor %}
+                    {% endif %}
 
-            {% if form.non_field_errors %}
-            <div class = "form-error" role="alert">
-                {% for e in form.non_field_errors %}
-            <div>{{ e }}</div>
-                {% endfor %}
-        </div>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
             {% endif %}
             
             <form method="POST" novalidate>
@@ -35,7 +37,6 @@
                         施設名
                     </label>
                     {{ form.nursery_name }}
-                    {{ form.nursery_name.errors }}
                 </p>
 
                 <p class="field">
@@ -43,7 +44,6 @@
                         郵便番号
                     </label>
                     {{ form.postal_code }}
-                    {{ form.postal_code.errors }}
                 </p>
 
                 <p class="field">
@@ -51,7 +51,6 @@
                         住所
                     </label>
                     {{ form.address }}
-                    {{ form.address.errors }}
                 </p>
 
                 <p class="field">
@@ -59,7 +58,6 @@
                         電話番号
                     </label>
                     {{ form.phone_number }}
-                    {{ form.phone_number.errors }}
                 </p>
 
                 <p class="field">
@@ -67,7 +65,6 @@
                         メールアドレス
                     </label>
                     {{ form.email }}
-                    {{ form.email.errors }}
                 </p>
 
                 <p class="field">
@@ -75,7 +72,6 @@
                         パスワード<span class="helper -warn">※英数字8文字以上</span>
                     </label>
                     {{ form.password1 }}
-                    {{ form.password1.errors }}
                 </p>
 
                 <p class="field">
@@ -83,10 +79,11 @@
                         パスワード（確認用）
                     </label>
                     {{ form.password2 }}
-                    {{ form.password2.errors }}
                 </p>
 
                 <button class="btn" type="submit">登録</button>
+
+                <a class="link-item" href="{% url 'login' %}">ログイン画面へ</a>
             </form>
         </section>
     </main>

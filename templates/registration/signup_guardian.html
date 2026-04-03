@@ -1,11 +1,11 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang ="ja">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>【園児用】新規アカウント登録</title>
-    <link rel="stylesheet" href="{% static 'css/signup.css' %}">  
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
 </head>
 <body>
     <main class="page-center">
@@ -13,21 +13,22 @@
             <h1 class="title">そだちノートへようこそ！</h1>
             <h2 class="subtitle">～【園児用】新規アカウント登録～</h2>
 
-            {# 上部の共通エラー #}
             {% if form.errors %}
                 <div class="form-error" role="alert">
-                    未入力項目があります
-                </div>
-            {% endif %}
+                    {% if form.non_field_errors %}
+                        {% for e in form.non_field_errors %}
+                            <div>{{ e }}</div>
+                        {% endfor %}
+                    {% endif %}
 
-            {% if form.non_field_errors %}
-                <div class = "form-error" role="alert">
-                    {% for e in form.non_field_errors %}
-                    <div> {{ e }}</div>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
                     {% endfor %}
                 </div>
             {% endif %}
-            
+
             <form method="POST" novalidate>
                 {% csrf_token %}
 
@@ -36,31 +37,27 @@
                         認証コード
                     </label>
                     {{ form.invite_code }}
-                    {{ form.invite_code.errors }}
                 </p>
 
                 <p class="field">
-                    <label for="{{ form.child_name.id_for_label }}"class="{% if form.child_name.errors %}is-error{% endif %}">
+                    <label for="{{ form.child_name.id_for_label }}" class="{% if form.child_name.errors %}is-error{% endif %}">
                         園児氏名
                     </label>
                     {{ form.child_name }}
-                    {{ form.child_name.errors }}
                 </p>
 
                 <p class="field">
-                    <label for="{{ form.guardian_name.id_for_label }}"class="{% if form.guardian_name.errors %}is-error{% endif %}">
+                    <label for="{{ form.guardian_name.id_for_label }}" class="{% if form.guardian_name.errors %}is-error{% endif %}">
                         保護者氏名
                     </label>
                     {{ form.guardian_name }}
-                    {{ form.guardian_name.errors }}
                 </p>
 
                 <p class="field">
-                    <label for="{{ form.relationship.id_for_label }}"class="{% if form.relationship.errors %}is-error{% endif %}">
+                    <label for="{{ form.relationship.id_for_label }}" class="{% if form.relationship.errors %}is-error{% endif %}">
                         続柄
                     </label>
                     {{ form.relationship }}
-                    {{ form.relationship.errors }}
                 </p>
 
                 <p class="field">
@@ -68,7 +65,6 @@
                         メールアドレス
                     </label>
                     {{ form.email }}
-                    {{ form.email.errors }}
                 </p>
 
                 <p class="field">
@@ -76,7 +72,6 @@
                         パスワード<span class="helper -warn">※英数字8文字以上</span>
                     </label>
                     {{ form.password1 }}
-                    {{ form.password1.errors }}
                 </p>
 
                 <p class="field">
@@ -84,10 +79,11 @@
                         パスワード（確認用）
                     </label>
                     {{ form.password2 }}
-                    {{ form.password2.errors }}
                 </p>
 
                 <button class="btn" type="submit">登録</button>
+
+                <a class="link-item" href="{% url 'login' %}">ログイン画面へ</a>
             </form>
         </section>
     </main>
