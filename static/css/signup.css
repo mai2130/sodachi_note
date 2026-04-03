@@ -8,11 +8,10 @@ html,body {
     height: 100%;
     margin: 0;
     font-family:
-    "Hiragino Sans",
-    "Hiragino Kaku Gothic ProN",
-    "Yu Gothic",
-    "Meiryo",
-    sans-serif;
+        "Hiragino Sans",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
 }
 
 .page-center{
@@ -54,7 +53,7 @@ label{
 
 /* エラー時のラベル（赤字） */
 label.is-error{
-  color: red;
+    color: red;
 }
 
 .helper{
@@ -73,15 +72,20 @@ select{
     width: calc(100% - 20px);
     margin: 0 10px;
     padding: 8px;
-    outline: none;
+    border: 1px solid #999;
     font-size: 14px;
 }
 
 .form-error{
-    margin: 0 0 12px;
+    margin: 0 10px 14px;
+    padding: 10px 12px;
     color:red;
     font-size: 16px;
     text-align: center;
+}
+
+.form-error div + div{
+    margin-top: 4px;
 }
 
 /* 各項目のエラー表示は非表示 */
@@ -96,5 +100,15 @@ ul.errorlist{
     padding: 10px 0;
     background:#2991f9; 
     font-size: 16px;
+    color: #fff;
+    border: none;
 }
 
+.link-item{
+    display: block;
+    margin: 0 auto;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-size: 16px;
+    text-align: center;
+}
