@@ -25,6 +25,10 @@
     margin: 0 auto 14px;
     padding: 6px 10px;
     font-size: 14px;
+    border-radius: 0;
+    appearance: auto;
+    -webkit-appearance: menulist;
+
 }
 
 /* フォーム部分 */
