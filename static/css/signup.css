@@ -1,17 +1,27 @@
 *{
-    margin: 0;
-    padding: 0; 
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0; 
+  box-sizing: border-box;
 }
 
 html,body { 
-    height: 100%;
-    margin: 0;
-    font-family:
-        "Hiragino Sans",
-        "Yu Gothic",
-        "Meiryo",
-        sans-serif;
+  height: 100%;
+  margin: 0;
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
+  color: #000;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+select,
+button,
+textarea {
+  font: inherit;
+  color: inherit;
 }
 
 .page-center{
@@ -47,6 +57,7 @@ html,body {
 }
 
 label{
+    display: block;
     font-size: 14px;
     margin: 0 10px;
 }
@@ -62,7 +73,7 @@ label.is-error{
 }
 
 .helper.-warn{
-    color:red
+    color:red;
 }
 
 input[type="email"],
@@ -86,15 +97,14 @@ input[type="password"]{
 select{
     height: 42px;
     border-radius: 0;
-    appearance: auto;
-    -webkit-appearance: menulist;
 }
 
 .form-error{
     margin: 0 10px 14px;
     padding: 10px 12px;
     color:red;
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1.5;
     text-align: center;
 }
 
@@ -108,13 +118,14 @@ ul.errorlist{
 }
 
 .btn{
-    display: block;
-    width: 70%;
-    margin: 20px auto 0;
-    padding: 10px 0;
-    background:#2991f9; 
-    font-size: 16px;
-    border: none;
+  display: block;
+  width: 60%;
+  margin: 20px auto 0;
+  padding: 10px 0;
+  background:#2991f9;
+  font-size: 16px;
+  border: none;
+  color: #fff;
 }
 
 .link-item{
@@ -124,5 +135,6 @@ ul.errorlist{
     text-underline-offset: 2px;
     font-size: 16px;
     text-align:right;
+    color: #000;
 }
 
