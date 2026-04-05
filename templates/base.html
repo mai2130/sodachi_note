@@ -22,7 +22,8 @@
                 <form action ="{% url 'logout' %}" method="POST" class="logout-form">
                     {% csrf_token %}
                     <button type="submit" class="link-like">
-                        <i class="bi bi-box-arrow-right"></i> ログアウト
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>ログアウト</span>
                     </button>
                 </form>             
             </div>
@@ -44,12 +45,12 @@
 
             <a class="footer-item" href="{% url 'notices:list' %}">
             <i class="bi bi-envelope"></i>
-            <span>おたより</span>            
+            <span class="label">おたより</span>            
             </a>
 
             <a class="footer-item" href="{% url 'boards:list' %}">
             <i class="bi bi-wechat"></i>
-            <span>掲示板</span>
+            <span class="label">掲示板</span>
             </a>
 
             <a class="footer-item"
@@ -59,7 +60,7 @@
             {% url 'families:info' %}
             {% endif %}">
             <i class="bi bi-people"></i>
-            <span>アカウント</span>
+            <span class="label">アカウント</span>
             </a>
 
             
@@ -70,7 +71,7 @@
                 {% url 'accounts:child_mypage' %}
                 {% endif %}">
                 <i class="bi bi-person"></i>
-                <span>マイページ</span>
+                <span class="label">マイページ</span>
             </a>
 
         </nav>
