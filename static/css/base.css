@@ -1,4 +1,8 @@
-html, body {
+html{
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+body {
     height: 100%;
     margin: 0;
     font-family:
@@ -7,11 +11,20 @@ html, body {
         "Yu Gothic",
         "Meiryo",
         sans-serif;
+        color: #0000;
+    }
+* {
+    box-sizing: border-box;
+}
+input,
+select,
+button,
+textarea {
+    font: inherit;
 }
 .site-header{
-    background-color:lightpink;
+    background-color:#f8c8d0;
     padding: 2px 0px;
-
     position: fixed;
     top: 0;
     left: 0;
@@ -25,6 +38,7 @@ html, body {
     max-width: 700px;
     margin: 0 auto;
     padding: 4px 8px;
+    min-height: 56px;
 }
 .logo {
     margin: 0; 
@@ -35,13 +49,11 @@ html, body {
     text-decoration: none;
     color:black;
 }
-
 /* アイコンサイズ */
 .link-like i{
     font-size: 30px;
     line-height: 1;
 }
-
 .link-like {
     background: none;
     border: none;
@@ -52,15 +64,19 @@ html, body {
     flex-direction: column;  
     align-items: center;
     gap: 2px;
+    appearance: none;
+    -webkit-appearance: none;
 }
-
+.link-like span {
+    font-size: 12px;
+    line-height: 1.2;
+}
 .site-main{
     padding-top: 60px;
     padding-bottom: 80px;
 }
-
 .site-footer{
-    background-color:beige;
+    background-color: #f5f1e8;
     color:black;
     position: fixed;
     bottom: 0;
@@ -69,7 +85,6 @@ html, body {
     z-index: 1000;
     border-top: 1px solid #ddd;
 }
-
 .footer-nav {
     display: flex; 
     justify-content: space-around;
@@ -79,24 +94,21 @@ html, body {
     margin: 0 auto;
     padding: 6px 8px;
 }
-
 .footer-item{
     display: inline-flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 2px;
     text-decoration: none;
     color: black;
-    font-size: 11px;
     min-width: 56px;
     padding: 4px 6px;
 }
-
 .footer-item i{
     font-size: 30px;
     line-height: 1;
 }
-
 .footer-item .label{
     font-size: 12px;
     line-height: 1.2;
