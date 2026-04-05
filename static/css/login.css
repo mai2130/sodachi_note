@@ -12,6 +12,16 @@ html,body {
     "Yu Gothic",
     "Meiryo",
     sans-serif;
+  color: #000;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+select,
+button,
+textarea {
+  font: inherit;
+  color: inherit;
 }
 
 .page-center{
@@ -41,13 +51,9 @@ html,body {
 }
 
 label{
+  display: block;
   font-size: 14px;
   margin: 0 10px;
-}
-
-/* エラー時のラベル（赤字） */
-label.is-error{
-  color: red;
 }
 
 .form-error{
@@ -86,6 +92,7 @@ select{
   background:#248df6b8;
   font-size: 16px;
   border: none;
+  color: #fff;
 }
 
 .form-links{
@@ -94,10 +101,12 @@ select{
   margin-top: 16px;
   justify-items: center;
 }
+
 .form-links .link-item{
-display: inline-block;
+  display: inline-block;
   text-decoration: underline;
   text-underline-offset: 2px;
   font-size: 14px;
   line-height: 1.8;
+  color: #000;
 }
