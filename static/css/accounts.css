@@ -1,4 +1,20 @@
 /* 全画面共通 */
+*{
+  margin: 0;
+  padding: 0; 
+  box-sizing: border-box;
+}
+
+html,body { 
+  height: 100%;
+  margin: 0;
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
+}
+
 .phone-frame{
   max-width: 420px;
   margin: 0 auto;
@@ -27,7 +43,6 @@
 }
 
 /* アカウント一覧 */
-
 .account-table{
   width: 100%;
 }
@@ -73,7 +88,6 @@
 }
 
 /* アカウント管理 */
-
 .mypage-form{
   padding: 10px;
 }
@@ -135,19 +149,19 @@
 .delete-btn-link{
   width: 140px;
   height: 32px;
-  border: 1px solid #777;
   font-weight: bold;
 }
 
 .mypage-save-btn{
-  background: #b7cdf4;
+  background: #2991f9;
+  color: #000;
+
 }
 
 .delete-btn-link{
   display: inline-block;
   line-height: 32px;
   text-align: center;
-  border: 1px solid #777;
   background: #f4caca; /* ピンク */
   font-weight: bold;
   text-decoration: none;
