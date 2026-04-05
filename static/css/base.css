@@ -11,7 +11,7 @@ body {
         "Yu Gothic",
         "Meiryo",
         sans-serif;
-        color: #0000;
+        color: black;
     }
 * {
     box-sizing: border-box;
@@ -21,6 +21,10 @@ select,
 button,
 textarea {
     font: inherit;
+    color: inherit;
+}
+a {
+    color: inherit;
 }
 .site-header{
     background-color:#f8c8d0;
@@ -72,8 +76,8 @@ textarea {
     line-height: 1.2;
 }
 .site-main{
-    padding-top: 60px;
-    padding-bottom: 80px;
+    padding-top: 64px;
+    padding-bottom: 84px;
 }
 .site-footer{
     background-color: #f5f1e8;
