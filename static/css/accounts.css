@@ -1,18 +1,28 @@
 /* 全画面共通 */
-*{
-  margin: 0;
-  padding: 0; 
-  box-sizing: border-box;
+html{
+    height: 100%;
+    -webkit-text-size-adjust: 100%;
 }
-
-html,body { 
-  height: 100%;
-  margin: 0;
-  font-family:
-    "Hiragino Sans",
-    "Yu Gothic",
-    "Meiryo",
-    sans-serif;
+body {
+    height: 100%;
+    margin: 0;
+    font-family:
+        "Hiragino Sans",
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+        color: black;
+    }
+* {
+    box-sizing: border-box;
+}
+input,
+select,
+button,
+textarea {
+    font: inherit;
+    color: inherit;
 }
 
 .phone-frame{
@@ -112,9 +122,11 @@ html,body {
 .mypage-field select{
   width: 100%;
   height: 26px;
-  border: 1px solid #777;
+  border: 1px solid #999;
   padding: 2px 6px;
   font-size: 13px;
+  background-color: #fff;
+  border-radius: 0;
   box-sizing: border-box;
 }
 
@@ -149,24 +161,20 @@ html,body {
 .delete-btn-link{
   width: 140px;
   height: 32px;
-  font-weight: bold;
+  border: none;
+  color: #fff;
+
 }
 
 .mypage-save-btn{
-  background: #2991f9;
-  color: #000;
-
+    display: block;
+    margin: 10px auto 0;
+    background: #2991f9;
 }
 
 .delete-btn-link{
   display: inline-block;
-  line-height: 32px;
-  text-align: center;
-  background: #f4caca; /* ピンク */
-  font-weight: bold;
-  text-decoration: none;
-  color: #000;
-  margin-top: 10px;
+  background:#f65691c4; 
 }
 
 /* 上部エラーメッセージ */
