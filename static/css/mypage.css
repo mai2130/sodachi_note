@@ -1,7 +1,27 @@
-* {
+*{
   margin: 0;
-  padding: 0;
+  padding: 0; 
   box-sizing: border-box;
+}
+
+html,body { 
+  height: 100%;
+  margin: 0;
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
+  color: #000;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+select,
+button,
+textarea {
+  font: inherit;
+  color: inherit;
 }
 
 /* 外枠 */
@@ -51,7 +71,7 @@
 
 /* ラベル（共通） */
 .mypage-label{
-  width: 90px;         /* ラベル列幅固定 */
+  width: 90px;         
   font-size: 13px;
   text-align:left;
   white-space: nowrap;
@@ -62,7 +82,6 @@
   flex: 1;
 }
 
-/* input / select / textarea を統一デザインに */
 .mypage-field input,
 .mypage-field select,
 .mypage-field textarea{
@@ -70,7 +89,7 @@
   height: 28px;
   padding: 4px 8px;
   font-size: 13px;
-  border: 1px solid #bfbfbf;
+  border: 1px solid #999;
   box-sizing: border-box;
 }
 
@@ -107,7 +126,7 @@
 .mypage-link{
   text-align: center;
   margin: 12px 0 10px;
-  font-size: 12px;
+  font-size: 16px;
 }
 .mypage-link a{
   text-decoration: underline;
@@ -125,9 +144,9 @@
   height: 30px;
   padding: 0 16px;
   font-size: 13px;
-  font-weight: 700;
-  border: 1px solid #8a8a8a;
-  background: #b7cdf4;
+  border: 1px solid #999;
+  background: #2991f9;
+  color: #fff;
 }
 .mypage-save-btn:hover{
   background: #e6e6e6;
