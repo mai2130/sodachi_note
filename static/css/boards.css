@@ -1,13 +1,40 @@
 /* 共通 */
+*{
+  margin: 0;
+  padding: 0; 
+  box-sizing: border-box;
+}
+
+html,body { 
+  height: 100%;
+  margin: 0;
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
+  color: #000;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+select,
+button,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
 .board-frame{
-    width: 380px;
-    max-width: 92vw;
-    margin: 0 auto;  /* 左右中央寄せ */
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto;
+    padding: 16px;
 }
 
 .page-title {
     font-size: 20px;           
-    margin: 10px 0;
+    margin: 15px 0;
     text-align: center;  
 }
 
@@ -38,21 +65,25 @@
     width: 170px;
     height: 34px;
     padding: 0 10px;
-    border: 1px solid #777;    box-sizing: border-box;
+    border: 1px solid #999;
+    box-sizing: border-box;
 }
 
 .category-select {
     width: 120px;
     height: 34px;
-    border: 1px solid #777;
+    border: 1px solid #999;
     box-sizing: border-box;
+    border-radius: 0;
+    background: #fff;
+    color: #000;
 }
 
 .search-btn {
     width: 40px;
     height: 34px;
     padding: 4px 10px;
-    border: 1px solid #777;
+    border: 1px solid #999;
     background: white;
 }
 
