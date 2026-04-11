@@ -34,7 +34,7 @@ textarea {
 
 .page-title {
     font-size: 20px;           
-    margin: 15px 0;
+    margin-bottom: 20px;
     text-align: center;  
 }
 
@@ -70,7 +70,7 @@ textarea {
 }
 
 .category-select {
-    width: 120px;
+    width: 150px;
     height: 34px;
     border: 1px solid #999;
     box-sizing: border-box;
@@ -80,7 +80,7 @@ textarea {
 }
 
 .search-btn {
-    width: 40px;
+    width: 50px;
     height: 34px;
     padding: 4px 10px;
     border: 1px solid #999;
@@ -152,7 +152,7 @@ textarea {
     display: inline-block;
     padding: 8px 12px;
     background: #b7cdf4;
-    border: 1px solid #777;
+    border: 1px solid #999;
     text-decoration: none;
     color: #000;
 }
@@ -177,6 +177,7 @@ textarea {
 
 .form-field {
     flex: 1;
+    border-radius: 0;
 }
 
 .text-input,
@@ -184,7 +185,7 @@ textarea {
     width: 100%;
     height: 32px;
     padding: 4px 8px;
-    border: 1px solid #777;
+    border: 1px solid #999;
     box-sizing: border-box;
     font-size: 14px;
     background: #fff;
@@ -207,7 +208,7 @@ textarea {
     display: inline-block;
     font-size: 14px;
     padding: 6px 30px;
-    border: 1px solid #777;
+    border: 1px solid #999;
     background: #b7cdf4;
 }
 
@@ -267,7 +268,7 @@ textarea {
 .delete-btn {
     padding: 2px 10px;
     font-size: 12px;
-    border: 1px solid #777;
+    border: 1px solid #999;
     background:pink;
 }
 
@@ -316,7 +317,7 @@ textarea {
 .reply-submit-btn {
   width: 64px;
   height: 32px;
-  border: 1px solid #777;
+  border: 1px solid #999;
   background: #b7cdf4;  
 }
 
