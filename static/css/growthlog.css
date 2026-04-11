@@ -24,7 +24,7 @@ textarea {
     color: inherit;
 }
 :root{
-    --line: #999
+    --line: #999;
     --selected: #eee;
     --label-w: 72px;
     --field-gap: 10px;
@@ -75,7 +75,10 @@ textarea {
 }
 
 .growthlog-input-inline{
+    display: flex;
     justify-content: flex-start;
+    align-items: center;
+    flex: 1;
 }
 
 .growthlog-body select,
@@ -135,8 +138,7 @@ textarea {
 }
 
 /* ボタンのラベル部分 */
-.choice-btn span,
-.growthlog-input-inline.button-choices .choice-btn {
+.choice-btn span{
     display: block;
     width: 100%;
     text-align: center;
