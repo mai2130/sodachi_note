@@ -24,7 +24,7 @@ textarea {
     color: inherit;
 }
 :root{
-    --line: #eee;
+    --line: #999
     --selected: #eee;
     --label-w: 72px;
     --field-gap: 10px;
@@ -51,9 +51,6 @@ textarea {
     border-radius: 0;
     background: #fff;
     color: #000;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
 }
 .growthlog-body .child-select{
     width: 100%;
@@ -89,16 +86,8 @@ textarea {
     padding: 6px 8px;
     font-size: 16px;
     text-align: center;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: #fff;
     border: 1px solid var(--line);
-}
-
-.growthlog-body select{
-    width: var(--control-w);
-    max-width: none;
+    background: #fff;
 }
 
 .growthlog-temp input[type="number"]{
@@ -119,14 +108,17 @@ textarea {
     min-height: 90px;
 }
 
-.growthlog-input-inline.button-choices,
-.button-choices{
-    display: flex;
-    justify-content: flex-start;
-    flex: 1;
-    width: 100%;
+.growthlog-body select,
+.growthlog-body input[type="text"],
+.growthlog-body input[type="number"],
+.growthlog-body input[type="time"],
+.growthlog-body textarea{
+    padding: 6px 8px;
+    font-size: 16px;
+    text-align: center;
+    border: 1px solid var(--line);
+    background: #fff;
 }
-
 /* ボタン2つで幅を埋める */
 .growthlog-input-inline.button-choices .choice-btn{
     flex: 1;  
