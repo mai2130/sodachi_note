@@ -80,14 +80,14 @@ a {
     padding-bottom: 84px;
 }
 .site-footer{
-    background-color: #f5f1e8;
+    background-color: #fcecc7;
     color:black;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #999;
 }
 .footer-nav {
     display: flex; 
