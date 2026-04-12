@@ -169,12 +169,15 @@ textarea {
 .mypage-save-btn{
     display: block;
     margin: 10px auto 0;
-    background: #2991f9;
+    border: 1px solid #999;
+    background: #b7cdf4;
 }
 
 .delete-btn-link{
   display: inline-block;
-  background:#f65691c4; 
+  background:#f4caca;
+  border: 1px solid #999;
+
 }
 
 /* 上部エラーメッセージ */
