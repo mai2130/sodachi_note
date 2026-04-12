@@ -1,19 +1,46 @@
 /* 共通 */
+*{
+  margin: 0;
+  padding: 0; 
+  box-sizing: border-box;
+}
+
+html,body { 
+  height: 100%;
+  margin: 0;
+  font-family:
+    "Hiragino Sans",
+    "Yu Gothic",
+    "Meiryo",
+    sans-serif;
+  color: #000;
+  -webkit-text-size-adjust: 100%;
+}
+
+input,
+select,
+button,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
 .notice-frame{
-  max-width: 420px;
+  width: 100%;
+  max-width: 340px;
   margin: 0 auto;
   padding: 10px;
-  text-align: left;
-  color: #111;
+  color: #000;
 }
 
 .page-title{
   font-size: 20px;
   text-align: center;
+  margin-bottom: 15px;
 }
 
 /* 一覧（list.html）*/
-.notice-search-form{ margin-bottom: 16px; }
+.notice-search-form{ margin-bottom: 16px;}
 
 .notice-search-grid{
   display: grid;
@@ -29,30 +56,31 @@
   width: 100%;
   font-size: 14px;
   padding: 6px 8px;
-  border: 1px solid #777;
+  border: 1px solid #999;
   box-sizing: border-box;
   background: #fff;
+  border-radius: 0;
 }
 
 .notice-search-actions{
   grid-column: 1 / -1;
   display: flex;
   justify-content: center;
-  margin-top: 2px;
+  margin-top: 10px;
 }
 
 .notice-search-btn{
   width: 140px;
   padding: 6px 0;
   font-size: 16px;
-  border: 1px solid #000;
+  border: 1px solid #999;
   background: #eee;
   cursor: pointer;
 }
 
 .notice-list-header{
   display: grid;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 150px 1fr;
   justify-items: center;
   text-align: center;
   max-width: 380px;
@@ -91,7 +119,7 @@
 
 .notice-empty{
   text-align: center;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 /* ページャ */
@@ -117,7 +145,7 @@
   text-align: center;
   text-decoration: none;
   padding: 4px 6px;
-  border: 1px solid #000;
+  border: 1px solid #999;
   background: #fff;
   color: #000;
 }
@@ -143,6 +171,7 @@
 .to-create-btn{
   font-size: 16px;
   color: #000;
+  margin-right: 10px;
 }
 .to-create-btn:visited{ color:#000; }
 
@@ -158,9 +187,11 @@
 .form-block{
   display: flex;
   align-items: center;
-  margin: 5px 10px;
+  margin: 10px;
   font-size: 14px;
   gap: 10px;
+  background-color: #fff;
+
 }
 
 .form-block label{ width: 80px; }
@@ -179,8 +210,7 @@
 .form-block.form-block-file > label:first-child{ width:auto; }
 
 .file-btn{
-  margin-top: 5px;
-  border: 1px solid #000;
+  border: 1px solid #999;
   padding: 4px 30px;
 }
 
@@ -189,12 +219,14 @@
 .textarea-input{
   width: 100%;
   padding: 6px;
-  border: 1px solid #000;
+  border: 1px solid #999;
   font-size: 14px;
   box-sizing: border-box;
+  border-radius: 0;
+  background-color: #fff;
 }
 
-.textarea-input{ height: 200px; }
+.textarea-input{ height: 150px; }
 
 .button-area{ text-align: center; }
 
@@ -202,11 +234,10 @@
   display: inline-block;
   font-size: 16px;
   text-align: center;
-  margin: 10px;
+  margin: 0 10px;
   background: #b7cdf4;
   padding: 6px 45px;
-  border: 1px solid #000;
-  cursor: pointer;
+  border: 1px solid #999;
 }
 
 /* 編集画面：編集・削除 */
