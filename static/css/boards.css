@@ -177,7 +177,6 @@ textarea {
 
 .form-field {
     flex: 1;
-    border-radius: 0;
 }
 
 .text-input,
@@ -189,6 +188,12 @@ textarea {
     box-sizing: border-box;
     font-size: 14px;
     background: #fff;
+    border-radius: 0;
+}
+.text-input[type="date"] {
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
 }
 
 .text-input:disabled,
