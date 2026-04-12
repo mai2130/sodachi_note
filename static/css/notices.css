@@ -207,7 +207,9 @@ textarea {
   align-items: center;
 }
 
-.form-block.form-block-file > label:first-child{ width:auto; }
+.form-block.form-block-file > label:first-child{
+  width:auto;
+}
 
 .file-btn{
   border: 1px solid #999;
@@ -512,7 +514,6 @@ textarea {
   border: 1px solid red;
 }
 
-/* 投稿年月日エラーを上に出しても横並びを崩さない */
 .form-block{
   position: relative;
   flex-wrap: wrap;
