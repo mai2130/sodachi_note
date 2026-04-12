@@ -74,11 +74,13 @@ textarea {
     height: 34px;
     border: 1px solid #999;
     box-sizing: border-box;
-    appearance: none;
-    -webkit-appearance: none;
     border-radius: 0;
     background: #fff;
     color: #000;
+
+    appearance: auto;
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
 }
 
 .search-btn {
@@ -110,17 +112,15 @@ textarea {
     justify-content: space-between;
     padding: 8px 4px;
     text-decoration: none;
-    color: #000;
 }
 
 .row-title{
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 .row-date{
-    width: 90px;
+    width: 150px;
     text-align: center;
 }
 
@@ -189,15 +189,8 @@ textarea {
     border: 1px solid #999;
     box-sizing: border-box;
     font-size: 14px;
-    background: #fff;
     border-radius: 0;
 }
-.text-input[type="date"] {
-    appearance: none;
-    -webkit-appearance: none;
-    border-radius: 0;
-}
-
 .text-input:disabled,
 .select-input:disabled {
     color: #000;
@@ -208,7 +201,7 @@ textarea {
 /* ボタン */
 .form-actions {
     text-align: center;
-    margin-top: 14px;
+    margin-top: 20px;
 }
 
 .submit-btn {
@@ -239,19 +232,20 @@ textarea {
 
 .detail-head-row {
     font-weight: bold;
+    font-size: 16px;
 }
 
 /* 左：タイトル / 右：投稿日 */
 .head-title,
 .body-title {
-    width: 70%;
-    text-align: left;
+    width: 100%;
+    text-align: center;
 }
 
 .head-date, 
 .body-date {
-    width: 30%;
-    text-align: right;
+    width: 70%;
+    text-align: center;
 }
 
 /* 名前行 + 削除ボタン */
@@ -315,8 +309,8 @@ textarea {
 
 .reply-input {
   flex: 1;
-  border: 1px solid #777;
-  padding: 6px;
+  border: 1px solid #999;
+  padding: 30px;
   font-size: 13px;
   resize: none;
 }
