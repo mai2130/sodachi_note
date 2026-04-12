@@ -74,6 +74,8 @@ textarea {
     height: 34px;
     border: 1px solid #999;
     box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
     border-radius: 0;
     background: #fff;
     color: #000;
@@ -99,7 +101,7 @@ textarea {
     text-align: center;
 }
 .col-date{
-    width: 90px;
+    width: 150px;
     text-align: center;
 }
 
