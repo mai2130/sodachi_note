@@ -18,12 +18,11 @@
             <div class="form-error">
                 {% for field in form %}
                     {% for error in field.errors %}
-                        <div class="form-error">{{ error }}</div>
+                        <div>{{ error }}</div>
                     {% endfor %}
-                {% endfor %}
 
                 {% for error in form.non_field_errors %}
-                    <div class="form-error">{{ error }}</div>
+                    <div>{{ error }}</div>
                 {% endfor %}
             </div>
         {% endif %}
