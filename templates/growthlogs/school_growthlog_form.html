@@ -28,7 +28,7 @@
 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.non.field_errors }}
+    {{ form.non_field_errors }}
     
     {% if form.instance.submitted %}
       <div class="growthlog-submitted-msg">
