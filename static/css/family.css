@@ -70,7 +70,7 @@
   height: 30px;
   border-radius: 1px;
   padding: 0 8px;
-  border: 1px solid #333; /* 設計図の枠っぽく */
+  border: 1px solid #999; 
   font-size: 14px;
   background: #fff;
 }
@@ -120,7 +120,7 @@
   height: 30px;
   border-radius: 1px;
   padding: 0 8px;
-  border: 1px solid #333;
+  border: 1px solid #999;
   font-size: 14px;
   background: #fff;
 }
