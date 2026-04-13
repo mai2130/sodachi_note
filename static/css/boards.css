@@ -212,6 +212,13 @@ textarea {
     background: #b7cdf4;
 }
 
+.form-error-box {
+    margin-bottom: 12px;
+    padding: 8px 10px;
+    border: 1px solid #d00;
+    background: #fff5f5;
+}
+
 .form-error {
     color: red;
     font-size: 12px;
@@ -238,14 +245,14 @@ textarea {
 /* 左：タイトル / 右：投稿日 */
 .head-title,
 .body-title {
-    width: 100%;
-    text-align: center;
+    width: 70%;
+    text-align: left;
 }
 
 .head-date, 
 .body-date {
-    width: 70%;
-    text-align: center;
+    width: 30%;
+    text-align: right;
 }
 
 /* 名前行 + 削除ボタン */
@@ -288,6 +295,7 @@ textarea {
   justify-content: space-between;
   gap: 10px;
   color:#000;
+  align-items: center;
 }
 
 .post-comment{
@@ -310,7 +318,7 @@ textarea {
 .reply-input {
   flex: 1;
   border: 1px solid #999;
-  padding: 30px;
+  padding: 6px;
   font-size: 13px;
   resize: none;
 }
