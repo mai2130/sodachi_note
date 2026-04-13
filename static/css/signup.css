@@ -124,7 +124,7 @@ ul.errorlist{
   padding: 10px 0;
   background:#b7cdf4;
   font-size: 16px;
-  border: none;
+  border: 1px solid #999;
   color: #000;
 }
 
