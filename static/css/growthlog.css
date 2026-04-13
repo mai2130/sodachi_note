@@ -185,14 +185,15 @@ textarea {
     min-width: 84px;
     padding: 6px 12px;
     font-size: 15px;
-    border: 1px solid #999;
+    border: 1px solid #2991f9;
     background:#fff;
-    color:#b7cdf4;
+    color:#2991f9;
     margin: 0 6px;
 }
 
 .growthlog-btn-primary {
-    background:#2991f9;
+    background:#c7cdf4;
+    border: 1px solid #999;
     color:#000;
 }
 
@@ -205,7 +206,7 @@ textarea {
 .growthlog-btn-cancel{
     background: #eee;
     color: #000;
-    border-color: #aaa;
+    border-color: #999;
 }
 
 /* 提出済み表示 */
