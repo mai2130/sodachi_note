@@ -126,7 +126,7 @@ textarea {
 .mypage-link{
   text-align: center;
   margin: 12px 0 10px;
-  font-size: 16px;
+  font-size: 14px;
 }
 .mypage-link a{
   text-decoration: underline;
@@ -141,12 +141,12 @@ textarea {
 /* 保存ボタン */
 .mypage-save-btn{
   min-width: 100px;
-  height: 30px;
+  height: 35px;
   padding: 0 16px;
   font-size: 13px;
   border: 1px solid #999;
   background: #b7cdf4;
-  color: #fff;
+  color: #000;
 }
 .mypage-save-btn:hover{
   background: #e6e6e6;
