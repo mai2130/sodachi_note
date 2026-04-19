@@ -114,7 +114,7 @@ class GuardianSignUpView(FormView):
         user.active_child = invite.child
         user.save(update_fields=["active_child"])
         
-# 招待コードの使用回数を +1（DB側で安全に更新）        
+# 招待コードの使用回数を +1        
         InviteCode.objects.filter(pk=invite.pk).update(
             users_count=F("users_count") + 1
         )
@@ -144,13 +144,12 @@ class ChildMyPageView(LoginRequiredMixin, View):
     def post(self, request):
         child = request.user.active_child
         if not child:
-            messages.error(request,"園児が選択されていません")
+            messages.error(request,"園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
         
         form = ChildMyPageForm(request.POST, instance=request.user)
         
         if not form.is_valid():
-            messages.error(request, "未入力項目があります")
             return render(request, self.template_name,{
                 "form" : form,
                 "child": child,
@@ -167,15 +166,9 @@ class UserPasswordChangeView(PasswordChangeView):
     success_url = reverse_lazy("accounts:password_change")
 
     def form_valid(self, form):
-        messages.success(self.request, "パスワードを変更しました")
+        messages.success(self.request, "パスワードを変更しました",
+            extra_tags="password_change_message")
         return super().form_valid(form)
-
-    def get_success_url(self):
-        user = self.request.user
-
-        if hasattr(user, "role") and user.role == user.Role.FACILITY:
-            return reverse_lazy("nurseries:nursery_mypage")   
-        return reverse_lazy("accounts:child_mypage")
     
 class SodachiPasswordResetView(PasswordResetView):
     template_name = "registration/password_reset_form.html"
