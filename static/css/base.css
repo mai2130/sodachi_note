@@ -118,4 +118,13 @@ a {
     line-height: 1.2;
 }
 
+/* スクロール不要ページ専用 */
+body.no-scroll-page {
+    overflow: hidden;
+    height: 100dvh;
+}
 
+body.no-scroll-page .site-main {
+    height: calc(100dvh - 64px - 84px);
+    overflow: hidden;
+}
