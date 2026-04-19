@@ -96,7 +96,8 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
             "form":form,
             "log":log,
             "date":target_date,
-            "child":child
+            "child":child,
+            "can_edit": can_edit,
         },
         )
     
@@ -130,6 +131,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
                     "log": log,
                     "date": target_date,
                     "child": child,
+                    "can_edit":True,
                 },
             )
         obj = form.save(commit=False)
@@ -203,6 +205,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
             "log": log,
             "date": target_date,
             "child": child,
+            "can_edit": can_edit,
             },
         )
 
@@ -229,6 +232,8 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
 
         form = HomeGrowthLogForm(request.POST, instance=log)
         if not form.is_valid():
+            can_edit = True
+            
             return render(
                 request,
                 self.template_name,
@@ -237,6 +242,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
                     "log": log,
                     "date": target_date,
                     "child": child,
+                    "can_edit":can_edit,
                 },
         )
         
