@@ -68,7 +68,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         # 画面を開いたときの表示処理
         children, child = self._ensure_active_child(request)
         if not child:
-            messages.error(request, "園児が選択されていません")
+            messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
         target_date = _get_target_date(request, "d")
         log = self._get_or_create_log(child, target_date)
@@ -90,14 +90,14 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         # 園側フォーム送信時の保存処理
         children, child = self._ensure_active_child(request)
         if not child:
-            messages.error(request, "園児が選択されていません")
+            messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
         
         target_date = _get_target_date(request, "d")
         log = self._get_or_create_log(child, target_date)
 
         if getattr(log, "submitted", False):
-            messages.error(request, "提出後は修正できません")
+            messages.error(request, "提出後は修正できません", extra_tags="home_message")
             return self._redirect_home(target_date, child_id=child.id) 
         
         form = SchoolGrowthLogForm(request.POST, request.FILES, instance=log)
@@ -123,9 +123,9 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         action = request.POST.get("action")
         if action == "submit":
             obj.submitted = True
-            messages.success(request, "提出しました")
+            messages.success(request, "提出しました", extra_tags="home_message")
         else:
-            messages.success(request, "一時保存しました")
+            messages.success(request, "一時保存しました", extra_tags="home_message")
 
         obj.save()
         return self._redirect_home(target_date, child_id=child.id)
@@ -166,7 +166,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
     def get(self, request):
         child = self._get_child(request)
         if not child:
-            messages.error(request, "園児が選択されていません")
+            messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
 
         target_date = _get_target_date(request, "d")
@@ -188,7 +188,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
     def post(self, request):
         child = self._get_child(request)
         if not child:
-            messages.error(request, "園児が選択されていません")
+            messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
 
         target_date = _get_target_date(request, "d")
@@ -196,8 +196,8 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
         log = self._get_or_create_log(child, target_date)
 
         if getattr(log, "submitted", False):
-            messages.error(request, "提出後は修正できません")
-            return self._redirect_self(target_date)
+            messages.error(request, "提出後は修正できません", extra_tags="home_message")
+            return self._redirect_home(target_date)
 
         form = HomeGrowthLogForm(request.POST, instance=log)
         if not form.is_valid():
@@ -221,9 +221,9 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
         if action == "submit":
             if hasattr(obj, "submitted"):
                 obj.submitted = True
-            messages.success(request, "提出しました")
+            messages.success(request, "提出しました", extra_tags="home_message")
         else:
-            messages.success(request, "一時保存しました")
+            messages.success(request, "一時保存しました", extra_tags="home_message")
 
         obj.save()
         return self._redirect_home(target_date)
@@ -235,12 +235,12 @@ def select_child(request):
     next_url = request.POST.get("next") or "dashboard:home"
 
     if not child_id:
-        messages.error(request, "園児が選択されていません")
+        messages.error(request, "園児が選択されていません", extra_tags="home_message")
         return redirect(next_url)
     
     nursery = getattr(request.user, "nursery", None)
     if nursery is None:
-        messages.error(request, "園情報が見つかりません")
+        messages.error(request, "園情報が見つかりません", extra_tags="home_message")
         return redirect(next_url)
     
     child = get_object_or_404(
