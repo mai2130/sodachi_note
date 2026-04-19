@@ -7,7 +7,6 @@ from django.urls import reverse
 
 from .models import Attendance
 
-
 @login_required
 @require_POST
 def guardian_attendance_upsert(request):
@@ -23,7 +22,7 @@ def guardian_attendance_upsert(request):
     child = getattr(request.user,"active_child",None)
     if not child:
         print("STOP: child is None")
-        messages.error(request, "園児が選択されていません")
+        messages.error(request, "園児が選択されていません", extra_tags="home_message")
         return redirect(_build_home_url(request))
 
     # 日付チェック
@@ -31,7 +30,7 @@ def guardian_attendance_upsert(request):
         date_obj = datetime.strptime(ymd, "%Y-%m-%d").date()
     except (TypeError, ValueError)as e:
         print("STOP: bad date", e)
-        messages.error(request, "日付を確認してください")
+        messages.error(request, "日付を確認してください", extra_tags="home_message")
         return redirect(_build_home_url(request))
 
     # 出欠チェック
@@ -39,19 +38,19 @@ def guardian_attendance_upsert(request):
         status_int = int(status)
     except(TypeError, ValueError)as e:
         print("STOP: bad status", e)
-        messages.error(request,"出欠情報を確認してください")
+        messages.error(request,"出欠情報を確認してください", extra_tags="home_message")
         return redirect(_build_home_url(request))
     
     valid = {c[0] for c in Attendance.Status.choices}
     if status_int not in valid:
         print("STOP: invalid status", status_int, valid)
-        messages.error(request, "出欠情報を確認してください")
+        messages.error(request, "出欠情報を確認してください", extra_tags="home_message")
         return redirect(_build_home_url(request))
     
     exists = Attendance.objects.filter(child=child, date=date_obj).exists()
     if exists:
         print("STOP: already submitted")
-        messages.error(request, "出欠状況はすでに登録済みのため変更できません")
+        messages.error(request, "出欠状況はすでに登録済みのため変更できません", extra_tags="home_message")
         return redirect(_build_home_url(request))
     
     obj = Attendance.objects.create(
@@ -61,7 +60,7 @@ def guardian_attendance_upsert(request):
     )
     print("CREATED:", obj.id)
 
-    messages.success(request, "出欠状況を登録しました")
+    messages.success(request, "出欠状況を登録しました", extra_tags="home_message")
     return redirect(_build_home_url(request))
 
 def _build_home_url(request):
