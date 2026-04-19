@@ -28,6 +28,16 @@ def _get_target_date(request, key="d"):
 class SchoolGrowthLogView(LoginRequiredMixin, View):
     template_name = 'growthlogs/school_growthlog_form.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not hasattr(request.user, "nursery"):
+            messages.error(
+                request,
+                "この画面は園アカウント専用です",
+                extra_tags="home_message"
+            )
+            return redirect("dashboard:home")
+        return super().dispatch(request, *args, **kwargs)
+    
     def _ensure_active_child(self, request):
         # 園ユーザーの active_child が正しい園児になるように整える関数
         nursery = getattr(request.user, "nursery", None)
@@ -67,12 +77,13 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
     def get(self, request):
         # 画面を開いたときの表示処理
         children, child = self._ensure_active_child(request)
+        
         if not child:
             messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
+        
         target_date = _get_target_date(request, "d")
         log = self._get_or_create_log(child, target_date)
-
         form = SchoolGrowthLogForm(instance=log)
         
         return render(request, self.template_name,
@@ -132,6 +143,16 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
                 
 class HomeGrowthLogView(LoginRequiredMixin, View):
     template_name = "growthlogs/home_growthlog_form.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if hasattr(request.user, "nursery"):
+            messages.error(
+                request,
+                "この画面は保護者アカウント専用です",
+                extra_tags="home_message"
+            )
+            return redirect("dashboard:home")
+        return super().dispatch(request, *args, **kwargs)
 
     def _get_child(self, request):
         child = getattr(request.user, "active_child", None)
@@ -200,6 +221,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
             return self._redirect_home(target_date)
 
         form = HomeGrowthLogForm(request.POST, instance=log)
+        
         if not form.is_valid():
             return render(
                 request,
