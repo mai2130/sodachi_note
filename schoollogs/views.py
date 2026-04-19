@@ -28,44 +28,46 @@ def _get_target_date(request, key="d"):
 class SchoolGrowthLogView(LoginRequiredMixin, View):
     template_name = 'growthlogs/school_growthlog_form.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        if not hasattr(request.user, "nursery"):
-            messages.error(
-                request,
-                "この画面は園アカウント専用です",
-                extra_tags="home_message"
-            )
-            return redirect("dashboard:home")
-        return super().dispatch(request, *args, **kwargs)
-    
     def _ensure_active_child(self, request):
-        # 園ユーザーの active_child が正しい園児になるように整える関数
         nursery = getattr(request.user, "nursery", None)
-        if nursery is None:
+        if nursery is not None:
+            children = nursery.children.all().order_by("id")
+            child = getattr(request.user, "active_child", None)
+
+            if (not child) or (child.nursery_id != nursery.id):
+                first = children.first()
+                if not first:
+                    return children, None
+
+                request.user.active_child = first
+                request.user.save(update_fields=["active_child"])
+                child = first
+
+            return children, child
+        
+        child = getattr(request.user, "active_child", None)
+        if child:
+            return None, child
+
+        link = (
+            Family.objects.filter(guardian=request.user)
+            .select_related("child")
+            .first()
+        )
+        if not link:
             return None, None
 
-        children = nursery.children.all().order_by("id")
-        child = getattr(request.user, "active_child", None)
-
-        if (not child) or (child.nursery_id != nursery.id):
-            first = children.first()
-            if not first:
-                return children, None
-            request.user.active_child = first
-            request.user.save(update_fields=["active_child"])
-            child = first
-
-        return children, child
+        request.user.active_child = link.child
+        request.user.save(update_fields=["active_child"])
+        return None, link.child
     
     def _redirect_home(self, target_date, child_id=None):
-        # 保存後にホーム画面へ戻すための共通関数
         url = reverse("dashboard:home")
         if child_id:
             return redirect(f"{url}?d={target_date:%Y-%m-%d}&child_id={child_id}")
         return redirect(f"{url}?d={target_date:%Y-%m-%d}")
     
     def _get_or_create_log(self, child, target_date):
-        # 園側の「その子・その日」の記録を取得し、無ければ作る関数
         log, _ = GrowthLog.objects.get_or_create(
             child=child,
             source=GrowthLog.Source.SCHOOL,
@@ -75,7 +77,6 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         return log
     
     def get(self, request):
-        # 画面を開いたときの表示処理
         children, child = self._ensure_active_child(request)
         
         if not child:
@@ -86,6 +87,8 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         log = self._get_or_create_log(child, target_date)
         form = SchoolGrowthLogForm(instance=log)
         
+        can_edit = hasattr(request.user, "nursery")
+
         return render(request, self.template_name,
         {
             "children":children,
@@ -98,8 +101,11 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         )
     
     def post(self, request):
-        # 園側フォーム送信時の保存処理
+        if not hasattr(request.user, "nursery"):
+            return redirect("dashboard:home")
+
         children, child = self._ensure_active_child(request)
+        
         if not child:
             messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
@@ -144,32 +150,25 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
 class HomeGrowthLogView(LoginRequiredMixin, View):
     template_name = "growthlogs/home_growthlog_form.html"
 
-    def dispatch(self, request, *args, **kwargs):
-        if hasattr(request.user, "nursery"):
-            messages.error(
-                request,
-                "この画面は保護者アカウント専用です",
-                extra_tags="home_message"
-            )
-            return redirect("dashboard:home")
-        return super().dispatch(request, *args, **kwargs)
-
     def _get_child(self, request):
         child = getattr(request.user, "active_child", None)
         if child:
             return child
         
-        link = (
-            Family.objects.filter(guardian=request.user)
-            .select_related("child")
-            .first()
-        )
-        if not link:
-            return None
+        if not hasattr(request.user, "nursery"):
+            link = (
+                Family.objects.filter(guardian=request.user)
+                .select_related("child")
+                .first()
+            )
+            if not link:
+                return None
         
-        request.user.active_child = link.child
-        request.user.save(update_fields=["active_child"])
-        return link.child
+            request.user.active_child = link.child
+            request.user.save(update_fields=["active_child"])
+            return link.child
+        
+        return None
 
     def _redirect_home(self, target_date):
         url = reverse("dashboard:home")
@@ -191,10 +190,11 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
             return redirect("dashboard:home")
 
         target_date = _get_target_date(request, "d")
-
         log = self._get_or_create_log(child, target_date)
-    
         form = HomeGrowthLogForm(instance=log)
+        
+        can_edit = not hasattr(request.user, "nursery")
+
         return render(
             request,
             self.template_name,
@@ -207,13 +207,20 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
         )
 
     def post(self, request):
+        if hasattr(request.user, "nursery"):
+            messages.error(
+                request,
+                "家庭での生活・成長記録は閲覧のみです",
+                extra_tags="home_message"
+            )
+            return redirect("dashboard:home")
+
         child = self._get_child(request)
         if not child:
             messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
 
         target_date = _get_target_date(request, "d")
-
         log = self._get_or_create_log(child, target_date)
 
         if getattr(log, "submitted", False):
@@ -221,7 +228,6 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
             return self._redirect_home(target_date)
 
         form = HomeGrowthLogForm(request.POST, instance=log)
-        
         if not form.is_valid():
             return render(
                 request,
