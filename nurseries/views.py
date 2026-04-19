@@ -18,13 +18,15 @@ class NurseryMyPageView(LoginRequiredMixin, UpdateView):
         return self.request.user.nursery
     
     def form_valid(self, form):
-        messages.success(self.request, "保存しました！")
+        messages.success(self.request, "保存しました！",
+            extra_tags="nursery_mypage_message")
         return super().form_valid(form)
     
     def dispatch(self, request, *args, **kwargs):
         # 保護者が来たら弾く
         if hasattr(request.user, "is_guardian") and request.user.is_guardian():
-            messages.error(request, "このページは園アカウント専用です")
+            messages.error(request, "このページは園アカウント専用です",
+                extra_tags="home_message")
             return redirect("dashboard:home")
         return super().dispatch(request, *args, **kwargs)
 
