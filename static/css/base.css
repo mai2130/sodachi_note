@@ -126,5 +126,9 @@ body.no-scroll-page {
 
 body.no-scroll-page .site-main {
     height: calc(100dvh - 64px - 84px);
+    margin-top: 64px;
+    margin-bottom: 84px;
+    padding-top: 0;
+    padding-bottom: 0;
     overflow: hidden;
 }
