@@ -11,8 +11,7 @@
     {% block head_extra %}{% endblock %}
 </head>
 
-<body>
-    {% block header %}
+<body class="{% block body_class %}{% endblock %}">    {% block header %}
     <header class="site-header">
         <nav class="site-nav">
             <h1 class="logo">
