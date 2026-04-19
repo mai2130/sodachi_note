@@ -14,6 +14,13 @@
     {% csrf_token %}
     {{ form.non_field_errors }}
 
+    {% if not can_edit %}
+{% comment %}       <div class="growthlog-submitted-msg">
+        この画面は閲覧専用です
+      </div>
+ {% endcomment %}
+    {% endif %}
+
     {% if log and log.submitted %}
       <div class="growthlog-submitted-msg">
         提出済みのため編集できません
@@ -24,7 +31,11 @@
       <div class="growthlog-label">就寝時間</div>
       <div class="growthlog-input-inline">
         {{ form.home_bedtime.errors }}
-        {{ form.home_bedtime }}
+        {% if can_edit and not log.submitted %}
+          {{ form.home_bedtime }}
+        {% else %}
+          <input type="text" value="{{ form.home_bedtime.value|default_if_none:'' }}" readonly>
+        {% endif %}
       </div>
     </div>
 
@@ -32,7 +43,11 @@
       <div class="growthlog-label">起床時間</div>
       <div class="growthlog-input-inline">
         {{ form.home_wake_up_time.errors }}
-        {{  form.home_wake_up_time }}
+        {% if can_edit and not log.submitted %}
+          {{ form.home_wake_up_time }}
+        {% else %}
+          <input type="text" value="{{ form.home_wake_up_time.value|default_if_none:'' }}" readonly>
+        {% endif %}
       </div>
     </div>
 
@@ -40,10 +55,10 @@
       <div class="growthlog-label">食　欲</div>
       <div class="growthlog-input-inline button-choices">
         {% for radio in form.home_appetite %}
-          <label class="choice-btn">
+          <label class="choice-btn {% if radio.data.selected %}is-selected{% endif %}">
             {{ radio.tag }}
             <span>{{ radio.choice_label }}</span>
-          </label>        
+          </label>       
         {% endfor %}
       </div>
     </div>
@@ -52,7 +67,11 @@
       <div class="growthlog-label">体　調</div>
       <div class="growthlog-input-inline">
         {{ form.home_condition.errors }}
-        {{ form.home_condition }}
+        {% if can_edit and not log.submitted %}
+          {{ form.home_condition }}
+        {% else %}
+          <input type="text" value="{{ form.home_condition.value|default_if_none:'' }}" readonly>
+        {% endif %}
       </div>
     </div>
 
@@ -60,7 +79,12 @@
       <div class="growthlog-label">体　温</div>
       <div class="growthlog-input-inline">
         {{ form.home_temperature.errors }}
-        {{ form.home_temperature }} <span class="unit">℃</span>
+        {% if can_edit and not log.submitted %}
+          {{ form.home_temperature }} <span class="unit">℃</span>
+        {% else %}
+          <input type="text" value="{{ form.home_temperature.value|default_if_none:'' }}" readonly>
+          <span class="unit">℃</span>
+        {% endif %}
       </div>
     </div>
 
@@ -68,10 +92,10 @@
       <div class="growthlog-label">排　便</div>
       <div class="growthlog-input-inline button-choices">
         {% for radio in form.home_poo %}
-          <label class="choice-btn">
+          <label class="choice-btn {% if radio.data.selected %}is-selected{% endif %}">
             {{ radio.tag }}
             <span>{{ radio.choice_label }}</span>
-          </label>
+          </label>          
         {% endfor %}
       </div>
     </div>
@@ -80,7 +104,11 @@
       <div class="growthlog-label">様　子</div>
       <div class="growthlog-input-inline">
         {{ form.home_state.errors }}
-        {{ form.home_state }}
+        {% if can_edit and not log.submitted %}
+          {{ form.home_state }}
+        {% else %}
+          <textarea readonly>{{ form.home_state.value|default_if_none:'' }}</textarea>
+        {% endif %}
       </div>
     </div>
 
@@ -116,12 +144,18 @@
 
 <script>
   function openConfirmBox() {
-    document.getElementById("confirm-box").style.display = "block";
+    const box = document.getElementById("confirm-box");
+    if (box) {
+      box.style.display = "block";
+    }
     return false;
   }
-  
+
   function closeConfirmBox() {
-    document.getElementById("confirm-box").style.display = "none";
+    const box = document.getElementById("confirm-box");
+    if (box) {
+      box.style.display = "none";
+    }
   }
 </script>
 

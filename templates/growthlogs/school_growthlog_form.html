@@ -10,6 +10,9 @@
 <div class="growthlog-subtitle">園での生活・成長記録</div>
 
 <div class="growthlog-body">
+
+{# 園アカウントのときだけ園児選択を表示 #}
+{% if children %}
   <form method="post" action="{% url 'schoollogs:select_child' %}">
     {% csrf_token %}
 
@@ -25,16 +28,24 @@
 
     <input type="hidden" name="next" value="{{ request.get_full_path }}">
   </form>
+{% endif %}
 
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    
-    {% if form.instance.submitted %}
-      <div class="growthlog-submitted-msg">
-        提出済みのため編集できません
-      </div>
-    {% endif %}
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+  {# 保護者は閲覧のみの案内 #}
+  {% if not can_edit %}
+  {% endif %}
+  
+  {% if form.instance.submitted %}
+    <div class="growthlog-submitted-msg">
+      提出済みのため編集できません
+    </div>
+  {% endif %}
+
+  {# can_edit=False（保護者）または submitted=True（提出済み）のときはfieldset disabled で入力不可にする #}
+  <fieldset {% if not can_edit or form.instance.submitted %}disabled{% endif %}>
 
     <div class="growthlog-field shift-wide">
       <div class="growthlog-label">昼　食</div>
@@ -52,7 +63,7 @@
       <div class="growthlog-label">午睡時間</div>
       <div class="growthlog-input-inline">
         {{ form.school_nap_start.errors }}
-        {{  form.school_nap_start }}
+        {{ form.school_nap_start }}
         <span class="nap-sep"> ～ </span>
         {{ form.school_nap_end.errors }}
         {{ form.school_nap_end }}
@@ -95,7 +106,9 @@
       </div>
     </div>
 
-    {% if not form.instance.submitted %}
+  </fieldset>
+
+    {% if can_edit and not log.submitted %}
       <div class="growthlog-actions">
         <button type="submit" name="action" value="save" class="growthlog-btn">
           一時保存
@@ -133,12 +146,18 @@
 
 <script>
   function openConfirmBox() {
-    document.getElementById("confirm-box").style.display = "block";
+    const box = document.getElementById("confirm-box");
+    if (box) {
+      box.style.display = "block";
+    }
     return false;
   }
-  
+
   function closeConfirmBox() {
-    document.getElementById("confirm-box").style.display = "none";
+    const box = document.getElementById("confirm-box");
+    if (box) {
+      box.style.display = "none";
+    }
   }
 </script>
 {% endblock %}
