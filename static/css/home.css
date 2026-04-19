@@ -15,6 +15,27 @@
   font-weight: 700; 
 }
 
+.top-message-area {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto 12px;
+}
+
+.form-success,
+.form-error {
+  font-size: 14px;
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.form-success {
+  color: #d63638;
+}
+
+.form-error {
+  color: #d63638;
+}
+
 /* カレンダー全体枠 */
 .calendar{
   padding: 2px;
