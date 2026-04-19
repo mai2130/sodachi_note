@@ -54,7 +54,7 @@ class AccountManageView(LoginRequiredMixin, View):
         # 削除（はい）
         if "delete_yes" in request.POST:
             invite.child.delete()
-            messages.success(request, "削除しました。")
+            messages.success(request, "削除しました", extra_tags="account_manage_message")
             return redirect("invites:account_list")
                
         # 認証コード発行
@@ -67,12 +67,12 @@ class AccountManageView(LoginRequiredMixin, View):
             invite.short_code = None
             invite.users_count = 0
             invite.save()
-            messages.success(request, "認証コードを発行しました！")
+            messages.success(request, "認証コードを発行しました！", extra_tags="account_manage_message")
             return redirect("invites:account_manage", pk=invite.pk)
         
         if form.is_valid():
             form.save()
-            messages.success(request, "保存しました！")
+            messages.success(request, "保存しました！", extra_tags="account_manage_message")
             return redirect("invites:account_manage", pk=invite.pk)
 
         return render(request, self.template_name, {"invite": invite, "form": form})
