@@ -26,32 +26,39 @@ textarea {
 :root{
     --line: #999;
     --selected: #eee;
-    --label-w: 72px;
-    --field-gap: 10px;
-    --control-w: 150px; 
+    --label-w: 62px;
+    --field-gap: 8px;
+    --form-w: 340px;
 }
 /* タイトル */
 .growthlog-subtitle {
     text-align: center;
     font-size: 20px;
-    padding: 6px 0;
-    max-width: 340px;
+    padding: 4px 0 8px;
+    max-width: var(--form-w);
     margin: 0 auto;
 }
 /* フォーム */
 .growthlog-body {
-    max-width: 360px;
+    max-width: var(--form-w);
     margin: 0 auto;
-    padding: 8px 18px;
+    padding: 4px 14px 10px;
 }
+
 .child-select {
     display: block;
-    margin: 0 auto 14px;
+    margin: 0 auto 10px;
+    width: 100%;
+    max-width: 120px;
+    min-width: 120px;
+    height: 24px;
+    padding: 0 6px;
     border: 1px solid var(--line);
     border-radius: 0;
     background: #fff;
     color: #000;
 }
+
 .growthlog-body .child-select{
     width: 100%;
     max-width: 270px;
@@ -59,12 +66,19 @@ textarea {
     font-size: 14px;
 }
 
+.growthlog-body fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+
 /* ラベル全体 */
 .growthlog-field {
     display: flex;
     align-items: center;
     gap: var(--field-gap);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 /* ラベル名 */
@@ -79,6 +93,7 @@ textarea {
     justify-content: flex-start;
     align-items: center;
     flex: 1;
+    
 }
 
 .growthlog-body select,
@@ -212,7 +227,7 @@ textarea {
 /* 提出済み表示 */
 .growthlog-submitted-msg{
     margin: 0 0 8px;
-    padding: 6px;
+    padding: 4px 6px;
     font-size: 14px;
     text-align: center;
     color: red;
@@ -249,4 +264,3 @@ textarea {
         font-size: 14px;
     }
 }
-
