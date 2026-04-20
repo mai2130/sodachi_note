@@ -15,7 +15,6 @@
 {% if children %}
   <form method="post" action="{% url 'schoollogs:select_child' %}">
     {% csrf_token %}
-
     <select class="child-select" name="child_id" onchange="this.form.submit()">
       <option value="">園児を選択</option>
       {% for child in children %}
@@ -33,11 +32,7 @@
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.non_field_errors }}
-
-  {# 保護者は閲覧のみの案内 #}
-  {% if not can_edit %}
-  {% endif %}
-  
+ 
   {% if form.instance.submitted %}
     <div class="growthlog-submitted-msg">
       提出済みのため編集できません
