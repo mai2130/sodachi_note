@@ -15,7 +15,9 @@ class HomeView(LoginRequiredMixin, TemplateView):
     # テンプレに渡すデータを作成する（ctx=context）
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        user = self.request.user
+        
+        request = self.request
+        user = request.user
         
         today = date.today()
         #URL(?y,?m,?d)から年/月/選択日を取得
@@ -26,6 +28,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
         month_att = None
         attendance_map = {}
         day_attendance = None
+        child_missing = False
     
         #  園（施設）
         if user.is_facility():
@@ -34,9 +37,10 @@ class HomeView(LoginRequiredMixin, TemplateView):
             # nurseryがあるときだけ取得する
             if hasattr(user, "nursery"):
                 # プルダウン用の園児一覧
+                nursery_children = Child.objects.filter(nursery=user.nursery).order_by("id")
                 ctx["nursery_children"] = Child.objects.filter(nursery=user.nursery).order_by("id")
                 # GETのchild_id（無いときはNone）
-                child_id = self.request.GET.get("child_id")
+                child_id = self.request.GET.get("child_id","")
                 ctx["child_id"] = child_id
                 # 選択中園児（child_idがあるときだけ取得）
                 if child_id:
@@ -44,11 +48,25 @@ class HomeView(LoginRequiredMixin, TemplateView):
                         Child.objects.filter(nursery=user.nursery),
                         id=child_id
                     )
+                if user.active_child_id != child.id:
+                        user.active_child = child
+                        user.save(update_fields=["active_child"])
+            else:
+                if user.active_child_id is not None:
+                    user.active_child = None
+                    user.save(update_fields=["active_child"])
+
+            child = user.active_child
+
+            if child is None:
+                    child_missing = True
+
             else:
                 ctx["nursery_children"] = Child.objects.none()
-                ctx["child_id"] = None
-                messages.error(self.request, "この施設アカウントには園情報が登録されていません")
-            
+                ctx["child_id"] = ""
+                child_missing = False
+                ctx["nursery_missing"] = True
+
             ctx["child"] = child
 
             if child:
