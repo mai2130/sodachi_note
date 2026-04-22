@@ -10,13 +10,22 @@
 {% block content %}
 <div class="bar">生活・成長記録</div>
 
+{# ① 園情報エラー #}
+{% if nursery_missing %}
+  <p class="form-error">この施設アカウントには園情報が登録されていません</p>
+{% endif %}
+
+{# ② 園児未選択エラー（1回だけ） #}
+{% if child_missing %}
+  <p class="form-error">園児が選択されていません</p>
+{% endif %}
+
+{# ③ 成功メッセージだけ表示 #}
 {% if messages %}
   <div class="top-message-area">
     {% for message in messages %}
-      {% if 'home_message' in message.tags %}
-        <p class="{% if 'success' in message.tags %}form-success{% else %}form-error{% endif %}">
-          {{ message }}
-        </p>
+      {% if 'home_message' in message.tags and 'success' in message.tags %}
+        <p class="form-success">{{ message }}</p>
       {% endif %}
     {% endfor %}
   </div>
