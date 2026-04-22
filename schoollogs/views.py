@@ -34,14 +34,11 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
             children = nursery.children.all().order_by("id")
             child = getattr(request.user, "active_child", None)
 
-            if (not child) or (child.nursery_id != nursery.id):
-                first = children.first()
-                if not first:
-                    return children, None
-
-                request.user.active_child = first
-                request.user.save(update_fields=["active_child"])
-                child = first
+            if not child:
+                return children, None
+            
+            if child.nursery_id != nursery.id:
+                return children, None
 
             return children, child
         
@@ -269,7 +266,8 @@ def select_child(request):
     next_url = request.POST.get("next") or "dashboard:home"
 
     if not child_id:
-        messages.error(request, "園児が選択されていません", extra_tags="home_message")
+        request.user.active_child = None
+        request.user.save(update_fields=["active_child"])
         return redirect(next_url)
     
     nursery = getattr(request.user, "nursery", None)
