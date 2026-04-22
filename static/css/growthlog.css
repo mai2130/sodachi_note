@@ -27,14 +27,15 @@ textarea {
     --line: #999;
     --selected: #eee;
     --label-w: 62px;
-    --field-gap: 8px;
+    --field-gap: 10px;
+    --control-w: 100px;
     --form-w: 340px;
 }
 /* タイトル */
 .growthlog-subtitle {
     text-align: center;
     font-size: 20px;
-    padding: 4px 0 8px;
+    padding: 4px 0;
     max-width: var(--form-w);
     margin: 0 auto;
 }
@@ -47,11 +48,10 @@ textarea {
 
 .child-select {
     display: block;
-    margin: 0 auto 10px;
+    margin: 0 auto 16px;
     width: 100%;
     max-width: 120px;
     min-width: 120px;
-    height: 24px;
     padding: 0 6px;
     border: 1px solid var(--line);
     border-radius: 0;
@@ -78,7 +78,7 @@ textarea {
     display: flex;
     align-items: center;
     gap: var(--field-gap);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 /* ラベル名 */
@@ -89,8 +89,6 @@ textarea {
 }
 
 .growthlog-input-inline{
-    display: flex;
-    justify-content: flex-start;
     align-items: center;
     flex: 1;
     
