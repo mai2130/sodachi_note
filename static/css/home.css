@@ -29,11 +29,11 @@
 }
 
 .form-success {
-  color: #d63638;
+  color: #0052cc;
 }
 
 .form-error {
-  color: #d63638;
+  color: red;
 }
 
 /* カレンダー全体枠 */
