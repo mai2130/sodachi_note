@@ -105,7 +105,7 @@
       </div>
     </div>
 
-    {% if not log or not log.submitted %}
+    {% if can_edit and not log.submitted %}
       <div class="growthlog-actions">
         <button type="submit" name="action" value="save" class="growthlog-btn">
           一時保存
