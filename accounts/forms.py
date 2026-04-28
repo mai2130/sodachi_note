@@ -2,9 +2,18 @@ from django import forms
 from django.contrib.auth import authenticate, get_user_model #認証処理・ユーザ取得
 from django.contrib.auth.forms import PasswordChangeForm 
 from django.core.exceptions import ValidationError
+import re
 
 from invites.models import InviteCode
 from families.models import Family
+
+def validate_alnum_password(password):
+    if len(password) < 8:
+        raise ValidationError("パスワードは8文字以上で入力してください")
+    if not re.search(r"[A-Za-z]", password):
+        raise ValidationError("パスワードは英字を含めてください")
+    if not re.search(r"[0-9]", password):
+        raise ValidationError("パスワードは数字を含めてください")
 
 User = get_user_model()
 
@@ -39,12 +48,14 @@ class FacilitySignUpForm(forms.Form):
                                    error_messages={"required": "施設名を入力してください",},
                                    )
     postal_code = forms.CharField(label ="郵便番号", max_length=8,
-                                   error_messages={"required": "郵便番号を入力してください",},
+                                  widget=forms.TextInput(attrs={"placeholder": "例：123-4567"}),
+                                  error_messages={"required": "郵便番号を入力してください",},
                                   )
     address = forms.CharField(label = "住所", max_length=100,
                                    error_messages={"required": "住所を入力してください",},
                               )
     phone_number = forms.CharField(label = "電話番号", max_length=15,
+                                   widget=forms.TextInput(attrs={"placeholder": "例：090-1234-5678"}),
                                    error_messages={"required": "電話番号を入力してください",},
                                    )
     email = forms.EmailField(label = "メールアドレス",
@@ -60,10 +71,18 @@ class FacilitySignUpForm(forms.Form):
         
     def clean(self):
         cleaned = super().clean()
-        if cleaned.get("password1")!= cleaned.get("password2"):
+        password1 = cleaned.get("password1")
+        password2 = cleaned.get("password2")
+        
+        if password1:
+            validate_alnum_password(password1)
+
+        if password1 != password2:
             raise ValidationError("パスワードが一致しません")
+
         if User.objects.filter(email=cleaned.get("email")).exists():
             raise ValidationError("このメールアドレスは既に使われています")
+
         return cleaned
 
 # 保護者側の新規登録フォーム
@@ -104,18 +123,21 @@ class GuardianSignUpForm(forms.Form):
         self.cleaned_data['invite'] = invite
         return code
     
-    def clean_email(self):
-        email = self.cleaned_data.get("email")
-        if User.objects.filter(email=email).exists():
-            raise ValidationError("このメールアドレスは既に使われています")
-        return email
-        
     def clean(self):
         cleaned = super().clean()
-    #パスワード一致確認
-        if cleaned.get("password1") != cleaned.get("password2"):
-            self.add_error("password2", "パスワードが一致しません")
+        
+        password1 = cleaned.get("password1")
+        password2 = cleaned.get("password2")
+        
+        if password1:
+            try:
+                validate_alnum_password(password1)
+            except ValidationError as e:
+                self.add_error("password1", e)
 
+        if password1 != password2:
+            self.add_error("password2", "パスワードが一致しません")
+  
     #園児名確認
         invite =cleaned.get("invite")
         child_name = cleaned.get("child_name")
@@ -123,10 +145,15 @@ class GuardianSignUpForm(forms.Form):
         if invite and child_name and invite.child.name != child_name:
             self.add_error("child_name", "園児氏名が認証コードと一致しません")
 
+        if not self.errors:
+            email = cleaned.get("email")
+            if email and User.objects.filter(email=email).exists():
+                self.add_error("email", "このメールアドレスは既に使われています")
+
         return cleaned
     
     def save(self):
-        invite = self.clened_data["invite"]
+        invite = self.cleaned_data["invite"]
         child = invite.child
 
         full_name = (self.cleaned_data.get("guardian_name") or "").strip()
@@ -158,7 +185,7 @@ class GuardianSignUpForm(forms.Form):
         )
 
         Family.objects.create(
-            user=user,
+            guardian=user,
             child=child,
             relationship=relationship if relationship != "" else None,
         )
@@ -196,6 +223,8 @@ class ChildMyPageForm(forms.ModelForm):
         first_name = self.instance.first_name or ""
         full = f"{last_name} {first_name}".strip()
         self.fields["guardian_name"].initial = full
+        self.fields["postal_code"].widget.attrs["placeholder"] = "例：123-4567"
+        self.fields["phone_number"].widget.attrs["placeholder"] = "例：090-1234-5678"
 
     def clean_guardian_name(self):
         return (self.cleaned_data.get("guardian_name") or "").strip()
@@ -255,6 +284,11 @@ class UserPasswordChangeForm(PasswordChangeForm):
         old_password = cleaned_data.get("old_password")
         new_password1 = cleaned_data.get("new_password1")
 
+        if new_password1:
+            try:
+                validate_alnum_password(new_password1)
+            except ValidationError as e:
+                self.add_error("new_password1", e)
         # 現在と同じパスワードを禁止
         if old_password and new_password1 and old_password == new_password1:
             self.add_error("new_password1", "現在と同じパスワードは設定できません")
