@@ -11,6 +11,7 @@
     {% block head_extra %}{% endblock %}
 </head>
 
+<body>
     <header class="site-header">
         <nav class="site-nav">
             <h1 class="logo">
@@ -19,7 +20,7 @@
             <div class="logout">
                 <form action ="{% url 'logout' %}" method="POST" class="logout-form">
                     {% csrf_token %}
-                    <button type="submit" class="link-like">
+                    <button type="submit" class="link-like" onclick="return confirm('ログアウトしてもよろしいですか？');">
                         <i class="bi bi-box-arrow-right"></i>
                         <span>ログアウト</span>
                     </button>
