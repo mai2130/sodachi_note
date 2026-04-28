@@ -91,7 +91,13 @@ textarea {
 .growthlog-input-inline{
     align-items: center;
     flex: 1;
-    
+}
+
+.growthlog-body select {
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    background-color: #fff;
 }
 
 .growthlog-body select,
@@ -130,17 +136,6 @@ textarea {
   width: 100%;
 }
 
-.growthlog-body select,
-.growthlog-body input[type="text"],
-.growthlog-body input[type="number"],
-.growthlog-body input[type="time"],
-.growthlog-body textarea{
-    padding: 6px 8px;
-    font-size: 16px;
-    text-align: center;
-    border: 1px solid var(--line);
-    background: #fff;
-}
 /* ボタン2つで幅を埋める */
 .growthlog-input-inline.button-choices .choice-btn{
     flex: 1;  
