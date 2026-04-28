@@ -122,6 +122,12 @@ textarea {
 .growthlog-textarea textarea{
     width: 100%;
     min-height: 90px;
+    text-align: left;
+    padding: 10px;
+    resize: vertical;
+}
+.growthlog-textarea .growthlog-input-inline {
+  width: 100%;
 }
 
 .growthlog-body select,
