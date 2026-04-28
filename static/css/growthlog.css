@@ -94,8 +94,6 @@ textarea {
 }
 
 .growthlog-body select {
-    appearance: none;
-    -webkit-appearance: none;
     border-radius: 0;
     background-color: #fff;
 }
