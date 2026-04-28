@@ -67,7 +67,7 @@ class HomeGrowthLogForm(forms.ModelForm):
         ]
         widgets = {
             "home_appetite": forms.RadioSelect(),
-            "home_condition": forms.Select,
+            "home_condition": forms.Select(),
             "home_poo": forms.RadioSelect(),
             "home_state": forms.Textarea(attrs={"rows": 4}),
         }
