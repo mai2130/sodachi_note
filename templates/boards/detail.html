@@ -37,7 +37,7 @@
     </div>
 
     {% if request.user == board.user %}
-      <form method="post" class="delete-form">
+      <form method="post" class="delete-form" onsubmit="return confirm('本当に削除してもよろしいですか？');">
         {% csrf_token %}
         <button type="submit" name="delete" class="delete-btn">削除</button>
       </form>
@@ -75,7 +75,7 @@
   </div>
 
   <!-- 入力欄 + 投稿ボタン -->
-  <form method="post" class="reply-area">
+  <form method="post" class="reply-area js-submit-once-form">
     {% csrf_token %}
     <textarea name="comment" class="reply-input" rows="2" placeholder=""></textarea>
     <button type="submit" class="reply-submit-btn">投稿</button>
@@ -101,6 +101,24 @@
         &raquo;
       {% endif %}
     </span>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const forms = document.querySelectorAll(".js-submit-once-form");
+
+      forms.forEach(function (form) {
+        form.addEventListener("submit", function () {
+          const buttons = form.querySelectorAll("button[type='submit']");
+
+          buttons.forEach(function (button) {
+            button.disabled = true;
+            button.textContent = "送信中...";
+          });
+        });
+      });
+    });
+
+</script>
   </div>
 </div>
 {% endblock %}

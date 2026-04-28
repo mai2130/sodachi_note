@@ -11,7 +11,7 @@
 <div class="board-frame">
     <div class="page-title">新規投稿</div>
 
-    <form method="post" class="board-form" novalidate>
+    <form method="post" class="board-form js-submit-once-form" novalidate>
         {% csrf_token %}
         
         {% if form.errors %}
@@ -23,7 +23,7 @@
                 {% endfor %}
 
                 {% for error in form.non_field_errors %}
-                    <div class"form-error">{{ error }}</div>
+                    <div class="form-error">{{ error }}</div>
                 {% endfor %}
             </div>
         {% endif %}
@@ -52,6 +52,23 @@
         <div class="form-actions">
             <button type="submit" class="submit-btn">投稿</button>
         </div>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const forms = document.querySelectorAll(".js-submit-once-form");
+
+            forms.forEach(function (form) {
+                form.addEventListener("submit", function () {
+                    const buttons = form.querySelectorAll("button[type='submit']");
+
+                    buttons.forEach(function (button) {
+                        button.disabled = true;
+                        button.textContent = "送信中...";
+                    });
+                });
+            });
+        });
+        </script>
     </form>
 </div>
 {% endblock %}
