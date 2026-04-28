@@ -119,6 +119,12 @@ textarea {
     white-space: nowrap;
 }
 
+.board-row .row-title {
+  color: #2f6fbd;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
 .row-date{
     width: 150px;
     text-align: center;
@@ -308,26 +314,26 @@ textarea {
 
 /* 下部：入力欄 + 投稿ボタン（横並び） */
 .reply-area {
+    position: sticky;
+    bottom: 70px;
     display: flex;
     gap: 8px;
-    align-items: center;
-    margin-top: 10px;
-    padding: 0 8px;
+    background: #fff;
+    padding: 10px;
 }
 
 .reply-input {
   flex: 1;
-  border: 1px solid #999;
-  padding: 6px;
-  font-size: 13px;
+  text-align: left;
   resize: none;
 }
 
 .reply-submit-btn {
-  width: 64px;
-  height: 32px;
-  border: 1px solid #999;
-  background: #b7cdf4;  
+    white-space: nowrap;
+    width: 64px;
+    height: 32px;
+    border: 1px solid #999;
+    background: #b7cdf4;  
 }
 
 .field-error {
