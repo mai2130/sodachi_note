@@ -96,6 +96,7 @@ textarea {
 .growthlog-body select {
     border-radius: 0;
     background-color: #fff;
+    text-align: center;
 }
 
 .growthlog-body select,
