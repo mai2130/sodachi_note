@@ -52,7 +52,7 @@ class NoticeListView(LoginRequiredMixin, ListView):
                 # クラス指定ありのおたより：そのクラスに含まれるものだけ
                 # クラス指定なし：全体発信なので表示OK
                 qs = qs.filter(
-                    Q(noticeclassroom__isnull=True)|Q(classrooms=active_child.classroom)
+                    Q(noticeclassroom__isnull=True)| Q(classrooms=active_child.classroom)
                 ).distinct()
 
             else:
@@ -60,7 +60,7 @@ class NoticeListView(LoginRequiredMixin, ListView):
                 nursery_ids = {c.nursery_id for c in children}
                 classroom_ids = {c.classroom_id for c in children if c.classroom_id}
                 qs = qs.filter(nursery_id__in=nursery_ids).filter(
-                    Q(noticeclassroom__isnull=True)| Q(classrooms__id=classroom_ids)
+                    Q(noticeclassroom__isnull=True)| Q(classrooms__id__in=classroom_ids)
                 ).distinct()
 
         # 年月日で絞る
@@ -203,7 +203,7 @@ class NoticeCreateView(LoginRequiredMixin, CreateView):
         classroom = form.cleaned_data.get("classroom")
         self.object.classrooms.set([classroom] if classroom else [])
 
-        messages.success(self.request, "保存しました！")
+        messages.success(self.request, "保存しました！", extra_tags="notice_message")
         return response
     
     def get_form_kwargs(self):
@@ -234,7 +234,7 @@ class NoticeUpdateView(LoginRequiredMixin, UpdateView):
         classroom = form.cleaned_data.get("classroom")
         self.object.classrooms.set([classroom] if classroom else [])
         
-        messages.success(self.request, "保存しました！")
+        messages.success(self.request, "保存しました！", extra_tags="notice_message")
         return response
     
     def get_form_kwargs(self):
@@ -258,5 +258,5 @@ class NoticeDeleteView(LoginRequiredMixin, DeleteView):
         return Notice.objects.filter(nursery=self.request.user.nursery)
 
     def delete(self, request, *args, **kwargs):
-        messages.success(request, "削除しました")
+        messages.success(request, "削除しました", extra_tags="notice_message")
         return super().delete(request, *args, **kwargs)
