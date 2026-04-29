@@ -111,6 +111,7 @@ textarea {
     justify-content: space-between;
     padding: 8px 4px;
     text-decoration: none;
+    font-size: 14px;
 }
 
 .row-title{
@@ -150,11 +151,12 @@ textarea {
 
 .to-create-btn {
     display: inline-block;
-    padding: 8px 12px;
+    padding: 8px 10px;
     background: #b7cdf4;
     border: 1px solid #999;
     text-decoration: none;
     color: #000;
+    font-size: 14px;
 }
 
 /* 新規投稿 */
