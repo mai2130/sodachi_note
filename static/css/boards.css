@@ -115,14 +115,7 @@ textarea {
 }
 
 .row-title{
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.board-row .row-title {
-  color: #2f6fbd;
-  text-decoration: underline;
-  font-weight: 600;
+    text-decoration: underline;
 }
 
 .row-date{
@@ -333,7 +326,6 @@ textarea {
     width: 64px;
     height: 32px;
     border: 1px solid #999;
-    background: #b7cdf4;  
 }
 
 .field-error {
