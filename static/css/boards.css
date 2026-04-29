@@ -312,7 +312,6 @@ textarea {
     gap: 8px;
     background: #fff;
     padding: 10px;
-    border-top: 1px solid #999;
     z-index: 10;
 }
 
@@ -327,6 +326,7 @@ textarea {
     width: 64px;
     height: 32px;
     border: 1px solid #999;
+    background: #b7cdf4;
 }
 
 .field-error {
