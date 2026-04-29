@@ -101,24 +101,21 @@
         &raquo;
       {% endif %}
     </span>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const forms = document.querySelectorAll(".js-submit-once-form");
-
-      forms.forEach(function (form) {
-        form.addEventListener("submit", function () {
-          const buttons = form.querySelectorAll("button[type='submit']");
-
-          buttons.forEach(function (button) {
-            button.disabled = true;
-            button.textContent = "送信中...";
-          });
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const forms = document.querySelectorAll(".js-submit-once-form");
+    
+    forms.forEach(function (form) {
+      form.addEventListener("submit", function () {
+        const buttons = form.querySelectorAll("button[type='submit']");
+        buttons.forEach(function (button) {
+          button.disabled = true;
+          button.textContent = "送信中...";
         });
       });
     });
-
-</script>
-  </div>
-</div>
+  });
+  </script>
 {% endblock %}
