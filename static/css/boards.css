@@ -86,7 +86,6 @@ textarea {
 .search-btn {
     width: 50px;
     height: 34px;
-    padding: 4px 10px;
     border: 1px solid #999;
     background: white;
 }
@@ -313,6 +312,8 @@ textarea {
     gap: 8px;
     background: #fff;
     padding: 10px;
+    border-top: 1px solid #999;
+    z-index: 10;
 }
 
 .reply-input {
