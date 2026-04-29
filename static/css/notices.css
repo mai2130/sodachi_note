@@ -110,7 +110,7 @@ textarea {
 
 .notice-link{
   text-align: center;
-  text-decoration: none;
+  text-decoration: underline;
   font-size: 14px;
   color: #000;
 }
@@ -253,7 +253,7 @@ textarea {
 .submit-btn--small{
   padding: 6px 32px;
   font-size: 16px;
-  border: 1px solid #000;
+  border: 1px solid #999;
 }
 
 .submit-btn--danger{
@@ -267,7 +267,6 @@ textarea {
 }
 
 .current-file{
-  margin: 8px 0 0;
   font-size: 12px;
 }
 
@@ -357,9 +356,7 @@ textarea {
 /* 添付リンク */
 .attach-link{
   display:inline-block;
-  margin-top: 6px;
   font-size: 14px;
-  font-weight: 700;
   color: #000;
   text-decoration: underline;
 }
