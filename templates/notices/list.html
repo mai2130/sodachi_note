@@ -10,8 +10,17 @@
 {% block content %}
 <div class="notice-frame">
     <div class="page-title">園からのおたより</div>
-    {# 検索フォーム #}
     
+    {% if messages %}
+        {% for message in messages %}
+            {% if "notice_message" in message.tags %}
+                <div class="{% if 'success' in message.tags %}form-success{% else %}form-error{% endif %}">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{# 検索フォーム #}
     <form method="get" class="notice-search-form">
         <div class="notice-search-grid">
             <select name="month" class="notice-input">
