@@ -43,28 +43,24 @@ class HomeView(LoginRequiredMixin, TemplateView):
                 child_id = request.GET.get("child_id", "")
                 ctx["child_id"] = child_id
 
-                # 1. GETのchild_idがあれば最優先
+                # 1. GETのchild_idがあるときだけ園児を選択する
                 if child_id:
                     child = get_object_or_404(
                         Child.objects.filter(nursery=nursery),
                         id=child_id
                     )
 
-                # 2. child_idがなければ active_child を使う
-                elif user.active_child and user.active_child.nursery_id == nursery.id:
-                    child = user.active_child
-
-                # 3. それもなければ先頭の園児
+                # 2. child_idがない場合は、園児未選択にする
                 else:
-                    child = nursery_children.first()
+                    child = None
 
-                # child があるときだけ active_child を更新
-                if child and user.active_child_id != child.id:
-                    user.active_child = child
+                # 施設アカウントでは、ホーム表示用に active_child を使わない
+                if user.active_child_id is not None and child is None:
+                    user.active_child = None
                     user.save(update_fields=["active_child"])
-
-                # 園児が1人もいない場合
-                if child is None:
+                
+                # 園児が1人も登録されていない場合だけエラーにする
+                if not nursery_children.exists():
                     ctx["child_missing"] = True
 
             else:
@@ -114,7 +110,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
                 att = Attendance.objects.filter(child=child, date=target_day).first()
                 day_attendance = att.status if att else None
             else:
-                messages.error(request, "園児が選択されていません（認証コードで登録してください）")
+                messages.error(request, "園児が選択されていません（認証コードで登録してください）", extra_tags="home_message")
 
         # 共通：カレンダー
         weeks_cells, prev_ym, next_ym = build_weeks_cells(
