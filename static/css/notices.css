@@ -488,16 +488,20 @@ textarea {
 /* エラーメッセージ */
 .form-message {
   font-size: 14px;
-  margin: 0 0 8px;
+  margin: 0 0 15px;
   text-align: center;
 }
 
 .form-success {
   color: #0052cc;
+  text-align: center;
+  margin: 0 0 15px;
+  font-size: 14px;  
 }
 
 .form-error {
   color: red;
+  text-align: center;
 }
 
 .top-error-area{
