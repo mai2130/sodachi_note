@@ -56,11 +56,19 @@ label{
   margin: 0 10px;
 }
 
-.form-error{
+.form-success,
+.form-error {
   margin:0 0 12px;
-  color:red;
   font-size: 14px;
   text-align: center;
+}
+
+.form-error {
+  color: red;
+} 
+
+.form-success {
+  color: #0052cc;
 }
 
 ul.errorlist{
