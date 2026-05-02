@@ -24,8 +24,10 @@
 {% if messages %}
   <div class="top-message-area">
     {% for message in messages %}
-      {% if 'home_message' in message.tags and 'success' in message.tags %}
-        <p class="form-success">{{ message }}</p>
+      {% if 'home_message' in message.tags %}
+        <p class="{% if 'success' in message.tags %}form-success{% else %}form-error{% endif %}">
+          {{ message }}
+        </p>
       {% endif %}
     {% endfor %}
   </div>
