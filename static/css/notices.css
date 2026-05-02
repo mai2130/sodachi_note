@@ -97,7 +97,7 @@ textarea {
 
 .notice-row{
   display: grid;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 150px 1fr;
   justify-items: center;
   gap: 14px;
   padding: 8px 0;
@@ -192,6 +192,8 @@ textarea {
   gap: 10px;
   background-color: #fff;
 
+  position: relative;
+  flex-wrap: wrap;
 }
 
 .form-block label{ width: 80px; }
@@ -484,11 +486,18 @@ textarea {
 }
 
 /* エラーメッセージ */
-.error-message{
-  color: red;
-  font-size: 13px;
-  text-align: center;
+.form-message {
+  font-size: 14px;
   margin: 0 0 8px;
+  text-align: center;
+}
+
+.form-success {
+  color: #0052cc;
+}
+
+.form-error {
+  color: red;
 }
 
 .top-error-area{
@@ -509,11 +518,6 @@ textarea {
 .has-error .select-input,
 .has-error .textarea-input{
   border: 1px solid red;
-}
-
-.form-block{
-  position: relative;
-  flex-wrap: wrap;
 }
 
 .form-block > label{
