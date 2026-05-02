@@ -26,7 +26,7 @@
 
     {% if notice.file %}
         <section class="notice-attachment">
-            <a href="#fileModal" class="attach_link">添付資料</a>
+            <a href="#fileModal" class="attach-link">添付資料</a>
         </section>
 
         <!-- モーダル -->
@@ -38,7 +38,7 @@
 
                 <div class="m__body">
                     {% if file_is_pdf %}
-                        <div class="pdf-fileback">
+                        <div class="pdf-fallback">
                             <p>PDFはこの画面内では表示できない場合があります</p>
                             <a href="{{ notice.file.url }}" target="_blank" rel="noopener" class="pdf-open-link">
                                 PDFを開く

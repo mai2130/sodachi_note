@@ -15,7 +15,7 @@
     {% csrf_token %}
 
     {% if form.non_field_errors %}
-      <p class="error-message">{{ form.non_field_errors }}</p>
+      <p class="form-error">{{ form.non_field_errors }}</p>
     {% endif %}
 
     <div class="form-block{% if form.date.errors %} has-error{% endif %}">
