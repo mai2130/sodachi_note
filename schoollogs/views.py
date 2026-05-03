@@ -30,22 +30,23 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
 
     def _ensure_active_child(self, request):
         nursery = getattr(request.user, "nursery", None)
+        
+        # 園アカウントの場合
         if nursery is not None:
             children = nursery.children.all().order_by("id")
-            child = getattr(request.user, "active_child", None)
-
-            if not child:
-                return children, None
             
-            if child.nursery_id != nursery.id:
-                return children, None
-
-            return children, child
+            child_id = request.GET.get("child_id")
+            if child_id:
+                child = get_object_or_404(Child, id=child_id, nursery=nursery)
+                return children, child
         
+            return children, None
+    
+        # 保護者アカウントの場合
         child = getattr(request.user, "active_child", None)
         if child:
             return None, child
-
+    
         link = (
             Family.objects.filter(guardian=request.user)
             .select_related("child")
@@ -84,7 +85,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         log = self._get_or_create_log(child, target_date)
         form = SchoolGrowthLogForm(instance=log)
         
-        can_edit = hasattr(request.user, "nursery")
+        can_edit = request.user.is_facility()
 
         return render(request, self.template_name,
         {
@@ -128,7 +129,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
                     "log": log,
                     "date": target_date,
                     "child": child,
-                    "can_edit":True,
+                    "can_edit":request.user.is_facility(),
                 },
             )
         obj = form.save(commit=False)
@@ -150,25 +151,28 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
     template_name = "growthlogs/home_growthlog_form.html"
 
     def _get_child(self, request):
+        nursery = getattr(request.user, "nursery", None)
+        if nursery is not None:
+            child_id = request.GET.get("child_id")
+            if child_id:
+                return get_object_or_404(Child, id=child_id, nursery=nursery)
+            return None
+        
         child = getattr(request.user, "active_child", None)
         if child:
             return child
-        
-        if not hasattr(request.user, "nursery"):
-            link = (
-                Family.objects.filter(guardian=request.user)
-                .select_related("child")
-                .first()
-            )
-            if not link:
-                return None
-        
-            request.user.active_child = link.child
-            request.user.save(update_fields=["active_child"])
-            return link.child
-        
-        return None
+        link = (
+            Family.objects.filter(guardian=request.user)
+            .select_related("child")
+            .first()
+        )
+        if not link:
+            return None
 
+        request.user.active_child = link.child
+        request.user.save(update_fields=["active_child"])
+        return link.child
+    
     def _redirect_home(self, target_date):
         url = reverse("dashboard:home")
         return redirect(f"{url}?d={target_date:%Y-%m-%d}")
@@ -192,7 +196,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
         log = self._get_or_create_log(child, target_date)
         form = HomeGrowthLogForm(instance=log)
         
-        can_edit = not hasattr(request.user, "nursery")
+        can_edit = request.user.is_guardian()   
 
         return render(
             request,
@@ -229,8 +233,8 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
 
         form = HomeGrowthLogForm(request.POST, instance=log)
         if not form.is_valid():
-            can_edit = True
-            
+            can_edit = request.user.is_guardian()
+
             return render(
                 request,
                 self.template_name,
@@ -250,8 +254,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
         
         action = request.POST.get("action")
         if action == "submit":
-            if hasattr(obj, "submitted"):
-                obj.submitted = True
+            obj.submitted = True
             messages.success(request, "提出しました", extra_tags="home_message")
         else:
             messages.success(request, "一時保存しました", extra_tags="home_message")
