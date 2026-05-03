@@ -146,12 +146,12 @@
 
   <div class="link-row">
     <a class="btn primary"
-       href="{% url 'schoollogs:school_growthlog_form' %}?d={{ daily_info.date|date:'Y-m-d' }}{% if mode == 'nursery' and child_id %}&child_id={{ child_id }}{% endif %}">
+    href="{% url 'schoollogs:school_growthlog_form' %}?d={{ daily_info.date|date:'Y-m-d' }}{% if mode == 'nursery' and child_id %}&child_id={{ child_id }}{% endif %}">
       園での生活・成長記録へ
     </a>
 
     <a class="btn primary"
-       href="{% url 'schoollogs:home_growthlog_form' %}?d={{ daily_info.date|date:'Y-m-d' }}">
+    href="{% url 'schoollogs:home_growthlog_form' %}?d={{ daily_info.date|date:'Y-m-d'}}{% if mode == 'nursery' and child_id %}&child_id={{ child_id }}{% endif %}">
       家庭での生活・成長記録へ
     </a>
   </div>
