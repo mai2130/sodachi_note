@@ -111,6 +111,19 @@ textarea {
     background: #fff;
 }
 
+.growthlog-body input[readonly],
+.growthlog-body textarea[readonly] {
+    outline: none;
+    box-shadow: none;
+}
+
+.growthlog-body input[readonly]:focus,
+.growthlog-body textarea[readonly]:focus {
+    outline: none;
+    border: 1px solid var(--line);
+    box-shadow: none;
+}
+
 .growthlog-temp input[type="number"]{
     width: var(--control-w);
     max-width: none;
@@ -118,6 +131,19 @@ textarea {
 
 .growthlog-temp .unit{
     white-space: nowrap;
+}
+
+.growthlog-body fieldset:disabled {
+    opacity: 1;
+}
+
+.growthlog-body fieldset:disabled input,
+.growthlog-body fieldset:disabled select,
+.growthlog-body fieldset:disabled textarea,
+.growthlog-body fieldset:disabled label,
+.growthlog-body fieldset:disabled span {
+    opacity: 1;
+    color: #000;
 }
 
 /* 様子 */
