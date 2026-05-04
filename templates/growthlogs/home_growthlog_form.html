@@ -19,7 +19,7 @@
         提出済みのため編集できません
       </div>
     {% endif %}
-
+    <fieldset {% if not can_edit or log.submitted %}disabled{% endif %}>
     <div class="growthlog-field">
       <div class="growthlog-label">就寝時間</div>
       <div class="growthlog-input-inline">
@@ -48,7 +48,7 @@
       <div class="growthlog-label">食　欲</div>
       <div class="growthlog-input-inline button-choices">
         {% for radio in form.home_appetite %}
-          <label class="choice-btn {% if radio.data.selected %}is-selected{% endif %}">
+          <label class="choice-btn">
             {{ radio.tag }}
             <span>{{ radio.choice_label }}</span>
           </label>       
@@ -104,6 +104,7 @@
         {% endif %}
       </div>
     </div>
+    </fieldset>
 
     {% if can_edit and not log.submitted %}
       <div class="growthlog-actions">
