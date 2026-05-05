@@ -153,10 +153,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
     def _get_child(self, request):
         nursery = getattr(request.user, "nursery", None)
         if nursery is not None:
-            child_id = request.GET.get("child_id")
-            if child_id:
-                return get_object_or_404(Child, id=child_id, nursery=nursery)
-            return None
+            return request.user.active_child
         
         child = getattr(request.user, "active_child", None)
         if child:
@@ -195,6 +192,11 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
         target_date = _get_target_date(request, "d")
         log = self._get_or_create_log(child, target_date)
         form = HomeGrowthLogForm(instance=log)
+
+        condition_display = dict(form.fields["home_condition"].choices).get(
+        form.instance.home_condition,
+        ""
+        )
         
         can_edit = request.user.is_guardian()   
 
@@ -209,6 +211,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
             "can_edit": can_edit,
             },
         )
+    
 
     def post(self, request):
         if hasattr(request.user, "nursery"):
