@@ -11,24 +11,6 @@
 
 <div class="growthlog-body">
 
-{# 園アカウントのときだけ園児選択を表示 #}
-{% if children %}
-  <form method="post" action="{% url 'schoollogs:select_child' %}">
-    {% csrf_token %}
-    <select class="child-select" name="child_id" onchange="this.form.submit()">
-      <option value="">園児を選択</option>
-      {% for child in children %}
-        <option value="{{ child.id }}"
-          {% if selected_child and child.id == selected_child.id %}selected{% endif %}>
-          {{ child }}
-        </option>
-      {% endfor %}
-    </select>
-
-    <input type="hidden" name="next" value="{{ request.get_full_path }}">
-  </form>
-{% endif %}
-
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.non_field_errors }}

@@ -63,7 +63,7 @@
         {% if can_edit and not log.submitted %}
           {{ form.home_condition }}
         {% else %}
-          <input type="text" value="{{ form.home_condition.value|default_if_none:'' }}" readonly>
+          <input type="text" value="{{ condition_display }}" readonly>
         {% endif %}
       </div>
     </div>
