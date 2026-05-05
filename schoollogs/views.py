@@ -44,7 +44,8 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
     
         # 保護者アカウントの場合
         child = getattr(request.user, "active_child", None)
-        if child:
+        
+        if child and Family.objects.filter(guardian=request.user, child=child).exists():
             return None, child
     
         link = (
@@ -52,6 +53,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
             .select_related("child")
             .first()
         )
+
         if not link:
             return None, None
 
@@ -152,12 +154,23 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
 
     def _get_child(self, request):
         nursery = getattr(request.user, "nursery", None)
+        
         if nursery is not None:
-            return request.user.active_child
+            child_id = request.GET.get("child_id")
+            
+            if child_id:
+                return get_object_or_404(Child, id=child_id, nursery=nursery)
+            
+            child = getattr(request.user, "active_child", None)
+            if child:
+                return child
+            
+            return None
         
         child = getattr(request.user, "active_child", None)
-        if child:
+        if child :
             return child
+
         link = (
             Family.objects.filter(guardian=request.user)
             .select_related("child")
@@ -209,6 +222,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
             "date": target_date,
             "child": child,
             "can_edit": can_edit,
+            "condition_display": condition_display,
             },
         )
     
