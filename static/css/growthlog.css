@@ -257,13 +257,33 @@ textarea {
     color: red;
 }
 
+.modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 999;
+}
+
 .growthlog-confirm-box {
-    margin-top: 12px;
-    padding: 10px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 86%;
+    max-width: 360px;
+    padding: 20px 16px;
     background: #fff5bf;
-    border: 1px solid #f0d25c;
+    border: 1px solid #999;
+    z-index: 1000;
     font-size: 15px;
     text-align: center;
+}
+
+.growthlog-confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 14px;
 }
 
 .growthlog-confirm-actions .growthlog-btn{
