@@ -96,23 +96,17 @@
         </button>
       </div>
       
-      <div class="growthlog-confirm-box" id="confirm-box" style="display:none;">
+      <div class="modal-bg" id="modal-bg" style="display: none;"></div>
+      <div class="growthlog-confirm-box" id="confirm-box" style="display: none;">
         <div>
           提出後は修正できません。<br>
           提出してもよろしいですか？
         </div>
-      
         <div class="growthlog-confirm-actions">
-          <button type="submit"
-                  name="action"
-                  value="submit"
-                  class="growthlog-btn growthlog-btn-primary">
+          <button type="submit" name="action" value="submit" class="growthlog-btn growthlog-btn-primary">
             は　い
           </button>
-      
-          <button type="button"
-                  class="growthlog-btn growthlog-btn-cancel"
-                  onclick="closeConfirmBox();">
+          <button type="button" class="growthlog-btn growthlog-btn-cancel" onclick="closeConfirmBox();">
             いいえ
           </button>
         </div>
@@ -124,19 +118,30 @@
 <script>
   function openConfirmBox() {
     const box = document.getElementById("confirm-box");
+    const bg = document.getElementById("modal-bg");
+
     if (box) {
       box.style.display = "block";
     }
+    if (bg) {
+      bg.style.display = "block";
+    }
+
     return false;
   }
 
   function closeConfirmBox() {
     const box = document.getElementById("confirm-box");
+    const bg = document.getElementById("modal-bg");
     if (box) {
       box.style.display = "none";
     }
+    if (bg) {
+      bg.style.display = "none";
+    }
   }
 </script>
+
 {% endblock %}
 
 

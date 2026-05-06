@@ -118,6 +118,7 @@
         </button>
       </div>
 
+      <div class="modal-bg" id="modal-bg" style="display: none;"></div>
       <div class="growthlog-confirm-box" id="confirm-box" style="display: none;">
         <div>
           提出後は修正できません。<br>
@@ -139,16 +140,26 @@
 <script>
   function openConfirmBox() {
     const box = document.getElementById("confirm-box");
+    const bg = document.getElementById("modal-bg");
+
     if (box) {
       box.style.display = "block";
     }
+    if (bg) {
+      bg.style.display = "block";
+    }
+
     return false;
   }
 
   function closeConfirmBox() {
     const box = document.getElementById("confirm-box");
+    const bg = document.getElementById("modal-bg");
     if (box) {
       box.style.display = "none";
+    }
+    if (bg) {
+      bg.style.display = "none";
     }
   }
 </script>
