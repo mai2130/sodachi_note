@@ -219,6 +219,9 @@ class ChildMyPageForm(forms.ModelForm):
             (4,"その他"),
         ]
 
+        # 続柄は変更できないようにする
+        self.fields["relationship"].disabled = True
+
         last_name = self.instance.last_name or ""
         first_name = self.instance.first_name or ""
         full = f"{last_name} {first_name}".strip()
