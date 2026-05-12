@@ -9,13 +9,23 @@
 
 <div class="growthlog-subtitle">園での生活・成長記録</div>
 
+{% if target_date %}
+  <div class="growthlog-date">
+    {{ target_date|date:"Y年n月j日" }}
+  </div>
+{% endif %}
+
 <div class="growthlog-body">
 
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
   {{ form.non_field_errors }}
- 
-  {% if form.instance.submitted %}
+
+  {% if not can_edit %}
+    <div class="growthlog-submitted-msg">
+      園が記録した内容のため編集できません
+    </div>
+  {% elif form.instance.submitted %}
     <div class="growthlog-submitted-msg">
       提出済みのため編集できません
     </div>
