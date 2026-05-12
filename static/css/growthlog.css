@@ -46,6 +46,12 @@ textarea {
     padding: 4px 14px 10px;
 }
 
+.growthlog-date {
+    text-align: center;
+    font-size: 16px;
+    margin: 0 0 12px;
+}
+
 .child-select {
     display: block;
     margin: 0 auto 16px;
