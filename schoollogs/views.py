@@ -80,7 +80,6 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         children, child = self._ensure_active_child(request)
         
         if not child:
-            messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
         
         target_date = _get_target_date(request, "d")
@@ -95,7 +94,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
             "selected_child":child,
             "form":form,
             "log":log,
-            "date":target_date,
+            "target_date":target_date,
             "child":child,
             "can_edit": can_edit,
         },
@@ -108,7 +107,6 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
         children, child = self._ensure_active_child(request)
         
         if not child:
-            messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
         
         target_date = _get_target_date(request, "d")
@@ -129,7 +127,7 @@ class SchoolGrowthLogView(LoginRequiredMixin, View):
                     "selected_child": child,
                     "form": form,
                     "log": log,
-                    "date": target_date,
+                    "target_date": target_date,
                     "child": child,
                     "can_edit":request.user.is_facility(),
                 },
@@ -199,7 +197,6 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
     def get(self, request):
         child = self._get_child(request)
         if not child:
-            messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
 
         target_date = _get_target_date(request, "d")
@@ -219,7 +216,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
             {
             "form": form,
             "log": log,
-            "date": target_date,
+            "target_date": target_date,
             "child": child,
             "can_edit": can_edit,
             "condition_display": condition_display,
@@ -238,7 +235,6 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
 
         child = self._get_child(request)
         if not child:
-            messages.error(request, "園児が選択されていません", extra_tags="home_message")
             return redirect("dashboard:home")
 
         target_date = _get_target_date(request, "d")
@@ -258,7 +254,7 @@ class HomeGrowthLogView(LoginRequiredMixin, View):
                 {
                     "form": form,
                     "log": log,
-                    "date": target_date,
+                    "target_date": target_date,
                     "child": child,
                     "can_edit":can_edit,
                 },
