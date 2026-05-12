@@ -250,6 +250,11 @@ class ChildMyPageForm(forms.ModelForm):
             else:
                 user.last_name = ""
                 user.first_name = ""
+    
+        email = self.cleaned_data.get("email")
+        
+        if email :
+            user.username = email
 
         if commit:
             user.save()
