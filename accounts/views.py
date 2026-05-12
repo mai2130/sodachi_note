@@ -58,7 +58,7 @@ class FacilitySignUpView(View):
             address = form.cleaned_data["address"],
             phone_number = form.cleaned_data["phone_number"],
         )
-        
+        messages.success(request, "登録が完了しました！",extra_tags="home_message")
         login(request, user)
         return redirect('dashboard:home')
     
@@ -118,6 +118,7 @@ class GuardianSignUpView(FormView):
         InviteCode.objects.filter(pk=invite.pk).update(
             users_count=F("users_count") + 1
         )
+        messages.success(self.request, "登録が完了しました！",extra_tags="home_message")        
         login(self.request, user)   
         return super().form_valid(form)
 
