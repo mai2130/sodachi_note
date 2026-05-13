@@ -79,8 +79,13 @@ class FacilitySignUpForm(forms.Form):
 
         if password1 != password2:
             raise ValidationError("パスワードが一致しません")
+        
+        email = cleaned.get("email")
 
-        if User.objects.filter(email=cleaned.get("email")).exists():
+        if email and User.objects.filter(email=email).exists():
+            raise ValidationError("このメールアドレスは既に使われています")
+        
+        if email and User.objects.filter(username=email).exists():
             raise ValidationError("このメールアドレスは既に使われています")
 
         return cleaned
@@ -149,6 +154,8 @@ class GuardianSignUpForm(forms.Form):
             email = cleaned.get("email")
             if email and User.objects.filter(email=email).exists():
                 self.add_error("email", "このメールアドレスは既に使われています")
+            if email and User.objects.filter(username=email).exists():
+                self.add_error("email", "このメールアドレスは既に使われています")
 
         return cleaned
     
@@ -184,11 +191,15 @@ class GuardianSignUpForm(forms.Form):
             active_child=child,
         )
 
-        Family.objects.create(
+        family, created = Family.objects.get_or_create(
             guardian=user,
             child=child,
-            relationship=relationship if relationship != "" else None,
+            defaults={"relationship": relationship},   
         )
+
+        if not created and relationship is not None:
+            family.relationship = relationship
+            family.save(update_fields=["relationship"])
 
         invite.users_count += 1
         invite.save(update_fields=["users_count"])
@@ -254,6 +265,7 @@ class ChildMyPageForm(forms.ModelForm):
         email = self.cleaned_data.get("email")
         
         if email :
+            user.email = email
             user.username = email
 
         if commit:
