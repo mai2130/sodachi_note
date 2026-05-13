@@ -18,9 +18,9 @@
                 <a href="{% url 'dashboard:home' %}">そだちノート</a>
             </h1>
             <div class="logout">
-                <form action ="{% url 'logout' %}" method="POST" class="logout-form">
+                <form action ="{% url 'logout' %}" method="POST" class="logout-form js-confirm-submit" data-confirm-message="ログアウトしてもよろしいですか？">
                     {% csrf_token %}
-                    <button type="submit" class="link-like" onclick="return confirm('ログアウトしてもよろしいですか？');">
+                    <button type="submit" class="link-like">
                         <i class="bi bi-box-arrow-right"></i>
                         <span>ログアウト</span>
                     </button>
@@ -75,5 +75,53 @@
         </nav>
     </footer>
     {% endblock %}
+    <div class="common-modal-bg" id="common-modal-bg" style="display: none;"></div>
+
+<div class="common-confirm-modal" id="common-confirm-modal" style="display: none;">
+    <div class="common-confirm-text" id="common-confirm-text">  
+    本当に実行してもよろしいですか？
+    </div>
+    
+    <div class="common-confirm-actions">
+        <button type="button" class="common-confirm-btn common-confirm-ok" id="common-confirm-ok">
+        はい
+        </button>
+        <button type="button" class="common-confirm-btn common-confirm-cancel" id="common-confirm-cancel">
+        いいえ
+        </button>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let targetForm = null;
+
+    document.querySelectorAll(".js-confirm-submit").forEach(function (form) {
+        form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        targetForm = form;
+
+        const message = form.dataset.confirmMessage || "本当に実行してもよろしいですか？";
+        document.getElementById("common-confirm-text").innerHTML = message;
+
+        document.getElementById("common-modal-bg").style.display = "block";
+        document.getElementById("common-confirm-modal").style.display = "block";
+        });
+    });
+
+    document.getElementById("common-confirm-ok").addEventListener("click", function () {
+        if (targetForm) {
+        targetForm.submit();
+        }
+    });
+
+    document.getElementById("common-confirm-cancel").addEventListener("click", function () {
+        document.getElementById("common-modal-bg").style.display = "none";
+        document.getElementById("common-confirm-modal").style.display = "none";
+        targetForm = null;
+    });
+    });
+</script>
 </body>
 </html>
