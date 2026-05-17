@@ -125,11 +125,15 @@ textarea {
 
 /* ページャー */
 .pager{
+    position: fixed;
+    bottom: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
+    padding: 8px 0;
     margin: 12px 0;
+    z-index: 99;
 }
 
 .pager-btn{
@@ -282,7 +286,7 @@ textarea {
 
 /* 回答 */
 .board-post-list{
-  padding-bottom: 100px;
+  padding-bottom: 220px;
   margin-top: 6px;
 }
 .board-post-item{
@@ -309,7 +313,7 @@ textarea {
 /* 下部：入力欄 + 投稿ボタン（横並び） */
 .reply-area {
     position: fixed;
-    bottom: 70px;
+    bottom: 120px;
     display: flex;
     gap: 8px;
     background: #fff;
