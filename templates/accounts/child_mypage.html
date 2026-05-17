@@ -12,11 +12,19 @@
 
   {% if form.errors %}
     <div class="top-error">
-      <p class="top-error-title">未入力項目があります</p>
-    </div>
-  {% endif %}
+    {% for field in form %}
+      {% for error in field.errors %}
+        <div>{{ error }}</div>
+      {% endfor %}
+    {% endfor %}
 
-  {% if mypage_success %}
+    {% for error in form.non_field_errors %}
+      <div>{{ error }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% if mypage_success %}
     <p class="mypage-success">{{ mypage_success }}</p>
   {% endif %}
 
@@ -35,7 +43,6 @@
       <div class="mypage-label">保護者氏名</div>
       <div class="mypage-field">
         {{ form.guardian_name }}
-        {{ form.guardian_name.errors }}
       </div>
     </div>
 
@@ -43,7 +50,6 @@
         <div class="mypage-label">{{ form.relationship.label }}</div>
         <div class="mypage-field">
           {{ form.relationship }}
-          {{ form.relationship.errors }}
         </div>
       </div>
 
@@ -51,7 +57,6 @@
         <div class="mypage-label">{{ form.email.label }}</div>
         <div class="mypage-field">
           {{ form.email }}
-          {{ form.email.errors }}
         </div>
       </div>
 
@@ -59,7 +64,6 @@
         <div class="mypage-label">{{ form.postal_code.label }}</div>
         <div class="mypage-field">
           {{ form.postal_code }}
-          {{ form.postal_code.errors }}
         </div>
       </div>
 
@@ -67,7 +71,6 @@
         <div class="mypage-label">{{ form.address.label }}</div>
         <div class="mypage-field">
           {{ form.address }}
-          {{ form.address.errors }}
         </div>
       </div>
 
@@ -75,7 +78,6 @@
         <div class="mypage-label">{{ form.phone_number.label }}</div>
         <div class="mypage-field">
           {{ form.phone_number }}
-          {{ form.phone_number.errors }}
         </div>
       </div>
 
