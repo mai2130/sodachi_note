@@ -126,7 +126,7 @@ textarea {
 /* パスワード再設定リンク */
 .mypage-link{
   text-align: center;
-  margin: 12px 0 10px;
+  margin: 15px 0;
   font-size: 14px;
 }
 .mypage-link a{
@@ -136,7 +136,7 @@ textarea {
 /* ボタンエリア */
 .mypage-actions{
   text-align: center;
-  margin-top: 8px;
+  margin-top: 30px;
 }
 
 /* 保存ボタン */
