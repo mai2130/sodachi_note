@@ -134,7 +134,7 @@ textarea {
     align-items: center;
     background: #fff;
     gap: 16px;
-    padding: 8px 0;
+    padding: 15px 0 8px;
     margin: 0;
     z-index: 100;
 }
