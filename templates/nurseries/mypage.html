@@ -14,15 +14,25 @@
     {% csrf_token %}
 
   {% if form.errors %}
-    <div class="top-error">
-      <p class="top-error-title">未入力項目があります</p>
-    </div>
+      <div class="top-error">
+        {% for field in form %}
+          {% for error in field.errors %}
+            <div>{{ error}}</div>
+          {% endfor %}
+        {% endfor %}
+
+        {% for error in form.non_field_errors %}
+      <div>{{ error }}</div>
+        {% endfor %}
+      </div>
   {% endif %}
 
   {# 成功メッセージ #}
   {% if messages %}
     {% for message in messages %}
-      <p class="mypage-success">{{ message }}</p>
+      {% if "nursery_mypage_message" in message.tags %}
+        <p class="mypage-success">{{ message }}</p>
+      {% endif %}      
     {% endfor %}
   {% endif %}
 
