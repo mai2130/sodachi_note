@@ -132,10 +132,11 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #fff;
     gap: 16px;
-    padding: 8px 0;
-    margin: 12px 0;
-    z-index: 99;
+    padding: 8px 0 12px;
+    margin: 0;
+    z-index: 100;
 }
 
 .pager-btn{
@@ -288,7 +289,7 @@ textarea {
 
 /* 回答 */
 .board-post-list{
-  padding-bottom: 220px;
+  padding-bottom: 180px;
   margin-top: 6px;
 }
 .board-post-item{
@@ -322,7 +323,7 @@ textarea {
     justify-content: center;
     gap: 8px;
     background: #fff;
-    padding: 10px;
+    padding: 10px 10px 4px;
     z-index: 100;
 }
 
