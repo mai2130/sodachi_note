@@ -56,7 +56,7 @@
 .family-label-link{
   font-size: 14px;
   color: inherit;
-  text-decoration: none;
+  text-align: center;
 }
 
 /* 押した感 */
@@ -70,7 +70,7 @@
   height: 30px;
   border-radius: 1px;
   padding: 0 8px;
-  border: 1px solid #999; 
+  border: 1px solid #fff; 
   font-size: 14px;
   background: #fff;
 }
@@ -153,7 +153,6 @@
   margin-top: 10px;
   font-size: 14px;
   color: inherit;
-  text-decoration: none;
   opacity: 0.9;
 }
 
