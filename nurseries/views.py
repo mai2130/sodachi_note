@@ -8,11 +8,17 @@ from .models import Nursery
 from .forms import NurseryMyPageForm
 
 class NurseryMyPageView(LoginRequiredMixin, UpdateView):
+    
     model = Nursery
     form_class = NurseryMyPageForm
     template_name = "nurseries/mypage.html"
     success_url = reverse_lazy("nurseries:nursery_mypage")
-    
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["user"] = self.request.user
+        return kwargs
+
     def get_object(self, queryset =None):
         #ログインユーザーに紐づく園を編集対象にする
         return self.request.user.nursery
