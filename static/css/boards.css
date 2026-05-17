@@ -282,7 +282,7 @@ textarea {
 
 /* 回答 */
 .board-post-list{
-  padding: 0 10px;
+  padding-bottom: 100px;
   margin-top: 6px;
 }
 .board-post-item{
@@ -308,13 +308,13 @@ textarea {
 
 /* 下部：入力欄 + 投稿ボタン（横並び） */
 .reply-area {
-    position: sticky;
+    position: fixed;
     bottom: 70px;
     display: flex;
     gap: 8px;
     background: #fff;
     padding: 10px;
-    z-index: 10;
+    z-index: 100;
 }
 
 .reply-input {
