@@ -126,6 +126,8 @@ textarea {
 /* ページャー */
 .pager{
     position: fixed;
+    left: 0;
+    width: 100%;
     bottom: 70px;
     display: flex;
     justify-content: center;
@@ -313,8 +315,11 @@ textarea {
 /* 下部：入力欄 + 投稿ボタン（横並び） */
 .reply-area {
     position: fixed;
+    left: 0;
+    width: 100%;
     bottom: 120px;
     display: flex;
+    justify-content: center;
     gap: 8px;
     background: #fff;
     padding: 10px;
