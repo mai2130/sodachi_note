@@ -59,8 +59,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
                     user.active_child = None
                     user.save(update_fields=["active_child"])
                 
-                # 園児が1人も登録されていない場合だけエラーにする
-                if not nursery_children.exists():
+                if child is None:
                     ctx["child_missing"] = True
 
             else:
