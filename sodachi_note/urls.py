@@ -34,8 +34,7 @@ urlpatterns = [
     path("notices/",include(("notices.urls", "notices"), namespace="notices")),
     path("boards/",include(("boards.urls", "boards"), namespace="boards")),
     path("nurseries/", include(("nurseries.urls", "nurseries"), namespace="nurseries")),
-    path("families/", include("families.urls")),
-    path("invites/", include(("invites.urls", "invites"), namespace="invites")),
+path("families/", include(("families.urls", "families"), namespace="families")),    path("invites/", include(("invites.urls", "invites"), namespace="invites")),
     path("attendances/", include(("attendances.urls", "attendances"), namespace="attendances")),
     path('home/', include(("dashboard.urls" , "dashboard"), namespace="dashboard")),
     path('', include(("portfolio.urls" ,"portfolio"), namespace="portfolio")), #トップページ
@@ -43,3 +42,4 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
