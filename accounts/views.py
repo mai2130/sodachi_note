@@ -94,6 +94,8 @@ class GuardianSignUpView(FormView):
         relationship = form.cleaned_data.get("relationship")
         if relationship == "":
             relationship = None
+        else:
+            relationship = int(relationship)
         
         user = User.objects.create_user(
             username=form.cleaned_data["email"], 
