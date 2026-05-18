@@ -104,14 +104,17 @@ class GuardianSignUpView(FormView):
             role=User.Role.GUARDIAN,
             last_name = last_name,
             first_name = first_name,
-            relationship = relationship,
         )
         
-        Family.objects.get_or_create(
+        family, created = Family.objects.get_or_create(
             guardian=user,
             child=invite.child,
-            defaults={"relationship": relationship}, 
+            defaults={"relationship": relationship},
         )
+
+        if not created:
+            family.relationship = relationship
+            family.save(update_fields=["relationship"])
         
         user.active_child = invite.child
         user.save(update_fields=["active_child"])
