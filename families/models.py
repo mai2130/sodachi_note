@@ -1,4 +1,3 @@
-# families/models.py
 from django.db import models
 from django.conf import settings #AUTH_USER_MODEL（カスタムUser）を参照
 from children.models import Child
