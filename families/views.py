@@ -34,7 +34,7 @@ def family_info(request):
 
     return render(
         request,
-        "families/family_info.html",
+        "families/info.html",
         {"child": child, "slots": slots},
     )
 
