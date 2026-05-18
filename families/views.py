@@ -25,7 +25,7 @@ def family_info(request):
         slots.append({
             "pk": f.pk,
             "label": f.get_relationship_display(),
-            "name": f.guardian.get_full_name() or f.guardian.username,
+            "name": f"{f.guardian.last_name} {f.guardian.first_name}".strip() or f.guardian.username,
             "email": f.guardian.email,
         })
 
@@ -59,9 +59,23 @@ def family_delete(request, pk):
     if child is None:
         return redirect("families:family_info")
 
-    # 覗き見防止
-    get_object_or_404(Family, child=child, guardian=request.user)
+    # 自分がこの園児の家族であることを確認
+    my_link = get_object_or_404(
+        Family,
+        child=child,
+        guardian=request.user
+    )
 
-    link = get_object_or_404(Family, pk=pk, child=child)
+    # 削除対象の家族リンクを取得
+    link = get_object_or_404(
+        Family,
+        pk=pk,
+        child=child
+    )
+
+    # 自分自身の家族リンクは削除できないようにする
+    if link.pk == my_link.pk:
+        return redirect("families:family_info")
+
     link.delete()
     return redirect("families:family_info")
