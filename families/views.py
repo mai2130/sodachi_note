@@ -19,26 +19,18 @@ def family_info(request):
         .order_by("relationship", "id")
     )
 
-    buckets = {key: [] for key, _ in Family.Relationship.choices}
-    for f in links:
-        buckets[f.relationship].append(f)
-
     slots = []
 
-    def put(relationship_value, label, max_count):
-        items = buckets.get(relationship_value, [])
-        for obj in items[:max_count]:
-            if len(slots) >= 5:
-                return
-            slots.append({"pk": obj.pk, "label": label, "name": obj.guardian.username, })
-    
-    put(Family.Relationship.FATHER, "パパ", 1)
-    put(Family.Relationship.MOTHER, "ママ", 1)
-    put(Family.Relationship.GRANDFATHER, "おじいちゃん", 2)
-    put(Family.Relationship.GRANDMOTHER, "おばあちゃん", 2)
+    for f in links[:5]:
+        slots.append({
+            "pk": f.pk,
+            "label": f.get_relationship_display(),
+            "name": f.guardian.get_full_name() or f.guardian.username,
+            "email": f.guardian.email,
+        })
 
     while len(slots) < 5:
-        slots.append({"pk": None, "label": "", "name": ""})
+        slots.append({"pk": None, "label": "", "name": "", "email": ""})
 
     return render(
         request,
