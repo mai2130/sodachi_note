@@ -42,7 +42,7 @@ def family_info(request):
 def family_confirm(request, pk):
     child = getattr(request.user, "active_child", None)
     if child is None:
-        return redirect("families:family_info")
+        return redirect("families:info")
 
     # 覗き見防止
     get_object_or_404(Family, child=child, guardian=request.user)
@@ -57,7 +57,7 @@ def family_confirm(request, pk):
 def family_delete(request, pk):
     child = getattr(request.user, "active_child", None)
     if child is None:
-        return redirect("families:family_info")
+        return redirect("families:info")
 
     # 自分がこの園児の家族であることを確認
     my_link = get_object_or_404(
@@ -75,7 +75,7 @@ def family_delete(request, pk):
 
     # 自分自身の家族リンクは削除できないようにする
     if link.pk == my_link.pk:
-        return redirect("families:family_info")
+        return redirect("families:info")
 
     link.delete()
-    return redirect("families:family_info")
+    return redirect("families:info")
