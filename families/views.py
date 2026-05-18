@@ -20,8 +20,14 @@ def family_info(request):
     )
 
     slots = []
+    seen_guardian_ids = set()
 
-    for f in links[:5]:
+    for f in links:
+        if f.guardian_id in seen_guardian_ids:
+            continue
+
+        seen_guardian_ids.add(f.guardian_id)
+
         slots.append({
             "pk": f.pk,
             "label": f.get_relationship_display(),
@@ -29,9 +35,16 @@ def family_info(request):
             "email": f.guardian.email,
         })
 
+        if len(slots) >= 5:
+            break
     while len(slots) < 5:
-        slots.append({"pk": None, "label": "", "name": "", "email": ""})
-
+        slots.append({
+            "pk": None,
+            "label": "",
+            "name": "",
+            "email": "",
+        })
+    
     return render(
         request,
         "families/info.html",
