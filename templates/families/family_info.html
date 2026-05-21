@@ -22,13 +22,14 @@
         </div>
 
         {% if s.pk %}
-          <a class="family-label-link" href="{% url 'families:confirm' s.pk %}">{{ s.label }}</a>
+          <a class="family-label-link" href="{% url 'families:confirm' s.pk %}">
+            <div class="family-label">{{ s.label }}</div>
+            <div class="family-name">{{ s.name }}</div>
+          </a>
         {% else %}
-          <div class="family-label">{{ s.label }}</div>
+          <div class="family-empty"></div>
         {% endif %}
-
-        <input class="family-input" type="text" value="{{ s.name }}" readonly>
-  </div>
     {% endfor %}
+  </div>
 </div>
 {% endblock %}
