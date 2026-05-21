@@ -9,27 +9,27 @@
 <div class="family-page">
   <div class="family-title">家族情報</div>
 
-  <div class="family-box">
-    {% for s in slots %}
-      <div class="family-row">
-        <div class="family-no">
-          {% if forloop.counter == 1 %}①
-          {% elif forloop.counter == 2 %}②
-          {% elif forloop.counter == 3 %}③
-          {% elif forloop.counter == 4 %}④
-          {% else %}⑤
-          {% endif %}
-        </div>
-
-        {% if s.pk %}
-          <a class="family-label-link" href="{% url 'families:confirm' s.pk %}">
-            <div class="family-label">{{ s.label }}</div>
-            <div class="family-name">{{ s.name }}</div>
-          </a>
-        {% else %}
-          <div class="family-empty"></div>
+<div class="family-box">
+  {% for s in slots %}
+    <div class="family-row">
+      <div class="family-no">
+        {% if forloop.counter == 1 %}①
+        {% elif forloop.counter == 2 %}②
+        {% elif forloop.counter == 3 %}③
+        {% elif forloop.counter == 4 %}④
+        {% else %}⑤
         {% endif %}
-    {% endfor %}
-  </div>
+      </div>
+
+      {% if s.pk %}
+        <a class="family-label-link" href="{% url 'families:confirm' s.pk %}">
+          <div class="family-label">{{ s.label }}</div>
+          <div class="family-name">{{ s.name }}</div>
+        </a>
+      {% else %}
+        <div class="family-empty"></div>
+      {% endif %}
+    </div>
+  {% endfor %}
 </div>
 {% endblock %}
