@@ -7,10 +7,12 @@
 
 /* ===== 一覧画面（family_info.html） ===== */
 .family-page{
-  max-width: 360px;
-  margin: auto;
+  max-width: 340px;
+  margin: 0 auto;
   padding: 14px;
   background: #fff;
+  min-height: auto;
+  padding-bottom: 80px;
 }
 
 .family-title{
@@ -33,7 +35,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 12px 0;
+  padding: 8px 0;
 }
 
 /* 行区切りは無し */
@@ -49,14 +51,14 @@
 /* ラベル（パパ/ママ/祖母…） */
 .family-label{
   font-size: 16px;
-  width: 90px;
+  width: 70px;
 }
 
 /* 続柄リンク */
 .family-label-link{
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 12px;
 
   flex: 1;
 
@@ -95,7 +97,7 @@
   white-space: nowrap;
 }
 .family-empty{
-  height: 24px;
+  height: 12px;
 }
 /* ===== 確認画面（family_confirm.html） ===== */
 .confirm-page{
