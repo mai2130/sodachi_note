@@ -30,11 +30,10 @@
 
 /* 1行：① + ラベル + 入力 */
 .family-row{
-  display: grid;
-  grid-template-columns: 18px 84px 1fr; /* ① / ラベル / 入力 */
+  display: flex;
   align-items: center;
-  column-gap: 10px;
-  padding: 6px 0;
+  gap: 14px;
+  padding: 10px 0;
 }
 
 /* 行区切りは無し */
@@ -54,9 +53,13 @@
 
 /* 続柄リンク */
 .family-label-link{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  width: 100%;
   font-size: 14px;
   color: inherit;
-  text-align: center;
 }
 
 /* 押した感 */
@@ -64,7 +67,7 @@
   opacity: 0.6;
 }
 
-/* 入力欄（readonly表示） */
+/* 入力欄（readonly表示） 
 .family-input{
   width: 100%;
   height: 30px;
@@ -83,8 +86,13 @@
   outline: none;
   box-shadow: none;
 }
-
-
+  */
+.family-name{
+  font-size: 16px;
+}
+.family-empty{
+  height: 24px;
+}
 /* ===== 確認画面（family_confirm.html） ===== */
 .confirm-page{
   max-width: 360px;
