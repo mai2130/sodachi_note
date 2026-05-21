@@ -12,7 +12,7 @@
   padding: 14px;
   background: #fff;
   min-height: auto;
-  padding-bottom: 80px;
+  padding-bottom: 20px;
 }
 
 .family-title{
@@ -35,7 +35,7 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 8px 0;
+  padding: 7px 0;
 }
 
 /* 行区切りは無し */
