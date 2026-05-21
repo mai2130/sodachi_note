@@ -32,7 +32,6 @@ def family_info(request):
             "pk": f.pk,
             "label": f.get_relationship_display(),
             "name": f"{f.guardian.last_name} {f.guardian.first_name}".strip() or f.guardian.username,
-            "email": f.guardian.email,
         })
 
         if len(slots) >= 5:
