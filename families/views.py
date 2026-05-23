@@ -27,6 +27,23 @@ def family_info(request):
             relationship=request.user.relationship,
         )
 
+    # 同じ園児・同じ保護者のFamilyが複数ある場合、1件だけ残す
+    duplicate_links = (
+        Family.objects
+        .filter(child=child)
+        .order_by("guardian_id", "id")
+    )
+
+    seen = set()
+
+    for link in duplicate_links:
+        key = link.guardian_id
+
+        if key in seen:
+            link.delete()
+        else:
+            seen.add(key)
+
     links = (
         Family.objects
         .filter(child=child)
