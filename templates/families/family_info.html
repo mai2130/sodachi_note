@@ -8,6 +8,15 @@
 {% block content %}
 <div class="family-page">
   <div class="family-title">家族情報</div>
+  
+  {% if messages %}
+    <div class="family-message-area">
+      {% for message in messages %}
+        <p class="family-message {{ message.tags }}">{{ message }}</p>
+      {% endfor %}
+    </div>
+    </div>
+  {% endif %}
 
 <div class="family-box">
   {% for s in slots %}
