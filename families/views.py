@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from .models import Family
+from django.contrib import messages
 
 @login_required
 def family_info(request):
@@ -93,7 +94,9 @@ def family_delete(request, pk):
 
     # 自分自身の家族リンクは削除できないようにする
     if link.pk == my_link.pk:
+        messages.error(request, "自分自身の家族情報を削除することはできません")
         return redirect("families:info")
 
     link.delete()
+    messages.success(request, "家族情報を削除しました")
     return redirect("families:info")
