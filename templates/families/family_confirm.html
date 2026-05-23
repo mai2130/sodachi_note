@@ -18,7 +18,12 @@
 
     <div class="confirm-row">
       <div class="confirm-label">続　柄</div>
-      <input class="confirm-input" type="text" value="{{ link.get_relationship_display }}" readonly>
+      <input class="confirm-input" type="text" 
+      value="{% if guardian.relationship is not None %}
+      {{ guardian.get_relationship_display }}
+      {% else %}
+      {{ link.get_relationship_display }}
+      {% endif %}" readonly>
     </div>
 
     <div class="confirm-row">
