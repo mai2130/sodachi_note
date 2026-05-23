@@ -116,8 +116,9 @@ class GuardianSignUpView(FormView):
             family.relationship = relationship
             family.save(update_fields=["relationship"])
         
+        user.relationship = relationship
         user.active_child = invite.child
-        user.save(update_fields=["active_child"])
+        user.save(update_fields=["relationship", "active_child"])
         
 # 招待コードの使用回数を +1        
         InviteCode.objects.filter(pk=invite.pk).update(
