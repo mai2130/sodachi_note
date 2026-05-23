@@ -6,6 +6,41 @@ from django.views.decorators.http import require_POST
 from .models import Family
 
 
+def get_or_create_my_family(child, user):
+    relationship = user.relationship
+
+    if relationship is None:
+        relationship = Family.Relationship.OTHER
+
+    my_link, created = Family.objects.get_or_create(
+        child=child,
+        guardian=user,
+        defaults={"relationship": relationship},
+    )
+
+    if my_link.relationship is None:
+        my_link.relationship = relationship
+        my_link.save(update_fields=["relationship"])
+
+    return my_link
+
+
+def delete_duplicate_families(child):
+    links = (
+        Family.objects
+        .filter(child=child)
+        .order_by("guardian_id", "id")
+    )
+
+    seen = set()
+
+    for link in links:
+        if link.guardian_id in seen:
+            link.delete()
+        else:
+            seen.add(link.guardian_id)
+
+
 @login_required
 def family_info(request):
     child = getattr(request.user, "active_child", None)
@@ -14,35 +49,8 @@ def family_info(request):
         messages.error(request, "園児が選択されていません")
         return redirect("dashboard:home")
 
-    # 自分のFamilyがない場合は作成する
-    my_link = Family.objects.filter(
-        child=child,
-        guardian=request.user
-    ).first()
-
-    if my_link is None:
-        my_link = Family.objects.create(
-            child=child,
-            guardian=request.user,
-            relationship=request.user.relationship,
-        )
-
-    # 同じ園児・同じ保護者のFamilyが複数ある場合、1件だけ残す
-    duplicate_links = (
-        Family.objects
-        .filter(child=child)
-        .order_by("guardian_id", "id")
-    )
-
-    seen = set()
-
-    for link in duplicate_links:
-        key = link.guardian_id
-
-        if key in seen:
-            link.delete()
-        else:
-            seen.add(key)
+    get_or_create_my_family(child, request.user)
+    delete_duplicate_families(child)
 
     links = (
         Family.objects
@@ -60,15 +68,13 @@ def family_info(request):
 
         seen_guardian_ids.add(f.guardian_id)
 
-        relationship_label = f.get_relationship_display()
-
         name = f"{f.guardian.last_name} {f.guardian.first_name}".strip()
         if not name:
             name = f.guardian.email
 
         slots.append({
             "pk": f.pk,
-            "label": relationship_label,
+            "label": f.get_relationship_display(),
             "name": name,
         })
 
@@ -100,18 +106,7 @@ def family_confirm(request, pk):
         messages.error(request, "園児が選択されていません")
         return redirect("dashboard:home")
 
-    # 自分のFamilyがない場合は作成する
-    my_link = Family.objects.filter(
-        child=child,
-        guardian=request.user
-    ).first()
-
-    if my_link is None:
-        my_link = Family.objects.create(
-            child=child,
-            guardian=request.user,
-            relationship=request.user.relationship,
-        )
+    get_or_create_my_family(child, request.user)
 
     link = get_object_or_404(Family, pk=pk, child=child)
     guardian = link.guardian
@@ -136,17 +131,7 @@ def family_delete(request, pk):
         messages.error(request, "園児が選択されていません")
         return redirect("dashboard:home")
 
-    my_link = Family.objects.filter(
-        child=child,
-        guardian=request.user
-    ).first()
-
-    if my_link is None:
-        my_link = Family.objects.create(
-            child=child,
-            guardian=request.user,
-            relationship=request.user.relationship,
-        )
+    my_link = get_or_create_my_family(child, request.user)
 
     link = get_object_or_404(
         Family,
@@ -154,7 +139,6 @@ def family_delete(request, pk):
         child=child
     )
 
-    # 自分自身は削除できない
     if link.pk == my_link.pk:
         messages.error(request, "自分自身の家族情報を削除することはできません")
         return redirect("families:info")
