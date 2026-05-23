@@ -28,10 +28,16 @@ def family_info(request):
 
         seen_guardian_ids.add(f.guardian_id)
 
+        relationship_label = (
+            f.guardian.get_relationship_display()
+            if f.guardian.relationship is not None
+            else f.get_relationship_display()
+        )
+
         slots.append({
             "pk": f.pk,
-            "label": f.get_relationship_display(),
-            "name": f"{f.guardian.last_name} {f.guardian.first_name}".strip() or f.guardian.username,
+            "label": relationship_label,
+            "name": f"{f.guardian.last_name} {f.guardian.first_name}".strip() or f.guardian.email,
         })
 
         if len(slots) >= 5:
