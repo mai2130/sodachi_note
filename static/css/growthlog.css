@@ -208,9 +208,8 @@ textarea {
 }
 
 .growthlog-nap select{
-    width: 120px;
+    width: 100px;
     max-width: 100%;
-    min-height: 44px;
     position: relative;
     z-index: 10;
 }
