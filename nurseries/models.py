@@ -26,12 +26,6 @@ class Nursery(models.Model):
         return self.name
     
 class Classroom(models.Model):
-    nursery = models.ForeignKey(
-        Nursery,
-        on_delete=models.CASCADE,
-        related_name="classrooms",
-        verbose_name="園",
-        )
     name = models.CharField(
         "クラス名",
         max_length=30,
@@ -48,8 +42,7 @@ class Classroom(models.Model):
     class Meta:
         verbose_name = "クラス"
         verbose_name_plural = "クラス一覧"
-        ordering = ["nursery", "name"]
-        unique_together = ("nursery", "name")
+        ordering = ["name"]
             
     def __str__(self):
         return self.name
