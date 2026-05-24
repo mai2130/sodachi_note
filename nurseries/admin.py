@@ -7,6 +7,5 @@ class NurseryAdmin(admin.ModelAdmin):
     
 @admin.register(Classroom)
 class ClassroomAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'nursery','created_at')   
-    list_filter = ('nursery',)  
-    search_fields = ('name','nursery__name') 
+    list_display = ('id', 'name', 'created_at')   
+    search_fields = ('name',) 
