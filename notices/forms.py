@@ -5,18 +5,16 @@ from nurseries.models import Classroom
 
 class NoticeForm(forms.ModelForm):
     classroom = forms.ModelChoiceField( 
-        queryset=Classroom.objects.none(),
+        queryset=Classroom.objects.all(),
         required=False,
         label="クラス名",
         empty_label="全園児",
         widget=forms.Select(attrs={"class": "select-input"}),
     )
     
-    def __init__(self, *args, nursery=None, **kwargs):
+    def __init__(self, *args,  **kwargs):
         super().__init__(*args, **kwargs)
-        if nursery:
-            self.fields["classroom"].queryset = Classroom.objects.filter(nursery=nursery)
-
+        
         if self.instance and self.instance.pk:
             first = self.instance.classrooms.first()
             self.fields["classroom"].initial = first
@@ -29,7 +27,33 @@ class NoticeForm(forms.ModelForm):
         }
         self.fields["body"].error_messages = {
             "required": "本文を入力してください"
-        }  
+        } 
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        date = self.cleaned_data.get('date')
+        title = self.cleaned_data.get('title')
+        classroom = self.cleaned_data.get('classroom')
+        
+        if not self.nursery or not date or not title:
+            return cleaned_data
+        
+        qs = Notice.objects.filter(nursery=self.nursery, date=date, title=title,)
+
+        if self.instance and self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+
+        if classroom:
+            qs = qs.filter(classrooms=classroom)
+        else:
+            qs = qs.filter(classrooms__isnull=True)
+
+        if qs.exists():
+            raise forms.ValidationError("同じ日付、タイトル、クラスの通知が既に存在しています")
+
+        return cleaned_data
+            
     class Meta:
         model = Notice
         fields = ['date','title','category', 'classroom', 'body','file']
