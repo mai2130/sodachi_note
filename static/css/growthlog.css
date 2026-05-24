@@ -116,6 +116,13 @@ textarea {
     background: #fff;
 }
 
+.growthlog-body select{
+    min-width: 120px;
+    min-height: 44px;
+    position: relative;
+    z-index: 10;
+}
+
 .growthlog-body input[readonly],
 .growthlog-body textarea[readonly] {
     outline: none;
