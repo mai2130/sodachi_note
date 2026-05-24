@@ -41,7 +41,7 @@ class Child(models.Model):
     class Meta:
         verbose_name = "園児"
         verbose_name_plural = "園児一覧"
-        ordering = ["nursery", "classroom", "name"]
+        ordering = ["nursery", "classroom__name", "name"]
     
     def __str__(self):
         return f"{self.name}"
