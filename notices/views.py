@@ -93,6 +93,8 @@ class NoticeListView(LoginRequiredMixin, ListView):
     
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+        user = self.request.user
+        
         # 年月プルダウン用：直近12ヶ月
         today = timezone.localdate()
         month_options = []
@@ -117,26 +119,8 @@ class NoticeListView(LoginRequiredMixin, ListView):
         ctx["querystring"] = q.urlencode()
 
         # クラスプルダウン用
-        user = self.request.user
-        if hasattr(user, "nursery"):
-            # 園アカウント：自園のクラス
-            ctx["classroom_options"] = user.nursery.classrooms.all()
-        else:
-            # 保護者：active_child があればその園のクラス、なければ紐づく園児の園のクラス
-            active_child = getattr(user, "active_child", None)
-            if active_child:
-                ctx["classroom_options"] = active_child.nursery.classrooms.all()
-            else:
-                children = (
-                    Child.objects
-                    .filter(family_links__guardian=user)
-                    .select_related("nursery")
-                    .distinct()
-                )
-                nursery_ids = {c.nursery_id for c in children}
-
-                from nurseries.models import Classroom
-                ctx["classroom_options"] = Classroom.objects.filter(nursery_id__in=nursery_ids)
+        from nurseries.models import Classroom
+        ctx["classroom_options"] = Classroom.objects.all()
 
         # 投稿画面へ（園だけ表示にしたい時用）
         ctx["can_post"] = hasattr(user, "nursery")
@@ -206,11 +190,6 @@ class NoticeCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, "保存しました！", extra_tags="notice_message")
         return response
     
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["nursery"] = self.request.user.nursery
-        return kwargs
-
 # おたより編集ページ
 class NoticeUpdateView(LoginRequiredMixin, UpdateView):
     model = Notice
@@ -236,11 +215,6 @@ class NoticeUpdateView(LoginRequiredMixin, UpdateView):
         
         messages.success(self.request, "保存しました！", extra_tags="notice_message")
         return response
-    
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["nursery"] = self.request.user.nursery
-        return kwargs
     
 class NoticeDeleteView(LoginRequiredMixin, DeleteView):
     model = Notice
