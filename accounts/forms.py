@@ -85,9 +85,6 @@ class FacilitySignUpForm(forms.Form):
         if email and User.objects.filter(email=email).exists():
             raise ValidationError("このメールアドレスは既に使われています")
         
-        if email and User.objects.filter(username=email).exists():
-            raise ValidationError("このメールアドレスは既に使われています")
-
         return cleaned
 
 # 保護者側の新規登録フォーム
@@ -153,8 +150,6 @@ class GuardianSignUpForm(forms.Form):
         if not self.errors:
             email = cleaned.get("email")
             if email and User.objects.filter(email=email).exists():
-                self.add_error("email", "このメールアドレスは既に使われています")
-            if email and User.objects.filter(username=email).exists():
                 self.add_error("email", "このメールアドレスは既に使われています")
 
         return cleaned
