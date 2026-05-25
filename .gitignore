@@ -14,6 +14,6 @@ db.sqlite3
 # 静的・メディアファイル
 media/
 
-local_settings.py
+sodachi_note/local_settings.py
 
 staticfiles/
