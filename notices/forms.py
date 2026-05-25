@@ -32,14 +32,14 @@ class NoticeForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        date = self.cleaned_data.get('date')
-        title = self.cleaned_data.get('title')
-        classroom = self.cleaned_data.get('classroom')
+        date = cleaned_data.get('date')
+        title = cleaned_data.get('title')
+        classroom = cleaned_data.get('classroom')
         
-        if not self.nursery or not date or not title:
+        if not  date or not title:
             return cleaned_data
         
-        qs = Notice.objects.filter(nursery=self.nursery, date=date, title=title,)
+        qs = Notice.objects.filter(date=date, title=title,)
 
         if self.instance and self.instance.pk:
             qs = qs.exclude(pk=self.instance.pk)
@@ -50,7 +50,7 @@ class NoticeForm(forms.ModelForm):
             qs = qs.filter(classrooms__isnull=True)
 
         if qs.exists():
-            raise forms.ValidationError("同じ日付、タイトル、クラスの通知が既に存在しています")
+            raise forms.ValidationError("同じ日付、タイトル、クラスのおしらせが既に存在しています")
 
         return cleaned_data
             
