@@ -16,7 +16,7 @@
 {% endif %}
 
 {# ② 園児未選択エラー（1回だけ） #}
-{% if child_missing %}
+{% if child_missing and not messages %}
   <p class="form-error">園児を選択してください</p>
 {% endif %}
 
