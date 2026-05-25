@@ -36,7 +36,7 @@ class NoticeForm(forms.ModelForm):
         title = cleaned_data.get('title')
         classroom = cleaned_data.get('classroom')
         
-        if not  date or not title:
+        if not date or not title:
             return cleaned_data
         
         qs = Notice.objects.filter(date=date, title=title,)
@@ -50,7 +50,8 @@ class NoticeForm(forms.ModelForm):
             qs = qs.filter(classrooms__isnull=True)
 
         if qs.exists():
-            raise forms.ValidationError("同じ日付、タイトル、クラスのおしらせが既に存在しています")
+            self._errors.clear()
+            raise forms.ValidationError("同じ日付、タイトル、クラスのおたよりが既に存在しています")
 
         return cleaned_data
             
