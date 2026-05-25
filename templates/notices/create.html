@@ -18,9 +18,7 @@
             {% for error in form.non_field_errors %}
                 <p class="form-error">{{ error }}</p>
             {% endfor %}
-        {% endif %}
-
-        {% if form.errors %}
+        {% elif form.errors %}
             <div class="top-error-area">
                 {% for field in form %}
                     {% for error in field.errors %}
