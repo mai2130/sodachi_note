@@ -29,27 +29,27 @@
         {% endif %}
 
         <div class="form-block{% if form.date.errors and not form.non_field_errors %} has-error{% endif %}">
-            <label class="{% if form.date.errors %}label-error{% endif %}">投稿年月日</label>
+            <label class="{% if form.date.errors and not form.non_field_errors %}label-error{% endif %}">投稿年月日</label>
             {{ form.date }}
         </div>
 
         <div class="form-block{% if form.title.errors and not form.non_field_errors %} has-error{% endif %}">
-            <label class="{% if form.title.errors %}label-error{% endif %}">タイトル</label>
+            <label class="{% if form.title.errors and not form.non_field_errors %}label-error{% endif %}">タイトル</label>
             {{ form.title }}
         </div>
 
         <div class="form-block{% if form.category.errors and not form.non_field_errors %} has-error{% endif %}">
-            <label class="{% if form.category.errors %}label-error{% endif %}">カテゴリ</label>
+            <label class="{% if form.category.errors and not form.non_field_errors %}label-error{% endif %}">カテゴリ</label>
             {{ form.category }}
         </div>
 
         <div class="form-block{% if form.classroom.errors and not form.non_field_errors %} has-error{% endif %}">
-            <label class="{% if form.classroom.errors %}label-error{% endif %}">クラス名</label>
+            <label class="{% if form.classroom.errors and not form.non_field_errors %}label-error{% endif %}">クラス名</label>
             {{ form.classroom }}
         </div>
 
         <div class="form-block{% if form.body.errors and not form.non_field_errors %} has-error{% endif %}">
-            <label class="{% if form.body.errors %}label-error{% endif %}">本文</label>
+            <label class="{% if form.body.errors and not form.non_field_errors%}label-error{% endif %}">本文</label>
             {{ form.body }}
         </div>
 
