@@ -63,7 +63,9 @@
 /* ラベル（パパ/ママ/祖母…） */
 .family-label{
   font-size: 16px;
-  width: 70px;
+  display: inline-block;
+  border-bottom: 1px solid #000;
+  line-height: 1.4;
 }
 
 /* 続柄リンク */
@@ -107,6 +109,7 @@
 .family-name{
   font-size: 16px;
   white-space: nowrap;
+  margin-left: 50px;
 }
 .family-empty{
   height: 12px;
