@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate, get_user_model #認証処理・ユーザ取得
-from django.contrib.auth.forms import PasswordChangeForm 
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm 
 from django.core.exceptions import ValidationError
 import re
 
@@ -309,3 +309,25 @@ class UserPasswordChangeForm(PasswordChangeForm):
             self.add_error("new_password1", "現在と同じパスワードは設定できません")
 
         return cleaned_data
+
+# パスワード再発行フォーム
+class CustomPasswordResetForm(PasswordResetForm):
+
+    email = forms.EmailField(
+        label="メールアドレス",
+        error_messages={
+            "required": "メールアドレスを入力してください",
+            "invalid": "正しいメールアドレスを入力してください",
+        }
+    )
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+
+        # 登録済みメールアドレスか確認
+        if not User.objects.filter(email=email).exists():
+            raise ValidationError(
+                "そのメールアドレスは登録されていません。新規登録をしてください。"
+            )
+
+        return email
