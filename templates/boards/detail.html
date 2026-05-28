@@ -37,9 +37,10 @@
     </div>
 
     {% if request.user == board.user %}
-      <form method="post" class="delete-form" onsubmit="return confirm('本当に削除してもよろしいですか？');">
+      <form method="post" class="delete-form" id="deleteForm">
         {% csrf_token %}
-        <button type="submit" name="delete" class="delete-btn">削除</button>
+        <button type="button" class="delete-btn" id="openDeleteModal" >削除</button>
+        <input type="hidden" name="delete" value="1">
       </form>
     {% endif %}
   </div>
@@ -102,11 +103,21 @@
       {% endif %}
     </span>
   </div>
+  <div class="modal-overlay" id="deleteModal">
+  <div class="confirm-modal">
+    <p class="modal-text">本当に削除してもよろしいですか？</p>
+
+    <div class="modal-actions">
+      <button type="button" class="modal-cancel-btn" id="closeDeleteModal">いいえ</button>
+      <button type="button" class="modal-ok-btn" id="submitDeleteForm">はい</button>
+    </div>
+  </div>
+</div>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const forms = document.querySelectorAll(".js-submit-once-form");
-    
+
     forms.forEach(function (form) {
       form.addEventListener("submit", function () {
         const buttons = form.querySelectorAll("button[type='submit']");
@@ -116,6 +127,26 @@
         });
       });
     });
+
+    const deleteForm = document.getElementById("deleteForm");
+    const deleteModal = document.getElementById("deleteModal");
+    const openDeleteModal = document.getElementById("openDeleteModal");
+    const closeDeleteModal = document.getElementById("closeDeleteModal");
+    const submitDeleteForm = document.getElementById("submitDeleteForm");
+
+    if (deleteForm && deleteModal && openDeleteModal) {
+      openDeleteModal.addEventListener("click", function () {
+        deleteModal.classList.add("is-open");
+      });
+
+      closeDeleteModal.addEventListener("click", function () {
+        deleteModal.classList.remove("is-open");
+      });
+
+      submitDeleteForm.addEventListener("click", function () {
+        deleteForm.submit();
+      });
+    }
   });
-  </script>
+</script>
 {% endblock %}
