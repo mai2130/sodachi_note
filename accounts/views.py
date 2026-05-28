@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 
-from .forms import EmailAuthenticationForm, FacilitySignUpForm, GuardianSignUpForm ,ChildMyPageForm ,UserPasswordChangeForm
+from .forms import (EmailAuthenticationForm, FacilitySignUpForm, GuardianSignUpForm ,ChildMyPageForm ,UserPasswordChangeForm,CustomPasswordResetForm,)
 from nurseries.models import Nursery
 from invites.models import InviteCode
 from families.models import Family
@@ -182,6 +182,8 @@ class SodachiPasswordResetView(PasswordResetView):
     email_template_name = "registration/password_reset_email.html"
     subject_template_name = "registration/password_reset_subject.txt"
 
+    form_class = CustomPasswordResetForm
+    
     success_url = reverse_lazy("password_reset")
 
     def form_valid(self, form):
