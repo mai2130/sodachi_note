@@ -396,3 +396,16 @@ textarea {
 .modal-cancel-btn {
   background: #f7f7f7;
 }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 2000;
+}
+
+.modal-overlay.is-open {
+  display: flex;
+}
