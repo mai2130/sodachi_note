@@ -44,14 +44,16 @@
             <input type="text" name="keyword" class="notice-input"
                 placeholder="キーワード入力" value="{{ request.GET.keyword|default_if_none:'' }}">
 
-            <select name="classroom" class="notice-input">
-                <option value="">クラス名</option>
-                {% for cr in classroom_options %}
-                    <option value="{{ cr.id }}" {% if request.GET.classroom == cr.id|stringformat:"s" %}selected{% endif %}>
-                        {{ cr.name }}
-                </option>
-                {% endfor %}
-            </select>
+            {% if request.user.is_facility %}
+                <select name="classroom" class="notice-input">
+                    <option value="">クラス名</option>
+                    {% for cr in classroom_options %}
+                        <option value="{{ cr.id }}" {% if request.GET.classroom == cr.id|stringformat:"s" %}selected{% endif %}>
+                            {{ cr.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            {% endif %}
 
             <div class="notice-search-actions">
                 <button type="submit" class="notice-search-btn">検索</button>
