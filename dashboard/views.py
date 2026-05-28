@@ -20,7 +20,11 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
         today = date.today()
         year, month, selected = get_ymd_from_request(request, today=today)
-        target_day = selected or today
+
+        if selected is None:
+            selected = today
+            
+        target_day = selected
 
         child = None
         month_att = None
