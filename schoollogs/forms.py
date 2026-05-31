@@ -37,9 +37,16 @@ class SchoolGrowthLogForm(forms.ModelForm):
                 
         self.fields["school_nap_start"].widget = forms.Select(choices=ten_minute_choices())
         self.fields["school_nap_end"].widget = forms.Select(choices=ten_minute_choices())
+
+        if self.instance and self.instance.school_nap_start:
+            self.initial["school_nap_start"] = self.instance.school_nap_start.strftime("%H:%M")
+
+        if self.instance and self.instance.school_nap_end:
+            self.initial["school_nap_end"] = self.instance.school_nap_end.strftime("%H:%M")
+
         self.fields["school_condition"].choices = [
-        choice for choice in self.fields["school_condition"].choices
-        if choice[0] != ""
+            choice for choice in self.fields["school_condition"].choices
+            if choice[0] != ""
     ]
 
 class HomeGrowthLogForm(forms.ModelForm):
