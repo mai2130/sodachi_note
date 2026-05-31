@@ -36,7 +36,6 @@ class SchoolGrowthLogForm(forms.ModelForm):
             'school_state',
         ]
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
             'school_state': forms.Textarea(attrs={'rows': 4}),
             'school_poo': forms.RadioSelect(),
             'school_lunch': forms.RadioSelect(),
