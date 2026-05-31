@@ -48,6 +48,20 @@ class SchoolGrowthLogForm(forms.ModelForm):
             choice for choice in self.fields["school_condition"].choices
             if choice[0] != ""
     ]
+        
+    def _clean_time(self, v):
+        if not v:
+            return None
+        if isinstance(v, time):
+            return v
+        h, m = map(int, v.split(":"))
+        return time(h, m)
+
+    def clean_school_nap_start(self):
+        return self._clean_time(self.cleaned_data.get("school_nap_start"))
+
+    def clean_school_nap_end(self):
+        return self._clean_time(self.cleaned_data.get("school_nap_end"))
 
 class HomeGrowthLogForm(forms.ModelForm):
     home_bedtime = forms.ChoiceField(
