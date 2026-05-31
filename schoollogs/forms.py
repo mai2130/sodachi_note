@@ -12,6 +12,18 @@ def ten_minute_choices():
     return choices
 
 class SchoolGrowthLogForm(forms.ModelForm):
+
+    school_nap_start = forms.ChoiceField(
+        choices=ten_minute_choices(),
+        required=False,
+        label="午睡開始"
+    )
+
+    school_nap_end = forms.ChoiceField(
+        choices=ten_minute_choices(),
+        required=False,
+        label="午睡終了"
+    )
     class Meta:
         model = GrowthLog
         fields = [
@@ -52,8 +64,6 @@ class SchoolGrowthLogForm(forms.ModelForm):
     def _clean_time(self, v):
         if not v:
             return None
-        if isinstance(v, time):
-            return v
         h, m = map(int, v.split(":"))
         return time(h, m)
 
