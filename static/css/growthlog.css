@@ -209,9 +209,10 @@ textarea {
 }
 
 .growthlog-nap .growthlog-input-inline{
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    display: flex;
+    align-items: center;
     border-radius: 0;
+    flex-wrap: nowrap;
 }
 
 .growthlog-nap select{
