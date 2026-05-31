@@ -37,8 +37,6 @@ class SchoolGrowthLogForm(forms.ModelForm):
         ]
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
-            'school_nap_start': forms.TimeInput(attrs={'type': 'time', 'step': 600}), #10分単位
-            'school_nap_end': forms.TimeInput(attrs={'type': 'time', 'step': 600}), #10分単位           
             'school_state': forms.Textarea(attrs={'rows': 4}),
             'school_poo': forms.RadioSelect(),
             'school_lunch': forms.RadioSelect(),
@@ -47,9 +45,6 @@ class SchoolGrowthLogForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
                 
-        self.fields["school_nap_start"].widget = forms.Select(choices=ten_minute_choices())
-        self.fields["school_nap_end"].widget = forms.Select(choices=ten_minute_choices())
-
         if self.instance and self.instance.school_nap_start:
             self.initial["school_nap_start"] = self.instance.school_nap_start.strftime("%H:%M")
 
