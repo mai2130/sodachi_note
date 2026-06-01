@@ -24,10 +24,10 @@ class User(AbstractUser):
     )
 
     class Relationship(models.IntegerChoices):
-        FATHER = 0, "父"
-        MOTHER = 1, "母"
-        GRANDFATHER = 2, "祖父"
-        GRANDMOTHER = 3, "祖母"
+        FATHER = 0, "パパ"
+        MOTHER = 1, "ママ"
+        GRANDFATHER = 2, "おじいちゃん"
+        GRANDMOTHER = 3, "おばあちゃん"
         OTHER = 4, "その他"
 
     relationship = models.PositiveSmallIntegerField(
