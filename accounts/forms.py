@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate, get_user_model #認証処理・ユーザ取得
-from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm 
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm ,SetPasswordForm
 from django.core.exceptions import ValidationError
 import re
 
@@ -331,3 +331,15 @@ class CustomPasswordResetForm(PasswordResetForm):
             )
 
         return email
+
+class CustomSetPasswordForm(SetPasswordForm):
+
+    def clean_new_password1(self):
+        password = self.cleaned_data.get("new_password1")
+
+        if password and self.user.check_password(password):
+            raise ValidationError(
+                "現在と同じパスワードは設定できません"
+            )
+
+        return password
