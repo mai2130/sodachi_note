@@ -13,6 +13,14 @@
             <h2>そだちノート</h2>
             <h3>～ログイン～</h3>
 
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="form-success" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
             {% if form.email.errors or form.password.errors %}
                 <div class="form-error" role="alert">
                     未入力項目があります
