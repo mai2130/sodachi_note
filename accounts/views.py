@@ -197,3 +197,10 @@ class SodachiPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = "registration/password_reset_confirm.html"
 
     success_url = reverse_lazy("login")
+
+    def form_valid(self, form):
+        messages.success(
+            self.request,
+            "パスワードを変更しました！"
+        )
+        return super().form_valid(form) 
