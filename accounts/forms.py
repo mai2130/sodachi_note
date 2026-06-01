@@ -218,10 +218,10 @@ class ChildMyPageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["relationship"].choices = [
-            (0,"父"),
-            (1,"母"),
-            (2,"祖父"),
-            (3,"祖母"),
+            (0,"パパ"),
+            (1,"ママ"),
+            (2,"おじいちゃん"),
+            (3,"おばあちゃん"),
             (4,"その他"),
         ]
 
