@@ -13,16 +13,18 @@ def ten_minute_choices():
 
 class SchoolGrowthLogForm(forms.ModelForm):
 
-    school_nap_start = forms.ChoiceField(
-        choices=ten_minute_choices(),
+    school_nap_start = forms.TimeField(
         required=False,
-        label="午睡開始"
+        label="午睡開始",
+        input_formats=["%H:%M"],
+        widget=forms.Select(choices=ten_minute_choices())
     )
 
-    school_nap_end = forms.ChoiceField(
-        choices=ten_minute_choices(),
+    school_nap_end = forms.TimeField(
         required=False,
-        label="午睡終了"
+        label="午睡終了",
+        input_formats=["%H:%M"],
+        widget=forms.Select(choices=ten_minute_choices())
     )
     class Meta:
         model = GrowthLog
@@ -55,18 +57,6 @@ class SchoolGrowthLogForm(forms.ModelForm):
             if choice[0] != ""
     ]
         
-    def _clean_time(self, v):
-        if not v:
-            return None
-        h, m = map(int, v.split(":"))
-        return time(h, m)
-
-    def clean_school_nap_start(self):
-        return self._clean_time(self.cleaned_data.get("school_nap_start"))
-
-    def clean_school_nap_end(self):
-        return self._clean_time(self.cleaned_data.get("school_nap_end"))
-
 class HomeGrowthLogForm(forms.ModelForm):
     home_bedtime = forms.ChoiceField(
         choices=ten_minute_choices(),
