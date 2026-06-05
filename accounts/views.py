@@ -184,7 +184,7 @@ class SodachiPasswordResetView(PasswordResetView):
 
     form_class = CustomPasswordResetForm
     
-    success_url = reverse_lazy("password_reset_done")
+    success_url = reverse_lazy("accounts:password_reset_done")
 
     def form_valid(self, form):
         response = super().form_valid(form)
