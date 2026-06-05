@@ -1,6 +1,6 @@
 from django.urls import path
-from django.contrib.auth.views import LogoutView
-from .views import EmailLoginView, FacilitySignUpView, GuardianSignUpView, ChildMyPageView, UserPasswordChangeView
+from django.contrib.auth.views import LogoutView, PasswordResetDoneView
+from .views import EmailLoginView, FacilitySignUpView, GuardianSignUpView, ChildMyPageView, UserPasswordChangeView, SodachiPasswordResetView,SodachiPasswordResetConfirmView
 
 app_name = 'accounts'
 
@@ -11,4 +11,13 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path("child/mypage/", ChildMyPageView.as_view(), name="child_mypage"),
     path("password/change/", UserPasswordChangeView.as_view(), name="password_change"),
+    path("password/reset/", SodachiPasswordResetView.as_view(), name="password_reset"),
+    path("password/reset/done/", PasswordResetDoneView.as_view(
+        template_name="registration/password_reset_done.html"
+        ),
+        name="password_reset_done"
+    ),
+    path("password/reset/confirm/<uidb64>/<token>/", SodachiPasswordResetConfirmView.as_view(),
+        name="password_reset_confirm"
+    ),
 ]
